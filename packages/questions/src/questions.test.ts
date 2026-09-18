@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { mulberry32 } from '@vigoros/scoring'
 import type { VenueId } from '@vigoros/domain'
-import { TradingCalendar } from './calendar.js'
-import { computePriorTable } from './priors.js'
-import { generateQuestions, type UniverseAsset } from './generate.js'
-import { resolveQuestions } from './resolve.js'
-import { median, realisedVol } from './returns.js'
+import { TradingCalendar } from './calendar'
+import { computePriorTable } from './priors'
+import { generateQuestions, type UniverseAsset } from './generate'
+import { resolveQuestions } from './resolve'
+import { median, realisedVol } from './returns'
 import universe from '../data/universe-v1.json'
 
 // Weekday calendar for 2024-01-01 .. 2026-12-31, no holidays. Enough for the maths to be exercised.

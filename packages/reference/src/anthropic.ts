@@ -1,8 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod'
 import { sha256Hex } from '@vigoros/domain'
-import { SYSTEM_PROMPT, formatQuestions } from './prompt.js'
-import { AnswerBatchSchema, ProviderError, type ForecastProvider, type ForecastResult, type PromptQuestion } from './types.js'
+import { SYSTEM_PROMPT, formatQuestions } from './prompt'
+import { AnswerBatchSchema, ProviderError, type ForecastProvider, type ForecastResult, type PromptQuestion } from './types'
 
 export interface AnthropicProviderOptions {
   apiKey?: string

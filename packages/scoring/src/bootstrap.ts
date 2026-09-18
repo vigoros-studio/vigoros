@@ -1,5 +1,5 @@
 import { MAX_HORIZON } from '@vigoros/domain'
-import { emptyAccumulator, mergeAccumulators, summarise, type ScoreAccumulator } from './accumulate.js'
+import { emptyAccumulator, mergeAccumulators, summarise, type ScoreAccumulator } from './accumulate'
 
 /** Deterministic PRNG so every interval is reproducible from a published seed. */
 export const mulberry32 = (seed: number): (() => number) => {

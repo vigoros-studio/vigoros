@@ -1,4 +1,4 @@
-import type { ScoredCommitment } from './score.js'
+import type { ScoredCommitment } from './score'
 
 /**
  * Additive sufficient statistics for a record. Every aggregate Vigoros displays is derived from

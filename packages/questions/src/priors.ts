@@ -1,6 +1,6 @@
 import { HORIZONS, VOL_LOOKBACK_DAYS, type AssetClass, type Horizon, type IsoDate, type LevelK } from '@vigoros/domain'
-import type { TradingCalendar } from './calendar.js'
-import { dailyLogReturns, realisedVol, type PriceSeries } from './returns.js'
+import type { TradingCalendar } from './calendar'
+import { dailyLogReturns, realisedVol, type PriceSeries } from './returns'
 
 /** { assetClass: { horizon: { "-1": q, "0": q, "1": q } } } plus fixed RELATIVE/QUINTILE priors. */
 export interface PriorTable {

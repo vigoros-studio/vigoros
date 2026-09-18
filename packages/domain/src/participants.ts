@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { UlidSchema } from './ids.js'
+import { UlidSchema } from './ids'
 
 /** A publisher is a verified account. It may own many participant identities. */
 export const PublisherSchema = z.object({

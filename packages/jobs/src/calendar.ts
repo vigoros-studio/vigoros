@@ -3,7 +3,7 @@ import { tradingDays } from '@vigoros/db'
 import { VENUES, type IsoDate, type VenueId } from '@vigoros/domain'
 import { TradingCalendar } from '@vigoros/questions'
 import holidaysJson from '../data/holidays.json'
-import type { JobContext } from './context.js'
+import type { JobContext } from './context'
 
 const holidays = holidaysJson as Record<VenueId, string[]>
 

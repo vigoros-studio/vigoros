@@ -3,10 +3,10 @@ import { assets, commitments, participantDaily, questions, scores } from '@vigor
 import { METHODOLOGY_VERSION, type IsoDate, type Question } from '@vigoros/domain'
 import { resolveQuestions, type UniverseAsset } from '@vigoros/questions'
 import { addCalibration, emptyCalibration, scoreCommitment } from '@vigoros/scoring'
-import { loadCalendars } from './calendar.js'
-import { Deadline, type JobContext } from './context.js'
-import { loadPriceSeries } from './ingest.js'
-import { revealFor } from './seal.js'
+import { loadCalendars } from './calendar'
+import { Deadline, type JobContext } from './context'
+import { loadPriceSeries } from './ingest'
+import { revealFor } from './seal'
 
 const addDays = (d: IsoDate, n: number): IsoDate => {
   const t = new Date(`${d}T00:00:00.000Z`)

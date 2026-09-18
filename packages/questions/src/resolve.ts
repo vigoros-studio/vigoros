@@ -1,7 +1,7 @@
 import type { IsoDate, Question } from '@vigoros/domain'
-import type { TradingCalendar } from './calendar.js'
-import { median, totalReturn, type PriceSeries } from './returns.js'
-import type { UniverseAsset } from './generate.js'
+import type { TradingCalendar } from './calendar'
+import { median, totalReturn, type PriceSeries } from './returns'
+import type { UniverseAsset } from './generate'
 
 export interface ResolveInput {
   /** All questions resolving on this day, across venues. */

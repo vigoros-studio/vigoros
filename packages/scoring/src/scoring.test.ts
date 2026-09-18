@@ -15,7 +15,7 @@ import {
   summarise,
   summariseCalibration,
   type DailyAccumulator,
-} from './index.js'
+} from './index'
 
 describe('single-commitment scores', () => {
   it('brier is (p−y)²', () => {

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { TiingoSource } from './tiingo.js'
-import { StooqSource } from './stooq.js'
-import { fetchUniverse } from './ingest.js'
-import { TokenBucket, mapConcurrent } from './rate-limit.js'
-import type { PriceSourceAsset } from './types.js'
+import { TiingoSource } from './tiingo'
+import { StooqSource } from './stooq'
+import { fetchUniverse } from './ingest'
+import { TokenBucket, mapConcurrent } from './rate-limit'
+import type { PriceSourceAsset } from './types'
 
 const mockFetch = (routes: Record<string, unknown | string>): typeof fetch =>
   (async (input: string | URL | Request) => {

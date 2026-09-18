@@ -36,7 +36,7 @@
  * is what the calendar's `/timestamp/<hex>` endpoint is keyed on.
  */
 
-import { bytesToHex, hexToBytes, sha256Bytes } from './merkle.js'
+import { bytesToHex, hexToBytes, sha256Bytes, asBufferSource } from './merkle'
 
 export const DEFAULT_CALENDARS: readonly string[] = [
   'https://a.pool.opentimestamps.org',
@@ -123,7 +123,7 @@ export const stampDigest = async (
   const res = await fetchImpl(`${calendar}/digest`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: ACCEPT },
-    body: hexToBytes(digest),
+    body: asBufferSource(hexToBytes(digest)),
   })
   if (!res.ok) {
     throw new OtsError('http_error', `${calendar}/digest responded ${res.status}`, [
@@ -346,7 +346,7 @@ const applyOp = async (tag: number, msg: Uint8Array, r: Reader): Promise<Uint8Ar
     case OP_SHA256:
       return sha256Bytes(msg)
     case OP_SHA1:
-      return new Uint8Array(await crypto.subtle.digest('SHA-1', msg))
+      return new Uint8Array(await crypto.subtle.digest('SHA-1', asBufferSource(msg)))
     case OP_RIPEMD160:
     case OP_KECCAK256:
       throw new OtsError(

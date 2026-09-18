@@ -1,8 +1,8 @@
 import { z } from 'zod'
-import type { Json } from './canonical.js'
-import { hashCanonical } from './canonical.js'
-import { UlidSchema } from './ids.js'
-import { P_MAX, P_MIN } from './methodology.js'
+import type { Json } from './canonical'
+import { hashCanonical } from './canonical'
+import { UlidSchema } from './ids'
+import { P_MAX, P_MIN } from './methodology'
 
 export const REASONING_MAX_CHARS = 2000
 

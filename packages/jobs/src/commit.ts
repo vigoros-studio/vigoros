@@ -1,7 +1,7 @@
 import { and, eq } from 'drizzle-orm'
 import { commitments, questions } from '@vigoros/db'
 import { clipProbability, newId, sealHash, type CommitmentInput, type SealedPayload } from '@vigoros/domain'
-import type { JobContext } from './context.js'
+import type { JobContext } from './context'
 
 export type CommitError =
   | { code: 'QUESTION_NOT_FOUND' }

@@ -1,5 +1,5 @@
-import { emptyAccumulator, mergeAccumulators, summarise } from './accumulate.js'
-import { mulberry32, type DailyAccumulator } from './bootstrap.js'
+import { emptyAccumulator, mergeAccumulators, summarise } from './accumulate'
+import { mulberry32, type DailyAccumulator } from './bootstrap'
 import { MAX_HORIZON } from '@vigoros/domain'
 
 /**

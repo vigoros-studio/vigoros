@@ -1,6 +1,6 @@
 import type { IsoDate, VenueId } from '@vigoros/domain'
-import { mapConcurrent } from './rate-limit.js'
-import type { PriceBar, PriceSource, PriceSourceAsset } from './types.js'
+import { mapConcurrent } from './rate-limit'
+import type { PriceBar, PriceSource, PriceSourceAsset } from './types'
 
 export interface IngestResult {
   assetId: string

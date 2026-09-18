@@ -2,9 +2,9 @@ import { desc, eq, isNull } from 'drizzle-orm'
 import { assets, priorTables } from '@vigoros/db'
 import { METHODOLOGY_VERSION, PRIOR_LOOKBACK_DAYS, type IsoDate } from '@vigoros/domain'
 import { computePriorTable, type PriorTable } from '@vigoros/questions'
-import { loadCalendars } from './calendar.js'
-import type { JobContext } from './context.js'
-import { loadPriceSeries } from './ingest.js'
+import { loadCalendars } from './calendar'
+import type { JobContext } from './context'
+import { loadPriceSeries } from './ingest'
 
 const monthStart = (d: IsoDate): IsoDate => `${d.slice(0, 7)}-01`
 const addDays = (d: IsoDate, n: number): IsoDate => {

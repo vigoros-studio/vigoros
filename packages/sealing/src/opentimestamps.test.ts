@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { bytesToHex, hexToBytes } from './merkle.js'
+import { bytesToHex, hexToBytes } from './merkle'
 import {
   DEFAULT_CALENDARS,
   OtsClient,
@@ -7,7 +7,7 @@ import {
   getUpgrade,
   parseAttestations,
   stampDigest,
-} from './opentimestamps.js'
+} from './opentimestamps'
 
 const DIGEST = '35a4480c6d38b08285b64bfc3fade6e11091dec63998328015bae4161077add1'
 

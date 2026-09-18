@@ -1,7 +1,7 @@
 import OpenAI from 'openai'
 import { sha256Hex } from '@vigoros/domain'
-import { ANSWER_JSON_SCHEMA, SYSTEM_PROMPT, formatQuestions } from './prompt.js'
-import { AnswerBatchSchema, ProviderError, type ForecastProvider, type ForecastResult, type PromptQuestion } from './types.js'
+import { ANSWER_JSON_SCHEMA, SYSTEM_PROMPT, formatQuestions } from './prompt'
+import { AnswerBatchSchema, ProviderError, type ForecastProvider, type ForecastResult, type PromptQuestion } from './types'
 
 export interface OpenAICompatibleOptions {
   /** 'openai' or 'deepseek'; recorded on the run. */

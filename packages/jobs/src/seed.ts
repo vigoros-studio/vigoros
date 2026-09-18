@@ -2,7 +2,7 @@ import { count, eq } from 'drizzle-orm'
 import { assets, methodologyVersions, participants, publishers, universeVersions } from '@vigoros/db'
 import { METHODOLOGY_VERSION, newId, type AssetClass, type VenueId } from '@vigoros/domain'
 import universeJson from '@vigoros/questions/universe-v1'
-import type { JobContext, ReferenceModelConfig } from './context.js'
+import type { JobContext, ReferenceModelConfig } from './context'
 
 interface UniverseRow {
   symbol: string

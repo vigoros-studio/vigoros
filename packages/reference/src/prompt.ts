@@ -1,5 +1,5 @@
 import { describeQuestion } from '@vigoros/domain'
-import type { PromptQuestion } from './types.js'
+import type { PromptQuestion } from './types'
 
 /** Any change to the prompt text bumps this and is logged publicly (methodology §9). */
 export const PROMPT_VERSION = 'v1.0'

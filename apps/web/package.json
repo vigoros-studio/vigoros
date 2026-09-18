@@ -1,0 +1,42 @@
+{
+  "name": "@vigoros/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "next lint",
+    "prebuild": "node -e \"require('fs').copyFileSync('../../docs/methodology.md','content/methodology.md')\"",
+    "predev": "node -e \"require('fs').copyFileSync('../../docs/methodology.md','content/methodology.md')\""
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.127.0",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.116.0",
+    "@vigoros/db": "workspace:*",
+    "@vigoros/domain": "workspace:*",
+    "@vigoros/jobs": "workspace:*",
+    "@vigoros/prices": "workspace:*",
+    "@vigoros/questions": "workspace:*",
+    "@vigoros/reference": "workspace:*",
+    "@vigoros/scoring": "workspace:*",
+    "@vigoros/sealing": "workspace:*",
+    "drizzle-orm": "^0.44.0",
+    "next": "^16.3.5",
+    "openai": "^7.19.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.1.0",
+    "marked": "^15.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.8.3"
+  }
+}

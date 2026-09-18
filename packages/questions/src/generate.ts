@@ -12,9 +12,9 @@ import {
   type VenueId,
 } from '@vigoros/domain'
 import { mulberry32 } from '@vigoros/scoring'
-import type { TradingCalendar } from './calendar.js'
-import { levelPrior, type PriorTable } from './priors.js'
-import { dailyLogReturns, realisedVol, type PriceSeries } from './returns.js'
+import type { TradingCalendar } from './calendar'
+import { levelPrior, type PriorTable } from './priors'
+import { dailyLogReturns, realisedVol, type PriceSeries } from './returns'
 
 export interface UniverseAsset {
   id: string

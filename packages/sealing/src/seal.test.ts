@@ -1,8 +1,8 @@
 import { sha256Hex } from '@vigoros/domain'
 import { describe, expect, it } from 'vitest'
-import { buildMerkleTree, hexToBytes, verifyInclusion } from './merkle.js'
-import { OtsClient } from './opentimestamps.js'
-import { sealDay } from './seal.js'
+import { buildMerkleTree, hexToBytes, verifyInclusion } from './merkle'
+import { OtsClient } from './opentimestamps'
+import { sealDay } from './seal'
 
 const PROOF = new Uint8Array([0xf0, 0x01, 0x42, 0x08])
 

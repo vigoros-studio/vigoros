@@ -10,7 +10,7 @@ export {
   type InclusionProof,
   type MerkleTree,
   type ProofStep,
-} from './merkle.js'
+} from './merkle'
 export {
   DEFAULT_CALENDARS,
   OtsClient,
@@ -26,5 +26,5 @@ export {
   type OtsProof,
   type PendingAttestation,
   type UnknownAttestation,
-} from './opentimestamps.js'
-export { sealDay, type SealedDay } from './seal.js'
+} from './opentimestamps'
+export { sealDay, type SealedDay } from './seal'

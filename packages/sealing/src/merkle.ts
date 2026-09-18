@@ -43,8 +43,15 @@ export const hexToBytes = (hex: string): Uint8Array => {
 export const bytesToHex = (bytes: Uint8Array): string =>
   Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('')
 
+/** Copy into a fresh ArrayBuffer-backed view so the DOM lib's BufferSource type is satisfied. */
+export const asBufferSource = (bytes: Uint8Array): Uint8Array<ArrayBuffer> => {
+  const copy = new Uint8Array(new ArrayBuffer(bytes.byteLength))
+  copy.set(bytes)
+  return copy
+}
+
 export const sha256Bytes = async (bytes: Uint8Array): Promise<Uint8Array> =>
-  new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))
+  new Uint8Array(await crypto.subtle.digest('SHA-256', asBufferSource(bytes)))
 
 const assertDigest = (value: string, what: string): void => {
   if (!isHexDigest(value)) {

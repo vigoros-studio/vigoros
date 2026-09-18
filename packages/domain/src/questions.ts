@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { IsoDateSchema, UlidSchema } from './ids.js'
-import { HORIZONS } from './methodology.js'
-import { VenueId } from './venues.js'
+import { IsoDateSchema, UlidSchema } from './ids'
+import { HORIZONS } from './methodology'
+import { VenueId } from './venues'
 
 export const QuestionType = z.enum(['LEVEL', 'RELATIVE', 'QUINTILE'])
 export type QuestionType = z.infer<typeof QuestionType>

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import type { Question } from '@vigoros/domain'
-import { baselineForecast } from './baselines.js'
-import { formatQuestions, SYSTEM_PROMPT } from './prompt.js'
-import { runProvider } from './run.js'
-import { ProviderError, type ForecastProvider, type PromptQuestion } from './types.js'
+import { baselineForecast } from './baselines'
+import { formatQuestions, SYSTEM_PROMPT } from './prompt'
+import { runProvider } from './run'
+import { ProviderError, type ForecastProvider, type PromptQuestion } from './types'
 
 const q = (i: number, over: Partial<Question> = {}): Question => ({
   id: `01J8Q${String(i).padStart(21, '0')}`,

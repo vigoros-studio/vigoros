@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { canonicalize, hashCanonical } from './canonical.js'
+import { canonicalize, hashCanonical } from './canonical'
 
 describe('canonicalize', () => {
   it('sorts keys and strips whitespace', () => {

@@ -2,10 +2,10 @@ import { eq, isNull } from 'drizzle-orm'
 import { assets, questionSets, questions } from '@vigoros/db'
 import { METHODOLOGY_VERSION, VOL_LOOKBACK_DAYS, sha256Hex, type IsoDate } from '@vigoros/domain'
 import { generateQuestions, type UniverseAsset } from '@vigoros/questions'
-import { loadCalendars } from './calendar.js'
-import type { JobContext } from './context.js'
-import { loadPriceSeries } from './ingest.js'
-import { priorTableFor } from './priors.js'
+import { loadCalendars } from './calendar'
+import type { JobContext } from './context'
+import { loadPriceSeries } from './ingest'
+import { priorTableFor } from './priors'
 
 const addDays = (d: IsoDate, n: number): IsoDate => {
   const t = new Date(`${d}T00:00:00.000Z`)

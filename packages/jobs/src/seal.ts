@@ -2,7 +2,7 @@ import { and, eq, inArray, isNull, sql } from 'drizzle-orm'
 import { commitments, sealRoots } from '@vigoros/db'
 import { newId } from '@vigoros/domain'
 import { sealDay } from '@vigoros/sealing'
-import type { JobContext } from './context.js'
+import type { JobContext } from './context'
 
 /**
  * Seal every commitment not yet in a Merkle root. Leaves are ordered by commitment id (ULID,

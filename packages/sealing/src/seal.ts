@@ -1,5 +1,5 @@
-import { buildMerkleTree, inclusionProof, type InclusionProof } from './merkle.js'
-import type { OtsClient, OtsProof } from './opentimestamps.js'
+import { buildMerkleTree, inclusionProof, type InclusionProof } from './merkle'
+import type { OtsClient, OtsProof } from './opentimestamps'
 
 export interface SealedDay {
   /** Hex Merkle root over the day's commitment hashes, in the order given. */

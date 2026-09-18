@@ -2,8 +2,8 @@ import { and, asc, eq, isNull, or, sql } from 'drizzle-orm'
 import { assets, prices } from '@vigoros/db'
 import type { IsoDate } from '@vigoros/domain'
 import { fetchUniverse, type PriceSourceAsset } from '@vigoros/prices'
-import { recordTradingDays } from './calendar.js'
-import { Deadline, type JobContext } from './context.js'
+import { recordTradingDays } from './calendar'
+import { Deadline, type JobContext } from './context'
 
 const addDays = (d: IsoDate, n: number): IsoDate => {
   const t = new Date(`${d}T00:00:00.000Z`)

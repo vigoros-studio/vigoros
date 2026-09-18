@@ -1,6 +1,6 @@
 import type { IsoDate } from '@vigoros/domain'
-import { TokenBucket } from './rate-limit.js'
-import { PriceSourceError, type PriceBar, type PriceSource, type PriceSourceAsset } from './types.js'
+import { TokenBucket } from './rate-limit'
+import { PriceSourceError, type PriceBar, type PriceSource, type PriceSourceAsset } from './types'
 
 /**
  * Stooq CSV adapter. No key, wide LSE coverage, unadjusted closes only. Used as the fallback for

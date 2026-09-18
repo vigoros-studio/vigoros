@@ -1,5 +1,5 @@
 import { clipProbability } from '@vigoros/domain'
-import type { Answer, ForecastProvider, PromptQuestion, ProviderUsage } from './types.js'
+import type { Answer, ForecastProvider, PromptQuestion, ProviderUsage } from './types'
 
 export interface RunOptions {
   batchSize?: number

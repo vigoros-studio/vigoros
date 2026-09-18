@@ -1,4 +1,4 @@
-import type { Outcome } from './score.js'
+import type { Outcome } from './score'
 
 export const CALIBRATION_BINS = 10
 

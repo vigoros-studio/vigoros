@@ -7,7 +7,7 @@ import {
   hexToBytes,
   inclusionProof,
   verifyInclusion,
-} from './merkle.js'
+} from './merkle'
 
 const leaves = async (n: number): Promise<string[]> =>
   Promise.all(Array.from({ length: n }, (_, i) => sha256Hex(`leaf-${i}`)))

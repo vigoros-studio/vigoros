@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import type { IsoDate } from '@vigoros/domain'
-import { TokenBucket } from './rate-limit.js'
-import { PriceSourceError, type PriceBar, type PriceSource, type PriceSourceAsset } from './types.js'
+import { TokenBucket } from './rate-limit'
+import { PriceSourceError, type PriceBar, type PriceSource, type PriceSourceAsset } from './types'
 
 const EodRow = z.object({
   date: z.string(),

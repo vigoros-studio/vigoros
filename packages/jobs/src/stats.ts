@@ -14,7 +14,7 @@ import {
   type DailyAccumulator,
   type ScoreAccumulator,
 } from '@vigoros/scoring'
-import { Deadline, type JobContext } from './context.js'
+import { Deadline, type JobContext } from './context'
 
 /**
  * Materialise participant_stats for one participant from its daily aggregates.

@@ -2,8 +2,8 @@ import { and, eq, isNull, sql } from 'drizzle-orm'
 import { assets, participants, prices, questions, referenceRuns } from '@vigoros/db'
 import { newId, type IsoDate, type Question } from '@vigoros/domain'
 import { baselineForecast, runProvider, type BaselineId, type PromptQuestion } from '@vigoros/reference'
-import { commitMany, openQuestionsFor } from './commit.js'
-import { Deadline, type JobContext, type ReferenceModelConfig } from './context.js'
+import { commitMany, openQuestionsFor } from './commit'
+import { Deadline, type JobContext, type ReferenceModelConfig } from './context'
 
 const addDays = (d: IsoDate, n: number): IsoDate => {
   const t = new Date(`${d}T00:00:00.000Z`)
