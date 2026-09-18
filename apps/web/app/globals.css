@@ -139,6 +139,9 @@ code,
 .cols > * {
   flex: 1 1 280px;
 }
+.cols-4 > * {
+  flex: 1 1 180px;
+}
 
 /* Type utilities */
 .muted {

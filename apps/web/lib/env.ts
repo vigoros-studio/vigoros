@@ -3,8 +3,8 @@ import { z } from 'zod'
 
 const Env = z.object({
   DATABASE_URL: z.string().url(),
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1).optional(),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
   TIINGO_API_KEY: z.string().min(1).optional(),
   ANTHROPIC_API_KEY: z.string().min(1).optional(),
@@ -19,7 +19,9 @@ const Env = z.object({
 let cached: z.infer<typeof Env> | null = null
 export const env = (): z.infer<typeof Env> => {
   if (cached) return cached
-  const parsed = Env.safeParse(process.env)
+  // Blank values in .env are treated as unset, so optional keys can be left empty.
+  const raw = Object.fromEntries(Object.entries(process.env).filter(([, v]) => v !== undefined && v !== ''))
+  const parsed = Env.safeParse(raw)
   if (!parsed.success) throw new Error(`invalid environment: ${parsed.error.issues.map((i) => i.path.join('.')).join(', ')}`)
   cached = parsed.data
   return cached

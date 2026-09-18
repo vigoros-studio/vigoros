@@ -36,7 +36,7 @@ export default async function Home() {
 
       <hr className="rule" />
 
-      <section className="section-tight wrap cols">
+      <section className="section-tight wrap cols cols-4">
         <div className="stat"><div className="label">Questions issued</div><div className="value">{fmtInt(counters.questions)}</div></div>
         <div className="stat"><div className="label">Sealed forecasts</div><div className="value">{fmtInt(counters.commitments)}</div></div>
         <div className="stat"><div className="label">Resolved by the market</div><div className="value">{fmtInt(counters.resolved)}</div></div>
