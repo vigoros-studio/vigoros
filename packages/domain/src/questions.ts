@@ -38,11 +38,17 @@ export const QuestionSchema = z.object({
 })
 export type Question = z.infer<typeof QuestionSchema>
 
+/** Price formatting by magnitude: equities to 2dp, sub-unit FX to 5dp. Display only. */
+export const formatPrice = (x: number): string => {
+  const dp = x >= 100 ? 2 : x >= 1 ? 3 : 5
+  return x.toLocaleString('en-GB', { minimumFractionDigits: dp, maximumFractionDigits: dp })
+}
+
 /** Human-readable statement of a question, used everywhere it is displayed. */
 export const describeQuestion = (q: Pick<Question, 'symbol' | 'type' | 'horizon' | 'threshold' | 'resolvesOn'>): string => {
   switch (q.type) {
     case 'LEVEL':
-      return `${q.symbol} closes above ${q.threshold} on ${q.resolvesOn}`
+      return `${q.symbol} closes above ${q.threshold === null ? '?' : formatPrice(q.threshold)} on ${q.resolvesOn}`
     case 'RELATIVE':
       return `${q.symbol} outperforms its peer group over the next ${q.horizon} trading days`
     case 'QUINTILE':
