@@ -1,5 +1,5 @@
 {
-  "id": "50721034-3a71-48c3-bf2f-e12d7633d671",
+  "id": "ffb6284a-e010-4537-8729-bf9f0ecd973b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -14,14 +14,14 @@
           "primaryKey": true,
           "notNull": true
         },
-        "participantId": {
-          "name": "participantId",
+        "participant_id": {
+          "name": "participant_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": true
         },
-        "keyHash": {
-          "name": "keyHash",
+        "key_hash": {
+          "name": "key_hash",
           "type": "char(64)",
           "primaryKey": false,
           "notNull": true
@@ -38,21 +38,21 @@
           "primaryKey": false,
           "notNull": false
         },
-        "createdAt": {
-          "name": "createdAt",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "lastUsedAt": {
-          "name": "lastUsedAt",
+        "last_used_at": {
+          "name": "last_used_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
         },
-        "revokedAt": {
-          "name": "revokedAt",
+        "revoked_at": {
+          "name": "revoked_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
@@ -63,7 +63,7 @@
           "name": "api_keys_participant_idx",
           "columns": [
             {
-              "expression": "participantId",
+              "expression": "participant_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -76,12 +76,12 @@
         }
       },
       "foreignKeys": {
-        "api_keys_participantId_participants_id_fk": {
-          "name": "api_keys_participantId_participants_id_fk",
+        "api_keys_participant_id_participants_id_fk": {
+          "name": "api_keys_participant_id_participants_id_fk",
           "tableFrom": "api_keys",
           "tableTo": "participants",
           "columnsFrom": [
-            "participantId"
+            "participant_id"
           ],
           "columnsTo": [
             "id"
@@ -96,7 +96,7 @@
           "name": "api_keys_keyHash_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "keyHash"
+            "key_hash"
           ]
         }
       },
@@ -127,8 +127,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "assetClass": {
-          "name": "assetClass",
+        "asset_class": {
+          "name": "asset_class",
           "type": "asset_class",
           "typeSchema": "public",
           "primaryKey": false,
@@ -140,27 +140,45 @@
           "primaryKey": false,
           "notNull": true
         },
-        "peerGroup": {
-          "name": "peerGroup",
+        "peer_group": {
+          "name": "peer_group",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "vendorSymbol": {
-          "name": "vendorSymbol",
+        "vendor_symbol": {
+          "name": "vendor_symbol",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "activeFrom": {
-          "name": "activeFrom",
+        "active_from": {
+          "name": "active_from",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "activeTo": {
-          "name": "activeTo",
+        "active_to": {
+          "name": "active_to",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_price_day": {
+          "name": "last_price_day",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_ingest_at": {
+          "name": "last_ingest_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_ingest_error": {
+          "name": "last_ingest_error",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         }
@@ -197,7 +215,22 @@
               "nulls": "last"
             },
             {
-              "expression": "activeTo",
+              "expression": "active_to",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "assets_ingest_idx": {
+          "name": "assets_ingest_idx",
+          "columns": [
+            {
+              "expression": "last_ingest_at",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -210,12 +243,12 @@
         }
       },
       "foreignKeys": {
-        "assets_activeFrom_universe_versions_id_fk": {
-          "name": "assets_activeFrom_universe_versions_id_fk",
+        "assets_active_from_universe_versions_id_fk": {
+          "name": "assets_active_from_universe_versions_id_fk",
           "tableFrom": "assets",
           "tableTo": "universe_versions",
           "columnsFrom": [
-            "activeFrom"
+            "active_from"
           ],
           "columnsTo": [
             "id"
@@ -223,12 +256,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "assets_activeTo_universe_versions_id_fk": {
-          "name": "assets_activeTo_universe_versions_id_fk",
+        "assets_active_to_universe_versions_id_fk": {
+          "name": "assets_active_to_universe_versions_id_fk",
           "tableFrom": "assets",
           "tableTo": "universe_versions",
           "columnsFrom": [
-            "activeTo"
+            "active_to"
           ],
           "columnsTo": [
             "id"
@@ -253,20 +286,20 @@
           "primaryKey": true,
           "notNull": true
         },
-        "participantId": {
-          "name": "participantId",
+        "participant_id": {
+          "name": "participant_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": true
         },
-        "questionId": {
-          "name": "questionId",
+        "question_id": {
+          "name": "question_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": true
         },
-        "issueDate": {
-          "name": "issueDate",
+        "issue_date": {
+          "name": "issue_date",
           "type": "date",
           "primaryKey": false,
           "notNull": true
@@ -295,26 +328,26 @@
           "primaryKey": false,
           "notNull": true
         },
-        "submittedAt": {
-          "name": "submittedAt",
+        "submitted_at": {
+          "name": "submitted_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true
         },
-        "sealRootId": {
-          "name": "sealRootId",
+        "seal_root_id": {
+          "name": "seal_root_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": false
         },
-        "inclusionProof": {
-          "name": "inclusionProof",
+        "inclusion_proof": {
+          "name": "inclusion_proof",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": false
         },
-        "revealedAt": {
-          "name": "revealedAt",
+        "revealed_at": {
+          "name": "revealed_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
@@ -325,13 +358,13 @@
           "name": "commitments_participant_question_idx",
           "columns": [
             {
-              "expression": "participantId",
+              "expression": "participant_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
             },
             {
-              "expression": "questionId",
+              "expression": "question_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -346,7 +379,7 @@
           "name": "commitments_question_idx",
           "columns": [
             {
-              "expression": "questionId",
+              "expression": "question_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -361,13 +394,13 @@
           "name": "commitments_participant_issue_idx",
           "columns": [
             {
-              "expression": "participantId",
+              "expression": "participant_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
             },
             {
-              "expression": "issueDate",
+              "expression": "issue_date",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -382,26 +415,26 @@
           "name": "commitments_unsealed_idx",
           "columns": [
             {
-              "expression": "submittedAt",
+              "expression": "submitted_at",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
             }
           ],
           "isUnique": false,
-          "where": "\"commitments\".\"sealRootId\" is null",
+          "where": "\"commitments\".\"seal_root_id\" is null",
           "concurrently": false,
           "method": "btree",
           "with": {}
         }
       },
       "foreignKeys": {
-        "commitments_participantId_participants_id_fk": {
-          "name": "commitments_participantId_participants_id_fk",
+        "commitments_participant_id_participants_id_fk": {
+          "name": "commitments_participant_id_participants_id_fk",
           "tableFrom": "commitments",
           "tableTo": "participants",
           "columnsFrom": [
-            "participantId"
+            "participant_id"
           ],
           "columnsTo": [
             "id"
@@ -409,12 +442,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "commitments_questionId_questions_id_fk": {
-          "name": "commitments_questionId_questions_id_fk",
+        "commitments_question_id_questions_id_fk": {
+          "name": "commitments_question_id_questions_id_fk",
           "tableFrom": "commitments",
           "tableTo": "questions",
           "columnsFrom": [
-            "questionId"
+            "question_id"
           ],
           "columnsTo": [
             "id"
@@ -422,12 +455,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "commitments_sealRootId_seal_roots_id_fk": {
-          "name": "commitments_sealRootId_seal_roots_id_fk",
+        "commitments_seal_root_id_seal_roots_id_fk": {
+          "name": "commitments_seal_root_id_seal_roots_id_fk",
           "tableFrom": "commitments",
           "tableTo": "seal_roots",
           "columnsFrom": [
-            "sealRootId"
+            "seal_root_id"
           ],
           "columnsTo": [
             "id"
@@ -457,20 +490,20 @@
           "primaryKey": true,
           "notNull": true
         },
-        "effectiveFrom": {
-          "name": "effectiveFrom",
+        "effective_from": {
+          "name": "effective_from",
           "type": "date",
           "primaryKey": false,
           "notNull": true
         },
-        "announcedAt": {
-          "name": "announcedAt",
+        "announced_at": {
+          "name": "announced_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true
         },
-        "docUrl": {
-          "name": "docUrl",
+        "doc_url": {
+          "name": "doc_url",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -488,20 +521,20 @@
       "name": "participant_daily",
       "schema": "",
       "columns": {
-        "participantId": {
-          "name": "participantId",
+        "participant_id": {
+          "name": "participant_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": true
         },
-        "issueDate": {
-          "name": "issueDate",
+        "issue_date": {
+          "name": "issue_date",
           "type": "date",
           "primaryKey": false,
           "notNull": true
         },
-        "methodologyVersion": {
-          "name": "methodologyVersion",
+        "methodology_version": {
+          "name": "methodology_version",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -512,8 +545,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "questionType": {
-          "name": "questionType",
+        "question_type": {
+          "name": "question_type",
           "type": "question_type",
           "typeSchema": "public",
           "primaryKey": false,
@@ -525,50 +558,50 @@
           "primaryKey": false,
           "notNull": true
         },
-        "sumBrier": {
-          "name": "sumBrier",
+        "sum_brier": {
+          "name": "sum_brier",
           "type": "double precision",
           "primaryKey": false,
           "notNull": true
         },
-        "sumPriorBrier": {
-          "name": "sumPriorBrier",
+        "sum_prior_brier": {
+          "name": "sum_prior_brier",
           "type": "double precision",
           "primaryKey": false,
           "notNull": true
         },
-        "sumLog": {
-          "name": "sumLog",
+        "sum_log": {
+          "name": "sum_log",
           "type": "double precision",
           "primaryKey": false,
           "notNull": true
         },
-        "sumPriorLog": {
-          "name": "sumPriorLog",
+        "sum_prior_log": {
+          "name": "sum_prior_log",
           "type": "double precision",
           "primaryKey": false,
           "notNull": true
         },
-        "calCounts": {
-          "name": "calCounts",
+        "cal_counts": {
+          "name": "cal_counts",
           "type": "integer[]",
           "primaryKey": false,
           "notNull": true
         },
-        "calSumForecast": {
-          "name": "calSumForecast",
+        "cal_sum_forecast": {
+          "name": "cal_sum_forecast",
           "type": "double precision[]",
           "primaryKey": false,
           "notNull": true
         },
-        "calSumOutcome": {
-          "name": "calSumOutcome",
+        "cal_sum_outcome": {
+          "name": "cal_sum_outcome",
           "type": "double precision[]",
           "primaryKey": false,
           "notNull": true
         },
-        "updatedAt": {
-          "name": "updatedAt",
+        "updated_at": {
+          "name": "updated_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -577,12 +610,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "participant_daily_participantId_participants_id_fk": {
-          "name": "participant_daily_participantId_participants_id_fk",
+        "participant_daily_participant_id_participants_id_fk": {
+          "name": "participant_daily_participant_id_participants_id_fk",
           "tableFrom": "participant_daily",
           "tableTo": "participants",
           "columnsFrom": [
-            "participantId"
+            "participant_id"
           ],
           "columnsTo": [
             "id"
@@ -592,14 +625,14 @@
         }
       },
       "compositePrimaryKeys": {
-        "participant_daily_participantId_issueDate_methodologyVersion_horizon_questionType_pk": {
-          "name": "participant_daily_participantId_issueDate_methodologyVersion_horizon_questionType_pk",
+        "participant_daily_participant_id_issue_date_methodology_version_horizon_question_type_pk": {
+          "name": "participant_daily_participant_id_issue_date_methodology_version_horizon_question_type_pk",
           "columns": [
-            "participantId",
-            "issueDate",
-            "methodologyVersion",
+            "participant_id",
+            "issue_date",
+            "methodology_version",
             "horizon",
-            "questionType"
+            "question_type"
           ]
         }
       },
@@ -612,14 +645,14 @@
       "name": "participant_stats",
       "schema": "",
       "columns": {
-        "participantId": {
-          "name": "participantId",
+        "participant_id": {
+          "name": "participant_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": true
         },
-        "methodologyVersion": {
-          "name": "methodologyVersion",
+        "methodology_version": {
+          "name": "methodology_version",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -630,20 +663,20 @@
           "primaryKey": false,
           "notNull": true
         },
-        "distinctIssueDates": {
-          "name": "distinctIssueDates",
+        "distinct_issue_dates": {
+          "name": "distinct_issue_dates",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "firstIssueDate": {
-          "name": "firstIssueDate",
+        "first_issue_date": {
+          "name": "first_issue_date",
           "type": "date",
           "primaryKey": false,
           "notNull": false
         },
-        "lastIssueDate": {
-          "name": "lastIssueDate",
+        "last_issue_date": {
+          "name": "last_issue_date",
           "type": "date",
           "primaryKey": false,
           "notNull": false
@@ -660,20 +693,20 @@
           "primaryKey": false,
           "notNull": false
         },
-        "bssLower": {
-          "name": "bssLower",
+        "bss_lower": {
+          "name": "bss_lower",
           "type": "double precision",
           "primaryKey": false,
           "notNull": false
         },
-        "bssUpper": {
-          "name": "bssUpper",
+        "bss_upper": {
+          "name": "bss_upper",
           "type": "double precision",
           "primaryKey": false,
           "notNull": false
         },
-        "evidenceNats": {
-          "name": "evidenceNats",
+        "evidence_nats": {
+          "name": "evidence_nats",
           "type": "double precision",
           "primaryKey": false,
           "notNull": false
@@ -702,21 +735,21 @@
           "primaryKey": false,
           "notNull": false
         },
-        "pValue": {
-          "name": "pValue",
+        "p_value": {
+          "name": "p_value",
           "type": "double precision",
           "primaryKey": false,
           "notNull": false
         },
-        "identityCount": {
-          "name": "identityCount",
+        "identity_count": {
+          "name": "identity_count",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "default": 1
         },
-        "adjustedPValue": {
-          "name": "adjustedPValue",
+        "adjusted_p_value": {
+          "name": "adjusted_p_value",
           "type": "double precision",
           "primaryKey": false,
           "notNull": false
@@ -727,44 +760,44 @@
           "primaryKey": false,
           "notNull": false
         },
-        "distinctAssets": {
-          "name": "distinctAssets",
+        "distinct_assets": {
+          "name": "distinct_assets",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
-        "bssByHorizon": {
-          "name": "bssByHorizon",
+        "bss_by_horizon": {
+          "name": "bss_by_horizon",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": false
         },
-        "bssByType": {
-          "name": "bssByType",
+        "bss_by_type": {
+          "name": "bss_by_type",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": false
         },
-        "rollingSeries": {
-          "name": "rollingSeries",
+        "rolling_series": {
+          "name": "rolling_series",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": false
         },
-        "calibrationBins": {
-          "name": "calibrationBins",
+        "calibration_bins": {
+          "name": "calibration_bins",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": false
         },
-        "bootstrapSeed": {
-          "name": "bootstrapSeed",
+        "bootstrap_seed": {
+          "name": "bootstrap_seed",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "computedAt": {
-          "name": "computedAt",
+        "computed_at": {
+          "name": "computed_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -776,7 +809,7 @@
           "name": "participant_stats_board_idx",
           "columns": [
             {
-              "expression": "methodologyVersion",
+              "expression": "methodology_version",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -788,7 +821,7 @@
               "nulls": "last"
             },
             {
-              "expression": "bssLower",
+              "expression": "bss_lower",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -801,12 +834,12 @@
         }
       },
       "foreignKeys": {
-        "participant_stats_participantId_participants_id_fk": {
-          "name": "participant_stats_participantId_participants_id_fk",
+        "participant_stats_participant_id_participants_id_fk": {
+          "name": "participant_stats_participant_id_participants_id_fk",
           "tableFrom": "participant_stats",
           "tableTo": "participants",
           "columnsFrom": [
-            "participantId"
+            "participant_id"
           ],
           "columnsTo": [
             "id"
@@ -816,11 +849,11 @@
         }
       },
       "compositePrimaryKeys": {
-        "participant_stats_participantId_methodologyVersion_pk": {
-          "name": "participant_stats_participantId_methodologyVersion_pk",
+        "participant_stats_participant_id_methodology_version_pk": {
+          "name": "participant_stats_participant_id_methodology_version_pk",
           "columns": [
-            "participantId",
-            "methodologyVersion"
+            "participant_id",
+            "methodology_version"
           ]
         }
       },
@@ -839,8 +872,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "publisherId": {
-          "name": "publisherId",
+        "publisher_id": {
+          "name": "publisher_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": true
@@ -858,8 +891,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "displayName": {
-          "name": "displayName",
+        "display_name": {
+          "name": "display_name",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -872,8 +905,8 @@
           "notNull": true,
           "default": "'PRIVATE'"
         },
-        "publishedAt": {
-          "name": "publishedAt",
+        "published_at": {
+          "name": "published_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
@@ -884,8 +917,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "createdAt": {
-          "name": "createdAt",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -897,7 +930,7 @@
           "name": "participants_publisher_idx",
           "columns": [
             {
-              "expression": "publisherId",
+              "expression": "publisher_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -925,12 +958,12 @@
         }
       },
       "foreignKeys": {
-        "participants_publisherId_publishers_id_fk": {
-          "name": "participants_publisherId_publishers_id_fk",
+        "participants_publisher_id_publishers_id_fk": {
+          "name": "participants_publisher_id_publishers_id_fk",
           "tableFrom": "participants",
           "tableTo": "publishers",
           "columnsFrom": [
-            "publisherId"
+            "publisher_id"
           ],
           "columnsTo": [
             "id"
@@ -957,8 +990,8 @@
       "name": "prices",
       "schema": "",
       "columns": {
-        "assetId": {
-          "name": "assetId",
+        "asset_id": {
+          "name": "asset_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": true
@@ -975,8 +1008,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "adjClose": {
-          "name": "adjClose",
+        "adj_close": {
+          "name": "adj_close",
           "type": "double precision",
           "primaryKey": false,
           "notNull": true
@@ -993,8 +1026,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "ingestedAt": {
-          "name": "ingestedAt",
+        "ingested_at": {
+          "name": "ingested_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -1019,12 +1052,12 @@
         }
       },
       "foreignKeys": {
-        "prices_assetId_assets_id_fk": {
-          "name": "prices_assetId_assets_id_fk",
+        "prices_asset_id_assets_id_fk": {
+          "name": "prices_asset_id_assets_id_fk",
           "tableFrom": "prices",
           "tableTo": "assets",
           "columnsFrom": [
-            "assetId"
+            "asset_id"
           ],
           "columnsTo": [
             "id"
@@ -1034,14 +1067,58 @@
         }
       },
       "compositePrimaryKeys": {
-        "prices_assetId_day_pk": {
-          "name": "prices_assetId_day_pk",
+        "prices_asset_id_day_pk": {
+          "name": "prices_asset_id_day_pk",
           "columns": [
-            "assetId",
+            "asset_id",
             "day"
           ]
         }
       },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.prior_tables": {
+      "name": "prior_tables",
+      "schema": "",
+      "columns": {
+        "month": {
+          "name": "month",
+          "type": "date",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "methodology_version": {
+          "name": "methodology_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "table": {
+          "name": "table",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "as_of": {
+          "name": "as_of",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "computed_at": {
+          "name": "computed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
@@ -1057,8 +1134,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "authUserId": {
-          "name": "authUserId",
+        "auth_user_id": {
+          "name": "auth_user_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -1069,20 +1146,20 @@
           "primaryKey": false,
           "notNull": true
         },
-        "displayName": {
-          "name": "displayName",
+        "display_name": {
+          "name": "display_name",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "verifiedAt": {
-          "name": "verifiedAt",
+        "verified_at": {
+          "name": "verified_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
         },
-        "createdAt": {
-          "name": "createdAt",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -1097,7 +1174,7 @@
           "name": "publishers_authUserId_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "authUserId"
+            "auth_user_id"
           ]
         },
         "publishers_email_unique": {
@@ -1116,8 +1193,8 @@
       "name": "question_sets",
       "schema": "",
       "columns": {
-        "issueDate": {
-          "name": "issueDate",
+        "issue_date": {
+          "name": "issue_date",
           "type": "date",
           "primaryKey": true,
           "notNull": true
@@ -1128,32 +1205,32 @@
           "primaryKey": false,
           "notNull": true
         },
-        "methodologyVersion": {
-          "name": "methodologyVersion",
+        "methodology_version": {
+          "name": "methodology_version",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "universeVersion": {
-          "name": "universeVersion",
+        "universe_version": {
+          "name": "universe_version",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "questionCount": {
-          "name": "questionCount",
+        "question_count": {
+          "name": "question_count",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "priorTable": {
-          "name": "priorTable",
+        "prior_table": {
+          "name": "prior_table",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": true
         },
-        "generatedAt": {
-          "name": "generatedAt",
+        "generated_at": {
+          "name": "generated_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -1162,12 +1239,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "question_sets_methodologyVersion_methodology_versions_version_fk": {
-          "name": "question_sets_methodologyVersion_methodology_versions_version_fk",
+        "question_sets_methodology_version_methodology_versions_version_fk": {
+          "name": "question_sets_methodology_version_methodology_versions_version_fk",
           "tableFrom": "question_sets",
           "tableTo": "methodology_versions",
           "columnsFrom": [
-            "methodologyVersion"
+            "methodology_version"
           ],
           "columnsTo": [
             "version"
@@ -1175,12 +1252,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "question_sets_universeVersion_universe_versions_id_fk": {
-          "name": "question_sets_universeVersion_universe_versions_id_fk",
+        "question_sets_universe_version_universe_versions_id_fk": {
+          "name": "question_sets_universe_version_universe_versions_id_fk",
           "tableFrom": "question_sets",
           "tableTo": "universe_versions",
           "columnsFrom": [
-            "universeVersion"
+            "universe_version"
           ],
           "columnsTo": [
             "id"
@@ -1205,8 +1282,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "issueDate": {
-          "name": "issueDate",
+        "issue_date": {
+          "name": "issue_date",
           "type": "date",
           "primaryKey": false,
           "notNull": true
@@ -1218,8 +1295,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "assetId": {
-          "name": "assetId",
+        "asset_id": {
+          "name": "asset_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": true
@@ -1237,8 +1314,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "levelK": {
-          "name": "levelK",
+        "level_k": {
+          "name": "level_k",
           "type": "smallint",
           "primaryKey": false,
           "notNull": false
@@ -1249,8 +1326,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "referencePrice": {
-          "name": "referencePrice",
+        "reference_price": {
+          "name": "reference_price",
           "type": "double precision",
           "primaryKey": false,
           "notNull": true
@@ -1261,14 +1338,14 @@
           "primaryKey": false,
           "notNull": true
         },
-        "deadlineAt": {
-          "name": "deadlineAt",
+        "deadline_at": {
+          "name": "deadline_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true
         },
-        "resolvesOn": {
-          "name": "resolvesOn",
+        "resolves_on": {
+          "name": "resolves_on",
           "type": "date",
           "primaryKey": false,
           "notNull": true
@@ -1287,20 +1364,20 @@
           "primaryKey": false,
           "notNull": false
         },
-        "resolvedAt": {
-          "name": "resolvedAt",
+        "resolved_at": {
+          "name": "resolved_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
         },
-        "voidReason": {
-          "name": "voidReason",
+        "void_reason": {
+          "name": "void_reason",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         },
-        "methodologyVersion": {
-          "name": "methodologyVersion",
+        "methodology_version": {
+          "name": "methodology_version",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -1311,7 +1388,7 @@
           "name": "questions_issue_date_idx",
           "columns": [
             {
-              "expression": "issueDate",
+              "expression": "issue_date",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1326,7 +1403,7 @@
           "name": "questions_resolves_status_idx",
           "columns": [
             {
-              "expression": "resolvesOn",
+              "expression": "resolves_on",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1347,13 +1424,13 @@
           "name": "questions_asset_issue_idx",
           "columns": [
             {
-              "expression": "assetId",
+              "expression": "asset_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
             },
             {
-              "expression": "issueDate",
+              "expression": "issue_date",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1366,25 +1443,25 @@
         }
       },
       "foreignKeys": {
-        "questions_issueDate_question_sets_issueDate_fk": {
-          "name": "questions_issueDate_question_sets_issueDate_fk",
+        "questions_issue_date_question_sets_issue_date_fk": {
+          "name": "questions_issue_date_question_sets_issue_date_fk",
           "tableFrom": "questions",
           "tableTo": "question_sets",
           "columnsFrom": [
-            "issueDate"
+            "issue_date"
           ],
           "columnsTo": [
-            "issueDate"
+            "issue_date"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "questions_assetId_assets_id_fk": {
-          "name": "questions_assetId_assets_id_fk",
+        "questions_asset_id_assets_id_fk": {
+          "name": "questions_asset_id_assets_id_fk",
           "tableFrom": "questions",
           "tableTo": "assets",
           "columnsFrom": [
-            "assetId"
+            "asset_id"
           ],
           "columnsTo": [
             "id"
@@ -1422,14 +1499,14 @@
           "primaryKey": true,
           "notNull": true
         },
-        "participantId": {
-          "name": "participantId",
+        "participant_id": {
+          "name": "participant_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": true
         },
-        "issueDate": {
-          "name": "issueDate",
+        "issue_date": {
+          "name": "issue_date",
           "type": "date",
           "primaryKey": false,
           "notNull": true
@@ -1446,45 +1523,45 @@
           "primaryKey": false,
           "notNull": true
         },
-        "promptVersion": {
-          "name": "promptVersion",
+        "prompt_version": {
+          "name": "prompt_version",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "requestHash": {
-          "name": "requestHash",
+        "request_hash": {
+          "name": "request_hash",
           "type": "char(64)",
           "primaryKey": false,
           "notNull": true
         },
-        "responseHash": {
-          "name": "responseHash",
+        "response_hash": {
+          "name": "response_hash",
           "type": "char(64)",
           "primaryKey": false,
           "notNull": false
         },
-        "questionsAnswered": {
-          "name": "questionsAnswered",
+        "questions_answered": {
+          "name": "questions_answered",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "default": 0
         },
-        "inputTokens": {
-          "name": "inputTokens",
+        "input_tokens": {
+          "name": "input_tokens",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
-        "outputTokens": {
-          "name": "outputTokens",
+        "output_tokens": {
+          "name": "output_tokens",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
-        "latencyMs": {
-          "name": "latencyMs",
+        "latency_ms": {
+          "name": "latency_ms",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
@@ -1495,14 +1572,14 @@
           "primaryKey": false,
           "notNull": false
         },
-        "startedAt": {
-          "name": "startedAt",
+        "started_at": {
+          "name": "started_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true
         },
-        "finishedAt": {
-          "name": "finishedAt",
+        "finished_at": {
+          "name": "finished_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
@@ -1513,13 +1590,13 @@
           "name": "reference_runs_participant_issue_idx",
           "columns": [
             {
-              "expression": "participantId",
+              "expression": "participant_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
             },
             {
-              "expression": "issueDate",
+              "expression": "issue_date",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1532,12 +1609,12 @@
         }
       },
       "foreignKeys": {
-        "reference_runs_participantId_participants_id_fk": {
-          "name": "reference_runs_participantId_participants_id_fk",
+        "reference_runs_participant_id_participants_id_fk": {
+          "name": "reference_runs_participant_id_participants_id_fk",
           "tableFrom": "reference_runs",
           "tableTo": "participants",
           "columnsFrom": [
-            "participantId"
+            "participant_id"
           ],
           "columnsTo": [
             "id"
@@ -1556,32 +1633,32 @@
       "name": "scores",
       "schema": "",
       "columns": {
-        "commitmentId": {
-          "name": "commitmentId",
+        "commitment_id": {
+          "name": "commitment_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": true
         },
-        "methodologyVersion": {
-          "name": "methodologyVersion",
+        "methodology_version": {
+          "name": "methodology_version",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "participantId": {
-          "name": "participantId",
+        "participant_id": {
+          "name": "participant_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": true
         },
-        "questionId": {
-          "name": "questionId",
+        "question_id": {
+          "name": "question_id",
           "type": "char(26)",
           "primaryKey": false,
           "notNull": true
         },
-        "issueDate": {
-          "name": "issueDate",
+        "issue_date": {
+          "name": "issue_date",
           "type": "date",
           "primaryKey": false,
           "notNull": true
@@ -1592,8 +1669,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "questionType": {
-          "name": "questionType",
+        "question_type": {
+          "name": "question_type",
           "type": "question_type",
           "typeSchema": "public",
           "primaryKey": false,
@@ -1611,8 +1688,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "priorBrier": {
-          "name": "priorBrier",
+        "prior_brier": {
+          "name": "prior_brier",
           "type": "real",
           "primaryKey": false,
           "notNull": true
@@ -1623,14 +1700,14 @@
           "primaryKey": false,
           "notNull": true
         },
-        "priorLog": {
-          "name": "priorLog",
+        "prior_log": {
+          "name": "prior_log",
           "type": "real",
           "primaryKey": false,
           "notNull": true
         },
-        "scoredAt": {
-          "name": "scoredAt",
+        "scored_at": {
+          "name": "scored_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -1642,13 +1719,13 @@
           "name": "scores_participant_issue_idx",
           "columns": [
             {
-              "expression": "participantId",
+              "expression": "participant_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
             },
             {
-              "expression": "issueDate",
+              "expression": "issue_date",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1661,12 +1738,12 @@
         }
       },
       "foreignKeys": {
-        "scores_commitmentId_commitments_id_fk": {
-          "name": "scores_commitmentId_commitments_id_fk",
+        "scores_commitment_id_commitments_id_fk": {
+          "name": "scores_commitment_id_commitments_id_fk",
           "tableFrom": "scores",
           "tableTo": "commitments",
           "columnsFrom": [
-            "commitmentId"
+            "commitment_id"
           ],
           "columnsTo": [
             "id"
@@ -1676,11 +1753,11 @@
         }
       },
       "compositePrimaryKeys": {
-        "scores_commitmentId_methodologyVersion_pk": {
-          "name": "scores_commitmentId_methodologyVersion_pk",
+        "scores_commitment_id_methodology_version_pk": {
+          "name": "scores_commitment_id_methodology_version_pk",
           "columns": [
-            "commitmentId",
-            "methodologyVersion"
+            "commitment_id",
+            "methodology_version"
           ]
         }
       },
@@ -1699,38 +1776,38 @@
           "primaryKey": true,
           "notNull": true
         },
-        "sealDate": {
-          "name": "sealDate",
+        "seal_date": {
+          "name": "seal_date",
           "type": "date",
           "primaryKey": false,
           "notNull": true
         },
-        "merkleRoot": {
-          "name": "merkleRoot",
+        "merkle_root": {
+          "name": "merkle_root",
           "type": "char(64)",
           "primaryKey": false,
           "notNull": true
         },
-        "leafCount": {
-          "name": "leafCount",
+        "leaf_count": {
+          "name": "leaf_count",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "otsProof": {
-          "name": "otsProof",
+        "ots_proof": {
+          "name": "ots_proof",
           "type": "bytea",
           "primaryKey": false,
           "notNull": false
         },
-        "anchoredAt": {
-          "name": "anchoredAt",
+        "anchored_at": {
+          "name": "anchored_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
         },
-        "createdAt": {
-          "name": "createdAt",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -1745,7 +1822,7 @@
           "name": "seal_roots_sealDate_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "sealDate"
+            "seal_date"
           ]
         }
       },
@@ -1808,8 +1885,8 @@
             "cycle": false
           }
         },
-        "effectiveFrom": {
-          "name": "effectiveFrom",
+        "effective_from": {
+          "name": "effective_from",
           "type": "date",
           "primaryKey": false,
           "notNull": true
@@ -1820,8 +1897,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "createdAt": {
-          "name": "createdAt",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,

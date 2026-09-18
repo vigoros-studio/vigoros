@@ -82,3 +82,6 @@ create view board with (security_invoker = false) as
   join participants p on p.id = s.participant_id
   where s.eligible and p.visibility = 'PUBLISHED';
 grant select on board to anon, authenticated;
+
+alter table prior_tables enable row level security;
+create policy "public read" on prior_tables for select to anon, authenticated using (true);
