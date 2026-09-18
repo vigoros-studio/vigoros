@@ -1,0 +1,5079 @@
+[
+  {
+    "symbol": "BTC",
+    "venue": "CRYPTO",
+    "assetClass": "CRYPTO",
+    "name": "Bitcoin",
+    "peerGroup": "CRYPTO",
+    "vendorSymbol": "btcusd"
+  },
+  {
+    "symbol": "ETH",
+    "venue": "CRYPTO",
+    "assetClass": "CRYPTO",
+    "name": "Ethereum",
+    "peerGroup": "CRYPTO",
+    "vendorSymbol": "ethusd"
+  },
+  {
+    "symbol": "SOL",
+    "venue": "CRYPTO",
+    "assetClass": "CRYPTO",
+    "name": "Solana",
+    "peerGroup": "CRYPTO",
+    "vendorSymbol": "solusd"
+  },
+  {
+    "symbol": "AUDUSD",
+    "venue": "FX",
+    "assetClass": "FX",
+    "name": "Australian Dollar / US Dollar",
+    "peerGroup": "FX",
+    "vendorSymbol": "audusd"
+  },
+  {
+    "symbol": "EURUSD",
+    "venue": "FX",
+    "assetClass": "FX",
+    "name": "Euro / US Dollar",
+    "peerGroup": "FX",
+    "vendorSymbol": "eurusd"
+  },
+  {
+    "symbol": "GBPUSD",
+    "venue": "FX",
+    "assetClass": "FX",
+    "name": "British Pound / US Dollar",
+    "peerGroup": "FX",
+    "vendorSymbol": "gbpusd"
+  },
+  {
+    "symbol": "NZDUSD",
+    "venue": "FX",
+    "assetClass": "FX",
+    "name": "New Zealand Dollar / US Dollar",
+    "peerGroup": "FX",
+    "vendorSymbol": "nzdusd"
+  },
+  {
+    "symbol": "USDCAD",
+    "venue": "FX",
+    "assetClass": "FX",
+    "name": "US Dollar / Canadian Dollar",
+    "peerGroup": "FX",
+    "vendorSymbol": "usdcad"
+  },
+  {
+    "symbol": "USDCHF",
+    "venue": "FX",
+    "assetClass": "FX",
+    "name": "US Dollar / Swiss Franc",
+    "peerGroup": "FX",
+    "vendorSymbol": "usdchf"
+  },
+  {
+    "symbol": "USDJPY",
+    "venue": "FX",
+    "assetClass": "FX",
+    "name": "US Dollar / Japanese Yen",
+    "peerGroup": "FX",
+    "vendorSymbol": "usdjpy"
+  },
+  {
+    "symbol": "USDNOK",
+    "venue": "FX",
+    "assetClass": "FX",
+    "name": "US Dollar / Norwegian Krone",
+    "peerGroup": "FX",
+    "vendorSymbol": "usdnok"
+  },
+  {
+    "symbol": "USDSEK",
+    "venue": "FX",
+    "assetClass": "FX",
+    "name": "US Dollar / Swedish Krona",
+    "peerGroup": "FX",
+    "vendorSymbol": "usdsek"
+  },
+  {
+    "symbol": "AAF",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Airtel Africa",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "AAF",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "AAL",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Anglo American plc",
+    "peerGroup": "Materials",
+    "vendorSymbol": "AAL",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "ABDN",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Aberdeen Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "ABDN",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "ABF",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Associated British Foods",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "ABF",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "ADM",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Admiral Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "ADM",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "ALW",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Alliance Witan",
+    "peerGroup": "Financials",
+    "vendorSymbol": "ALW",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "ANTO",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Antofagasta plc",
+    "peerGroup": "Materials",
+    "vendorSymbol": "ANTO",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "AUTO",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Autotrader Group",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "AUTO",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "AV",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Aviva",
+    "peerGroup": "Financials",
+    "vendorSymbol": "AV",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "AZN",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "AstraZeneca",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "AZN",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BA",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "BAE Systems",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "BA",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BAB",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Babcock International",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "BAB",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BARC",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Barclays",
+    "peerGroup": "Financials",
+    "vendorSymbol": "BARC",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BATS",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "British American Tobacco",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "BATS",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BBOX",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Tritax Big Box REIT",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "BBOX",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BEZ",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Beazley",
+    "peerGroup": "Financials",
+    "vendorSymbol": "BEZ",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BGEO",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Lion Finance Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "BGEO",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BLND",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "British Land",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "BLND",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BNZL",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Bunzl",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "BNZL",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BP",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "BP",
+    "peerGroup": "Energy",
+    "vendorSymbol": "BP",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BRBY",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Burberry Group",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "BRBY",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BT.A",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "BT Group",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "BT-A",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "BTRW",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Barratt Redrow",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "BTRW",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "CCC",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Computacenter",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "CCC",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "CCEP",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Coca-Cola Europacific Partners",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "CCEP",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "CCH",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Coca-Cola HBC",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "CCH",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "CNA",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Centrica",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "CNA",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "CPG",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Compass Group",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "CPG",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "CRDA",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Croda International",
+    "peerGroup": "Materials",
+    "vendorSymbol": "CRDA",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "CTEC",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Convatec",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "CTEC",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "DCC",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "DCC Energy",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "DCC",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "DGE",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Diageo",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "DGE",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "DPLM",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Diploma",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "DPLM",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "EDV",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Endeavour Mining",
+    "peerGroup": "Materials",
+    "vendorSymbol": "EDV",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "EXPN",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Experian",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "EXPN",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "EZJ",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "EasyJet",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "EZJ",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "FCIT",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "F & C Investment Trust",
+    "peerGroup": "Financials",
+    "vendorSymbol": "FCIT",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "FRES",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Fresnillo plc",
+    "peerGroup": "Materials",
+    "vendorSymbol": "FRES",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "GAW",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Games Workshop",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "GAW",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "GLEN",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Glencore",
+    "peerGroup": "Materials",
+    "vendorSymbol": "GLEN",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "GSK",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "GSK plc",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "GSK",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "HLMA",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Halma plc",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "HLMA",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "HLN",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Haleon",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "HLN",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "HSBA",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "HSBC",
+    "peerGroup": "Financials",
+    "vendorSymbol": "HSBA",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "HSX",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Hiscox",
+    "peerGroup": "Financials",
+    "vendorSymbol": "HSX",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "HWDN",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Howdens Joinery",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "HWDN",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "IAG",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "International Airlines Group",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "IAG",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "ICG",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "ICG",
+    "peerGroup": "Financials",
+    "vendorSymbol": "ICG",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "IGG",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "IG Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "IGG",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "IHG",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "IHG Hotels & Resorts",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "IHG",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "III",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "3i",
+    "peerGroup": "Financials",
+    "vendorSymbol": "III",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "IMB",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Imperial Brands",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "IMB",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "IMI",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "IMI",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "IMI",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "INF",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Informa",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "INF",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "INVP",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Investec",
+    "peerGroup": "Financials",
+    "vendorSymbol": "INVP",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "ISF",
+    "venue": "UK",
+    "assetClass": "ETF",
+    "name": "iShares Core FTSE 100 UCITS ETF",
+    "peerGroup": "ETF",
+    "vendorSymbol": "ISF",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "ITH",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Ithaca Energy",
+    "peerGroup": "Energy",
+    "vendorSymbol": "ITH",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "ITRK",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Intertek",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "ITRK",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "JD",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "JD Sports",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "JD",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "KGF",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Kingfisher plc",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "KGF",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "LAND",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Land Securities",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "LAND",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "LGEN",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Legal & General",
+    "peerGroup": "Financials",
+    "vendorSymbol": "LGEN",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "LLOY",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Lloyds Banking Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "LLOY",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "LMP",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "LondonMetric Property",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "LMP",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "LSEG",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "London Stock Exchange Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "LSEG",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "MKS",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Marks & Spencer",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "MKS",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "MNG",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "M&G",
+    "peerGroup": "Financials",
+    "vendorSymbol": "MNG",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "MRO",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Melrose Industries",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "MRO",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "MTLN",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Metlen Energy & Metals",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "MTLN",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "NG",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "National Grid plc",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "NG",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "NWG",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "NatWest Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "NWG",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "NXT",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Next plc",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "NXT",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "PCT",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Polar Capital Technology Trust",
+    "peerGroup": "Financials",
+    "vendorSymbol": "PCT",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "PRU",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Prudential plc",
+    "peerGroup": "Financials",
+    "vendorSymbol": "PRU",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "PSH",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Pershing Square Holdings",
+    "peerGroup": "Financials",
+    "vendorSymbol": "PSH",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "PSON",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Pearson plc",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "PSON",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "REL",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "RELX",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "REL",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "RIO",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Rio Tinto",
+    "peerGroup": "Materials",
+    "vendorSymbol": "RIO",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "RKT",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Reckitt",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "RKT",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "RR",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Rolls-Royce Holdings",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "RR",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "RTO",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Rentokil Initial",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "RTO",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "SBRY",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Sainsbury's",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "SBRY",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "SDLF",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Standard Life",
+    "peerGroup": "Financials",
+    "vendorSymbol": "SDLF",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "SDR",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Schroders",
+    "peerGroup": "Financials",
+    "vendorSymbol": "SDR",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "SGE",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Sage Group",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "SGE",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "SGRO",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Segro",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "SGRO",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "SHEL",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Shell plc",
+    "peerGroup": "Energy",
+    "vendorSymbol": "SHEL",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "SMIN",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Smiths Group",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "SMIN",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "SMT",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Scottish Mortgage Investment Trust",
+    "peerGroup": "Financials",
+    "vendorSymbol": "SMT",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "SN",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Smith & Nephew",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "SN",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "SPX",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Spirax Group",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "SPX",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "SSE",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "SSE plc",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "SSE",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "STAN",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Standard Chartered",
+    "peerGroup": "Financials",
+    "vendorSymbol": "STAN",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "STJ",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "St. James's Place",
+    "peerGroup": "Financials",
+    "vendorSymbol": "STJ",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "SVT",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Severn Trent",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "SVT",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "TSCO",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Tesco",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "TSCO",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "ULVR",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Unilever",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "ULVR",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "UU",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "United Utilities",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "UU",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "VOD",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Vodafone Group",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "VOD",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "WEIR",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Weir",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "WEIR",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "WTB",
+    "venue": "UK",
+    "assetClass": "EQUITY",
+    "name": "Whitbread",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "WTB",
+    "vendorUnverified": true
+  },
+  {
+    "symbol": "A",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Agilent Technologies",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "A"
+  },
+  {
+    "symbol": "AAPL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Apple Inc.",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "AAPL"
+  },
+  {
+    "symbol": "ABBV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "AbbVie",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "ABBV"
+  },
+  {
+    "symbol": "ABNB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Airbnb",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "ABNB"
+  },
+  {
+    "symbol": "ABT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Abbott Laboratories",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "ABT"
+  },
+  {
+    "symbol": "ACGL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Arch Capital Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "ACGL"
+  },
+  {
+    "symbol": "ACN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Accenture",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "ACN"
+  },
+  {
+    "symbol": "ADBE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Adobe Inc.",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "ADBE"
+  },
+  {
+    "symbol": "ADI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Analog Devices",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "ADI"
+  },
+  {
+    "symbol": "ADM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Archer Daniels Midland",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "ADM"
+  },
+  {
+    "symbol": "ADP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Automatic Data Processing",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "ADP"
+  },
+  {
+    "symbol": "ADSK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Autodesk",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "ADSK"
+  },
+  {
+    "symbol": "AEE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ameren",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "AEE"
+  },
+  {
+    "symbol": "AEP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "American Electric Power",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "AEP"
+  },
+  {
+    "symbol": "AES",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "AES Corporation",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "AES"
+  },
+  {
+    "symbol": "AFL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Aflac",
+    "peerGroup": "Financials",
+    "vendorSymbol": "AFL"
+  },
+  {
+    "symbol": "AIG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "American International Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "AIG"
+  },
+  {
+    "symbol": "AIZ",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Assurant",
+    "peerGroup": "Financials",
+    "vendorSymbol": "AIZ"
+  },
+  {
+    "symbol": "AJG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Arthur J. Gallagher & Co.",
+    "peerGroup": "Financials",
+    "vendorSymbol": "AJG"
+  },
+  {
+    "symbol": "AKAM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Akamai Technologies",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "AKAM"
+  },
+  {
+    "symbol": "ALB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Albemarle Corporation",
+    "peerGroup": "Materials",
+    "vendorSymbol": "ALB"
+  },
+  {
+    "symbol": "ALGN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Align Technology",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "ALGN"
+  },
+  {
+    "symbol": "ALL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Allstate",
+    "peerGroup": "Financials",
+    "vendorSymbol": "ALL"
+  },
+  {
+    "symbol": "ALLE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Allegion",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "ALLE"
+  },
+  {
+    "symbol": "AMAT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Applied Materials",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "AMAT"
+  },
+  {
+    "symbol": "AMCR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Amcor",
+    "peerGroup": "Materials",
+    "vendorSymbol": "AMCR"
+  },
+  {
+    "symbol": "AMD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Advanced Micro Devices",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "AMD"
+  },
+  {
+    "symbol": "AME",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ametek",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "AME"
+  },
+  {
+    "symbol": "AMGN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Amgen",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "AMGN"
+  },
+  {
+    "symbol": "AMP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ameriprise Financial",
+    "peerGroup": "Financials",
+    "vendorSymbol": "AMP"
+  },
+  {
+    "symbol": "AMT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "American Tower",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "AMT"
+  },
+  {
+    "symbol": "AMZN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Amazon",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "AMZN"
+  },
+  {
+    "symbol": "ANET",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Arista Networks",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "ANET"
+  },
+  {
+    "symbol": "AON",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Aon plc",
+    "peerGroup": "Financials",
+    "vendorSymbol": "AON"
+  },
+  {
+    "symbol": "AOS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "A. O. Smith",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "AOS"
+  },
+  {
+    "symbol": "APA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "APA Corporation",
+    "peerGroup": "Energy",
+    "vendorSymbol": "APA"
+  },
+  {
+    "symbol": "APD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Air Products",
+    "peerGroup": "Materials",
+    "vendorSymbol": "APD"
+  },
+  {
+    "symbol": "APH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Amphenol",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "APH"
+  },
+  {
+    "symbol": "APO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Apollo Global Management",
+    "peerGroup": "Financials",
+    "vendorSymbol": "APO"
+  },
+  {
+    "symbol": "APP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "AppLovin",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "APP"
+  },
+  {
+    "symbol": "APTV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Aptiv",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "APTV"
+  },
+  {
+    "symbol": "ARE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Alexandria Real Estate Equities",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "ARE"
+  },
+  {
+    "symbol": "ARES",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ares Management",
+    "peerGroup": "Financials",
+    "vendorSymbol": "ARES"
+  },
+  {
+    "symbol": "ATO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Atmos Energy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "ATO"
+  },
+  {
+    "symbol": "AVGO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Broadcom",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "AVGO"
+  },
+  {
+    "symbol": "AVY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Avery Dennison",
+    "peerGroup": "Materials",
+    "vendorSymbol": "AVY"
+  },
+  {
+    "symbol": "AWK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "American Water Works",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "AWK"
+  },
+  {
+    "symbol": "AXON",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Axon Enterprise",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "AXON"
+  },
+  {
+    "symbol": "AXP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "American Express",
+    "peerGroup": "Financials",
+    "vendorSymbol": "AXP"
+  },
+  {
+    "symbol": "AZO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "AutoZone",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "AZO"
+  },
+  {
+    "symbol": "BA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Boeing",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "BA"
+  },
+  {
+    "symbol": "BAC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Bank of America",
+    "peerGroup": "Financials",
+    "vendorSymbol": "BAC"
+  },
+  {
+    "symbol": "BALL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ball Corporation",
+    "peerGroup": "Materials",
+    "vendorSymbol": "BALL"
+  },
+  {
+    "symbol": "BAX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Baxter International",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "BAX"
+  },
+  {
+    "symbol": "BBY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Best Buy",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "BBY"
+  },
+  {
+    "symbol": "BDX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Becton Dickinson",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "BDX"
+  },
+  {
+    "symbol": "BEN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Franklin Resources",
+    "peerGroup": "Financials",
+    "vendorSymbol": "BEN"
+  },
+  {
+    "symbol": "BF.B",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Brown-Forman",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "BF-B"
+  },
+  {
+    "symbol": "BG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Bunge Global",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "BG"
+  },
+  {
+    "symbol": "BIIB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Biogen",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "BIIB"
+  },
+  {
+    "symbol": "BKNG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Booking Holdings",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "BKNG"
+  },
+  {
+    "symbol": "BKR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Baker Hughes",
+    "peerGroup": "Energy",
+    "vendorSymbol": "BKR"
+  },
+  {
+    "symbol": "BLDR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Builders FirstSource",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "BLDR"
+  },
+  {
+    "symbol": "BLK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "BlackRock",
+    "peerGroup": "Financials",
+    "vendorSymbol": "BLK"
+  },
+  {
+    "symbol": "BMY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Bristol Myers Squibb",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "BMY"
+  },
+  {
+    "symbol": "BNY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "BNY Mellon",
+    "peerGroup": "Financials",
+    "vendorSymbol": "BNY"
+  },
+  {
+    "symbol": "BR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Broadridge Financial Solutions",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "BR"
+  },
+  {
+    "symbol": "BRK.B",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Berkshire Hathaway",
+    "peerGroup": "Financials",
+    "vendorSymbol": "BRK-B"
+  },
+  {
+    "symbol": "BRO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Brown & Brown",
+    "peerGroup": "Financials",
+    "vendorSymbol": "BRO"
+  },
+  {
+    "symbol": "BSX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Boston Scientific",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "BSX"
+  },
+  {
+    "symbol": "BX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Blackstone Inc.",
+    "peerGroup": "Financials",
+    "vendorSymbol": "BX"
+  },
+  {
+    "symbol": "BXP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "BXP, Inc.",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "BXP"
+  },
+  {
+    "symbol": "C",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Citigroup",
+    "peerGroup": "Financials",
+    "vendorSymbol": "C"
+  },
+  {
+    "symbol": "CAH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Cardinal Health",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "CAH"
+  },
+  {
+    "symbol": "CARR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Carrier Global",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "CARR"
+  },
+  {
+    "symbol": "CASY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Casey's",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "CASY"
+  },
+  {
+    "symbol": "CAT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Caterpillar Inc.",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "CAT"
+  },
+  {
+    "symbol": "CB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Chubb Limited",
+    "peerGroup": "Financials",
+    "vendorSymbol": "CB"
+  },
+  {
+    "symbol": "CBOE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Cboe Global Markets",
+    "peerGroup": "Financials",
+    "vendorSymbol": "CBOE"
+  },
+  {
+    "symbol": "CBRE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "CBRE Group",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "CBRE"
+  },
+  {
+    "symbol": "CCI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Crown Castle",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "CCI"
+  },
+  {
+    "symbol": "CCL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Carnival Corporation",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "CCL"
+  },
+  {
+    "symbol": "CDNS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Cadence Design Systems",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "CDNS"
+  },
+  {
+    "symbol": "CDW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "CDW Corporation",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "CDW"
+  },
+  {
+    "symbol": "CEG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Constellation Energy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "CEG"
+  },
+  {
+    "symbol": "CF",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "CF Industries",
+    "peerGroup": "Materials",
+    "vendorSymbol": "CF"
+  },
+  {
+    "symbol": "CFG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Citizens Financial Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "CFG"
+  },
+  {
+    "symbol": "CHD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Church & Dwight",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "CHD"
+  },
+  {
+    "symbol": "CHRW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "C.H. Robinson",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "CHRW"
+  },
+  {
+    "symbol": "CHTR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Charter Communications",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "CHTR"
+  },
+  {
+    "symbol": "CI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Cigna",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "CI"
+  },
+  {
+    "symbol": "CIEN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ciena",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "CIEN"
+  },
+  {
+    "symbol": "CINF",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Cincinnati Financial",
+    "peerGroup": "Financials",
+    "vendorSymbol": "CINF"
+  },
+  {
+    "symbol": "CL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Colgate-Palmolive",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "CL"
+  },
+  {
+    "symbol": "CLX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Clorox",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "CLX"
+  },
+  {
+    "symbol": "CMCSA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Comcast",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "CMCSA"
+  },
+  {
+    "symbol": "CME",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "CME Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "CME"
+  },
+  {
+    "symbol": "CMG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Chipotle Mexican Grill",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "CMG"
+  },
+  {
+    "symbol": "CMI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Cummins",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "CMI"
+  },
+  {
+    "symbol": "CMS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "CMS Energy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "CMS"
+  },
+  {
+    "symbol": "CNC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Centene Corporation",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "CNC"
+  },
+  {
+    "symbol": "CNP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "CenterPoint Energy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "CNP"
+  },
+  {
+    "symbol": "COF",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Capital One",
+    "peerGroup": "Financials",
+    "vendorSymbol": "COF"
+  },
+  {
+    "symbol": "COHR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Coherent Corp.",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "COHR"
+  },
+  {
+    "symbol": "COIN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Coinbase",
+    "peerGroup": "Financials",
+    "vendorSymbol": "COIN"
+  },
+  {
+    "symbol": "COO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Cooper Companies (The)",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "COO"
+  },
+  {
+    "symbol": "COP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "ConocoPhillips",
+    "peerGroup": "Energy",
+    "vendorSymbol": "COP"
+  },
+  {
+    "symbol": "COR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Cencora",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "COR"
+  },
+  {
+    "symbol": "COST",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Costco",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "COST"
+  },
+  {
+    "symbol": "CPAY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Corpay",
+    "peerGroup": "Financials",
+    "vendorSymbol": "CPAY"
+  },
+  {
+    "symbol": "CPRT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Copart",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "CPRT"
+  },
+  {
+    "symbol": "CPT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Camden Property Trust",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "CPT"
+  },
+  {
+    "symbol": "CRH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "CRH plc",
+    "peerGroup": "Materials",
+    "vendorSymbol": "CRH"
+  },
+  {
+    "symbol": "CRL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Charles River Laboratories",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "CRL"
+  },
+  {
+    "symbol": "CRM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Salesforce",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "CRM"
+  },
+  {
+    "symbol": "CRWD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "CrowdStrike",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "CRWD"
+  },
+  {
+    "symbol": "CSCO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Cisco",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "CSCO"
+  },
+  {
+    "symbol": "CSGP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "CoStar Group",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "CSGP"
+  },
+  {
+    "symbol": "CSX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "CSX Corporation",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "CSX"
+  },
+  {
+    "symbol": "CTAS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Cintas",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "CTAS"
+  },
+  {
+    "symbol": "CTSH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Cognizant",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "CTSH"
+  },
+  {
+    "symbol": "CTVA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Corteva",
+    "peerGroup": "Materials",
+    "vendorSymbol": "CTVA"
+  },
+  {
+    "symbol": "CVNA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Carvana",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "CVNA"
+  },
+  {
+    "symbol": "CVS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "CVS Health",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "CVS"
+  },
+  {
+    "symbol": "CVX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Chevron Corporation",
+    "peerGroup": "Energy",
+    "vendorSymbol": "CVX"
+  },
+  {
+    "symbol": "D",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Dominion Energy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "D"
+  },
+  {
+    "symbol": "DAL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Delta Air Lines",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "DAL"
+  },
+  {
+    "symbol": "DASH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "DoorDash",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "DASH"
+  },
+  {
+    "symbol": "DD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "DuPont",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "DD"
+  },
+  {
+    "symbol": "DDOG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Datadog",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "DDOG"
+  },
+  {
+    "symbol": "DE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Deere & Company",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "DE"
+  },
+  {
+    "symbol": "DECK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Deckers Brands",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "DECK"
+  },
+  {
+    "symbol": "DELL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Dell Technologies",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "DELL"
+  },
+  {
+    "symbol": "DG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Dollar General",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "DG"
+  },
+  {
+    "symbol": "DGX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Quest Diagnostics",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "DGX"
+  },
+  {
+    "symbol": "DHI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "D. R. Horton",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "DHI"
+  },
+  {
+    "symbol": "DHR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Danaher Corporation",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "DHR"
+  },
+  {
+    "symbol": "DIA",
+    "venue": "US",
+    "assetClass": "ETF",
+    "name": "SPDR Dow Jones Industrial Average ETF Trust",
+    "peerGroup": "ETF",
+    "vendorSymbol": "DIA"
+  },
+  {
+    "symbol": "DIS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Walt Disney Company (The)",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "DIS"
+  },
+  {
+    "symbol": "DLR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Digital Realty",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "DLR"
+  },
+  {
+    "symbol": "DLTR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Dollar Tree",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "DLTR"
+  },
+  {
+    "symbol": "DOC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Healthpeak Properties",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "DOC"
+  },
+  {
+    "symbol": "DOV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Dover Corporation",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "DOV"
+  },
+  {
+    "symbol": "DOW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Dow Inc.",
+    "peerGroup": "Materials",
+    "vendorSymbol": "DOW"
+  },
+  {
+    "symbol": "DPZ",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Domino's",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "DPZ"
+  },
+  {
+    "symbol": "DRI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Darden Restaurants",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "DRI"
+  },
+  {
+    "symbol": "DTE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "DTE Energy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "DTE"
+  },
+  {
+    "symbol": "DUK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Duke Energy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "DUK"
+  },
+  {
+    "symbol": "DVA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "DaVita",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "DVA"
+  },
+  {
+    "symbol": "DVN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Devon Energy",
+    "peerGroup": "Energy",
+    "vendorSymbol": "DVN"
+  },
+  {
+    "symbol": "DXCM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Dexcom",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "DXCM"
+  },
+  {
+    "symbol": "EBAY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "eBay Inc.",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "EBAY"
+  },
+  {
+    "symbol": "ECHO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "EchoStar",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "ECHO"
+  },
+  {
+    "symbol": "ECL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ecolab",
+    "peerGroup": "Materials",
+    "vendorSymbol": "ECL"
+  },
+  {
+    "symbol": "ED",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Consolidated Edison",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "ED"
+  },
+  {
+    "symbol": "EFX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Equifax",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "EFX"
+  },
+  {
+    "symbol": "EG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Everest Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "EG"
+  },
+  {
+    "symbol": "EIX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Edison International",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "EIX"
+  },
+  {
+    "symbol": "EL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Estée Lauder Companies (The)",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "EL"
+  },
+  {
+    "symbol": "ELV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Elevance Health",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "ELV"
+  },
+  {
+    "symbol": "EME",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Emcor",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "EME"
+  },
+  {
+    "symbol": "EMR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Emerson Electric",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "EMR"
+  },
+  {
+    "symbol": "EOG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "EOG Resources",
+    "peerGroup": "Energy",
+    "vendorSymbol": "EOG"
+  },
+  {
+    "symbol": "EQIX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Equinix",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "EQIX"
+  },
+  {
+    "symbol": "EQT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "EQT Corporation",
+    "peerGroup": "Energy",
+    "vendorSymbol": "EQT"
+  },
+  {
+    "symbol": "ERIE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Erie Indemnity",
+    "peerGroup": "Financials",
+    "vendorSymbol": "ERIE"
+  },
+  {
+    "symbol": "ES",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Eversource Energy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "ES"
+  },
+  {
+    "symbol": "ESS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Essex Property Trust",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "ESS"
+  },
+  {
+    "symbol": "ETN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Eaton Corporation",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "ETN"
+  },
+  {
+    "symbol": "ETR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Entergy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "ETR"
+  },
+  {
+    "symbol": "EVRG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Evergy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "EVRG"
+  },
+  {
+    "symbol": "EW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Edwards Lifesciences",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "EW"
+  },
+  {
+    "symbol": "EXC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Exelon",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "EXC"
+  },
+  {
+    "symbol": "EXE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Expand Energy",
+    "peerGroup": "Energy",
+    "vendorSymbol": "EXE"
+  },
+  {
+    "symbol": "EXPD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Expeditors International",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "EXPD"
+  },
+  {
+    "symbol": "EXPE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Expedia Group",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "EXPE"
+  },
+  {
+    "symbol": "EXR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Extra Space Storage",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "EXR"
+  },
+  {
+    "symbol": "F",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ford Motor Company",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "F"
+  },
+  {
+    "symbol": "FANG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Diamondback Energy",
+    "peerGroup": "Energy",
+    "vendorSymbol": "FANG"
+  },
+  {
+    "symbol": "FAST",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Fastenal",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "FAST"
+  },
+  {
+    "symbol": "FCX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Freeport-McMoRan",
+    "peerGroup": "Materials",
+    "vendorSymbol": "FCX"
+  },
+  {
+    "symbol": "FDS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "FactSet",
+    "peerGroup": "Financials",
+    "vendorSymbol": "FDS"
+  },
+  {
+    "symbol": "FDX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "FedEx",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "FDX"
+  },
+  {
+    "symbol": "FDXF",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "FedEx Freight",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "FDXF"
+  },
+  {
+    "symbol": "FE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "FirstEnergy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "FE"
+  },
+  {
+    "symbol": "FERG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ferguson Enterprises",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "FERG"
+  },
+  {
+    "symbol": "FFIV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "F5, Inc.",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "FFIV"
+  },
+  {
+    "symbol": "FICO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Fair Isaac",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "FICO"
+  },
+  {
+    "symbol": "FIS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Fidelity National Information Services",
+    "peerGroup": "Financials",
+    "vendorSymbol": "FIS"
+  },
+  {
+    "symbol": "FISV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Fiserv",
+    "peerGroup": "Financials",
+    "vendorSymbol": "FISV"
+  },
+  {
+    "symbol": "FITB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Fifth Third Bancorp",
+    "peerGroup": "Financials",
+    "vendorSymbol": "FITB"
+  },
+  {
+    "symbol": "FIX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Comfort Systems USA",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "FIX"
+  },
+  {
+    "symbol": "FLEX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Flex Ltd.",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "FLEX"
+  },
+  {
+    "symbol": "FOX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Fox Corporation (Class B)",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "FOX"
+  },
+  {
+    "symbol": "FOXA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Fox Corporation (Class A)",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "FOXA"
+  },
+  {
+    "symbol": "FRT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Federal Realty Investment Trust",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "FRT"
+  },
+  {
+    "symbol": "FSLR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "First Solar",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "FSLR"
+  },
+  {
+    "symbol": "FTNT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Fortinet",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "FTNT"
+  },
+  {
+    "symbol": "FTV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Fortive",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "FTV"
+  },
+  {
+    "symbol": "GD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "General Dynamics",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "GD"
+  },
+  {
+    "symbol": "GDDY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "GoDaddy",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "GDDY"
+  },
+  {
+    "symbol": "GE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "GE Aerospace",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "GE"
+  },
+  {
+    "symbol": "GEHC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "GE HealthCare",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "GEHC"
+  },
+  {
+    "symbol": "GEN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Gen Digital",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "GEN"
+  },
+  {
+    "symbol": "GEV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "GE Vernova",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "GEV"
+  },
+  {
+    "symbol": "GILD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Gilead Sciences",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "GILD"
+  },
+  {
+    "symbol": "GIS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "General Mills",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "GIS"
+  },
+  {
+    "symbol": "GL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Globe Life",
+    "peerGroup": "Financials",
+    "vendorSymbol": "GL"
+  },
+  {
+    "symbol": "GLD",
+    "venue": "US",
+    "assetClass": "ETF",
+    "name": "SPDR Gold Shares",
+    "peerGroup": "ETF",
+    "vendorSymbol": "GLD"
+  },
+  {
+    "symbol": "GLW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Corning Inc.",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "GLW"
+  },
+  {
+    "symbol": "GM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "General Motors",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "GM"
+  },
+  {
+    "symbol": "GNRC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Generac",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "GNRC"
+  },
+  {
+    "symbol": "GOOG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Alphabet Inc. (Class C)",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "GOOG"
+  },
+  {
+    "symbol": "GOOGL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Alphabet Inc. (Class A)",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "GOOGL"
+  },
+  {
+    "symbol": "GPC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Genuine Parts Company",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "GPC"
+  },
+  {
+    "symbol": "GPN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Global Payments",
+    "peerGroup": "Financials",
+    "vendorSymbol": "GPN"
+  },
+  {
+    "symbol": "GRMN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Garmin",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "GRMN"
+  },
+  {
+    "symbol": "GS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Goldman Sachs",
+    "peerGroup": "Financials",
+    "vendorSymbol": "GS"
+  },
+  {
+    "symbol": "GWW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "W. W. Grainger",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "GWW"
+  },
+  {
+    "symbol": "HAL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Halliburton",
+    "peerGroup": "Energy",
+    "vendorSymbol": "HAL"
+  },
+  {
+    "symbol": "HAS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Hasbro",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "HAS"
+  },
+  {
+    "symbol": "HBAN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Huntington Bancshares",
+    "peerGroup": "Financials",
+    "vendorSymbol": "HBAN"
+  },
+  {
+    "symbol": "HCA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "HCA Healthcare",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "HCA"
+  },
+  {
+    "symbol": "HD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Home Depot (The)",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "HD"
+  },
+  {
+    "symbol": "HIG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Hartford (The)",
+    "peerGroup": "Financials",
+    "vendorSymbol": "HIG"
+  },
+  {
+    "symbol": "HII",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Huntington Ingalls Industries",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "HII"
+  },
+  {
+    "symbol": "HLT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Hilton Worldwide",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "HLT"
+  },
+  {
+    "symbol": "HON",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Honeywell Technologies",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "HON"
+  },
+  {
+    "symbol": "HONA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Honeywell Aerospace",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "HONA"
+  },
+  {
+    "symbol": "HOOD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Robinhood Markets",
+    "peerGroup": "Financials",
+    "vendorSymbol": "HOOD"
+  },
+  {
+    "symbol": "HPE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Hewlett Packard Enterprise",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "HPE"
+  },
+  {
+    "symbol": "HPQ",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "HP Inc.",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "HPQ"
+  },
+  {
+    "symbol": "HRL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Hormel Foods",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "HRL"
+  },
+  {
+    "symbol": "HSIC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Henry Schein",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "HSIC"
+  },
+  {
+    "symbol": "HST",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Host Hotels & Resorts",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "HST"
+  },
+  {
+    "symbol": "HSY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Hershey Company (The)",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "HSY"
+  },
+  {
+    "symbol": "HUBB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Hubbell Incorporated",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "HUBB"
+  },
+  {
+    "symbol": "HUM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Humana",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "HUM"
+  },
+  {
+    "symbol": "HWM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Howmet Aerospace",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "HWM"
+  },
+  {
+    "symbol": "IBKR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Interactive Brokers",
+    "peerGroup": "Financials",
+    "vendorSymbol": "IBKR"
+  },
+  {
+    "symbol": "IBM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "IBM",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "IBM"
+  },
+  {
+    "symbol": "ICE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Intercontinental Exchange",
+    "peerGroup": "Financials",
+    "vendorSymbol": "ICE"
+  },
+  {
+    "symbol": "IDXX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Idexx Laboratories",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "IDXX"
+  },
+  {
+    "symbol": "IEX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "IDEX Corporation",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "IEX"
+  },
+  {
+    "symbol": "IFF",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "International Flavors & Fragrances",
+    "peerGroup": "Materials",
+    "vendorSymbol": "IFF"
+  },
+  {
+    "symbol": "INCY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Incyte",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "INCY"
+  },
+  {
+    "symbol": "INTC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Intel",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "INTC"
+  },
+  {
+    "symbol": "INTU",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Intuit",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "INTU"
+  },
+  {
+    "symbol": "INVH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Invitation Homes",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "INVH"
+  },
+  {
+    "symbol": "IP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "International Paper",
+    "peerGroup": "Materials",
+    "vendorSymbol": "IP"
+  },
+  {
+    "symbol": "IQV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "IQVIA",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "IQV"
+  },
+  {
+    "symbol": "IR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ingersoll Rand",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "IR"
+  },
+  {
+    "symbol": "IRM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Iron Mountain",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "IRM"
+  },
+  {
+    "symbol": "ISRG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Intuitive Surgical",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "ISRG"
+  },
+  {
+    "symbol": "IT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Gartner",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "IT"
+  },
+  {
+    "symbol": "ITW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Illinois Tool Works",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "ITW"
+  },
+  {
+    "symbol": "IVZ",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Invesco",
+    "peerGroup": "Financials",
+    "vendorSymbol": "IVZ"
+  },
+  {
+    "symbol": "IWM",
+    "venue": "US",
+    "assetClass": "ETF",
+    "name": "iShares Russell 2000 ETF",
+    "peerGroup": "ETF",
+    "vendorSymbol": "IWM"
+  },
+  {
+    "symbol": "J",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Jacobs Solutions",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "J"
+  },
+  {
+    "symbol": "JBHT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "J.B. Hunt",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "JBHT"
+  },
+  {
+    "symbol": "JBL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Jabil",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "JBL"
+  },
+  {
+    "symbol": "JCI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Johnson Controls",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "JCI"
+  },
+  {
+    "symbol": "JKHY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Jack Henry & Associates",
+    "peerGroup": "Financials",
+    "vendorSymbol": "JKHY"
+  },
+  {
+    "symbol": "JNJ",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Johnson & Johnson",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "JNJ"
+  },
+  {
+    "symbol": "JPM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "JPMorgan Chase",
+    "peerGroup": "Financials",
+    "vendorSymbol": "JPM"
+  },
+  {
+    "symbol": "KDP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Keurig Dr Pepper",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "KDP"
+  },
+  {
+    "symbol": "KEY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "KeyCorp",
+    "peerGroup": "Financials",
+    "vendorSymbol": "KEY"
+  },
+  {
+    "symbol": "KEYS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Keysight Technologies",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "KEYS"
+  },
+  {
+    "symbol": "KHC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Kraft Heinz",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "KHC"
+  },
+  {
+    "symbol": "KIM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Kimco Realty",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "KIM"
+  },
+  {
+    "symbol": "KKR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "KKR & Co.",
+    "peerGroup": "Financials",
+    "vendorSymbol": "KKR"
+  },
+  {
+    "symbol": "KLAC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "KLA Corporation",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "KLAC"
+  },
+  {
+    "symbol": "KMB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Kimberly-Clark",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "KMB"
+  },
+  {
+    "symbol": "KMI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Kinder Morgan",
+    "peerGroup": "Energy",
+    "vendorSymbol": "KMI"
+  },
+  {
+    "symbol": "KO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Coca-Cola Company (The)",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "KO"
+  },
+  {
+    "symbol": "KR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Kroger",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "KR"
+  },
+  {
+    "symbol": "KVUE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Kenvue",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "KVUE"
+  },
+  {
+    "symbol": "L",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Loews Corporation",
+    "peerGroup": "Financials",
+    "vendorSymbol": "L"
+  },
+  {
+    "symbol": "LDOS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Leidos",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "LDOS"
+  },
+  {
+    "symbol": "LEN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Lennar",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "LEN"
+  },
+  {
+    "symbol": "LH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Labcorp",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "LH"
+  },
+  {
+    "symbol": "LHX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "L3Harris",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "LHX"
+  },
+  {
+    "symbol": "LII",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Lennox International",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "LII"
+  },
+  {
+    "symbol": "LIN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Linde plc",
+    "peerGroup": "Materials",
+    "vendorSymbol": "LIN"
+  },
+  {
+    "symbol": "LITE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Lumentum",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "LITE"
+  },
+  {
+    "symbol": "LLY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Lilly (Eli)",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "LLY"
+  },
+  {
+    "symbol": "LMT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Lockheed Martin",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "LMT"
+  },
+  {
+    "symbol": "LNT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Alliant Energy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "LNT"
+  },
+  {
+    "symbol": "LOW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Lowe's",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "LOW"
+  },
+  {
+    "symbol": "LRCX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Lam Research",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "LRCX"
+  },
+  {
+    "symbol": "LULU",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Lululemon Athletica",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "LULU"
+  },
+  {
+    "symbol": "LUV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Southwest Airlines",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "LUV"
+  },
+  {
+    "symbol": "LVS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Las Vegas Sands",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "LVS"
+  },
+  {
+    "symbol": "LYB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "LyondellBasell",
+    "peerGroup": "Materials",
+    "vendorSymbol": "LYB"
+  },
+  {
+    "symbol": "LYV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Live Nation Entertainment",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "LYV"
+  },
+  {
+    "symbol": "MA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Mastercard",
+    "peerGroup": "Financials",
+    "vendorSymbol": "MA"
+  },
+  {
+    "symbol": "MAA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Mid-America Apartment Communities",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "MAA"
+  },
+  {
+    "symbol": "MAR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Marriott International",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "MAR"
+  },
+  {
+    "symbol": "MAS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Masco",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "MAS"
+  },
+  {
+    "symbol": "MCD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "McDonald's",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "MCD"
+  },
+  {
+    "symbol": "MCHP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Microchip Technology",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "MCHP"
+  },
+  {
+    "symbol": "MCK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "McKesson Corporation",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "MCK"
+  },
+  {
+    "symbol": "MCO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Moody's Corporation",
+    "peerGroup": "Financials",
+    "vendorSymbol": "MCO"
+  },
+  {
+    "symbol": "MDLZ",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Mondelez International",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "MDLZ"
+  },
+  {
+    "symbol": "MDT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Medtronic",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "MDT"
+  },
+  {
+    "symbol": "MET",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "MetLife",
+    "peerGroup": "Financials",
+    "vendorSymbol": "MET"
+  },
+  {
+    "symbol": "META",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Meta Platforms",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "META"
+  },
+  {
+    "symbol": "MGM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "MGM Resorts",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "MGM"
+  },
+  {
+    "symbol": "MKC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "McCormick & Company",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "MKC"
+  },
+  {
+    "symbol": "MLM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Martin Marietta Materials",
+    "peerGroup": "Materials",
+    "vendorSymbol": "MLM"
+  },
+  {
+    "symbol": "MMM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "3M",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "MMM"
+  },
+  {
+    "symbol": "MNST",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Monster Beverage",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "MNST"
+  },
+  {
+    "symbol": "MO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Altria",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "MO"
+  },
+  {
+    "symbol": "MOS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Mosaic Company (The)",
+    "peerGroup": "Materials",
+    "vendorSymbol": "MOS"
+  },
+  {
+    "symbol": "MPC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Marathon Petroleum",
+    "peerGroup": "Energy",
+    "vendorSymbol": "MPC"
+  },
+  {
+    "symbol": "MPWR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Monolithic Power Systems",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "MPWR"
+  },
+  {
+    "symbol": "MRK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Merck & Co.",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "MRK"
+  },
+  {
+    "symbol": "MRNA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Moderna",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "MRNA"
+  },
+  {
+    "symbol": "MRSH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Marsh McLennan",
+    "peerGroup": "Financials",
+    "vendorSymbol": "MRSH"
+  },
+  {
+    "symbol": "MRVL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Marvell Technology",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "MRVL"
+  },
+  {
+    "symbol": "MS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Morgan Stanley",
+    "peerGroup": "Financials",
+    "vendorSymbol": "MS"
+  },
+  {
+    "symbol": "MSCI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "MSCI",
+    "peerGroup": "Financials",
+    "vendorSymbol": "MSCI"
+  },
+  {
+    "symbol": "MSFT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Microsoft",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "MSFT"
+  },
+  {
+    "symbol": "MSI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Motorola Solutions",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "MSI"
+  },
+  {
+    "symbol": "MTB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "M&T Bank",
+    "peerGroup": "Financials",
+    "vendorSymbol": "MTB"
+  },
+  {
+    "symbol": "MTD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Mettler Toledo",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "MTD"
+  },
+  {
+    "symbol": "MU",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Micron Technology",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "MU"
+  },
+  {
+    "symbol": "NCLH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Norwegian Cruise Line Holdings",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "NCLH"
+  },
+  {
+    "symbol": "NDAQ",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Nasdaq, Inc.",
+    "peerGroup": "Financials",
+    "vendorSymbol": "NDAQ"
+  },
+  {
+    "symbol": "NDSN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Nordson Corporation",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "NDSN"
+  },
+  {
+    "symbol": "NEE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "NextEra Energy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "NEE"
+  },
+  {
+    "symbol": "NEM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Newmont",
+    "peerGroup": "Materials",
+    "vendorSymbol": "NEM"
+  },
+  {
+    "symbol": "NFLX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Netflix",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "NFLX"
+  },
+  {
+    "symbol": "NI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "NiSource",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "NI"
+  },
+  {
+    "symbol": "NKE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Nike, Inc.",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "NKE"
+  },
+  {
+    "symbol": "NOC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Northrop Grumman",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "NOC"
+  },
+  {
+    "symbol": "NOW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "ServiceNow",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "NOW"
+  },
+  {
+    "symbol": "NRG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "NRG Energy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "NRG"
+  },
+  {
+    "symbol": "NSC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Norfolk Southern",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "NSC"
+  },
+  {
+    "symbol": "NTAP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "NetApp",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "NTAP"
+  },
+  {
+    "symbol": "NTRS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Northern Trust",
+    "peerGroup": "Financials",
+    "vendorSymbol": "NTRS"
+  },
+  {
+    "symbol": "NUE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Nucor",
+    "peerGroup": "Materials",
+    "vendorSymbol": "NUE"
+  },
+  {
+    "symbol": "NVDA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Nvidia",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "NVDA"
+  },
+  {
+    "symbol": "NVR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "NVR, Inc.",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "NVR"
+  },
+  {
+    "symbol": "NWS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "News Corp (Class B)",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "NWS"
+  },
+  {
+    "symbol": "NWSA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "News Corp (Class A)",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "NWSA"
+  },
+  {
+    "symbol": "NXPI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "NXP Semiconductors",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "NXPI"
+  },
+  {
+    "symbol": "O",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Realty Income",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "O"
+  },
+  {
+    "symbol": "ODFL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Old Dominion",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "ODFL"
+  },
+  {
+    "symbol": "OKE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Oneok",
+    "peerGroup": "Energy",
+    "vendorSymbol": "OKE"
+  },
+  {
+    "symbol": "OMC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Omnicom Group",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "OMC"
+  },
+  {
+    "symbol": "ON",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "ON Semiconductor",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "ON"
+  },
+  {
+    "symbol": "ORCL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Oracle Corporation",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "ORCL"
+  },
+  {
+    "symbol": "ORLY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "O'Reilly Automotive",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "ORLY"
+  },
+  {
+    "symbol": "OTIS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Otis Worldwide",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "OTIS"
+  },
+  {
+    "symbol": "OXY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Occidental Petroleum",
+    "peerGroup": "Energy",
+    "vendorSymbol": "OXY"
+  },
+  {
+    "symbol": "PANW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Palo Alto Networks",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "PANW"
+  },
+  {
+    "symbol": "PAYX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Paychex",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "PAYX"
+  },
+  {
+    "symbol": "PCAR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Paccar",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "PCAR"
+  },
+  {
+    "symbol": "PCG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "PG&E Corporation",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "PCG"
+  },
+  {
+    "symbol": "PEG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Public Service Enterprise Group",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "PEG"
+  },
+  {
+    "symbol": "PEP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "PepsiCo",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "PEP"
+  },
+  {
+    "symbol": "PFE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Pfizer",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "PFE"
+  },
+  {
+    "symbol": "PFG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Principal Financial Group",
+    "peerGroup": "Financials",
+    "vendorSymbol": "PFG"
+  },
+  {
+    "symbol": "PG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Procter & Gamble",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "PG"
+  },
+  {
+    "symbol": "PGR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Progressive Corporation",
+    "peerGroup": "Financials",
+    "vendorSymbol": "PGR"
+  },
+  {
+    "symbol": "PH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Parker Hannifin",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "PH"
+  },
+  {
+    "symbol": "PHM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "PulteGroup",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "PHM"
+  },
+  {
+    "symbol": "PKG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Packaging Corporation of America",
+    "peerGroup": "Materials",
+    "vendorSymbol": "PKG"
+  },
+  {
+    "symbol": "PLD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Prologis",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "PLD"
+  },
+  {
+    "symbol": "PLTR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Palantir Technologies",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "PLTR"
+  },
+  {
+    "symbol": "PM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Philip Morris International",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "PM"
+  },
+  {
+    "symbol": "PNC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "PNC Financial Services",
+    "peerGroup": "Financials",
+    "vendorSymbol": "PNC"
+  },
+  {
+    "symbol": "PNR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Pentair",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "PNR"
+  },
+  {
+    "symbol": "PNW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Pinnacle West Capital",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "PNW"
+  },
+  {
+    "symbol": "PODD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Insulet Corporation",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "PODD"
+  },
+  {
+    "symbol": "PPG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "PPG Industries",
+    "peerGroup": "Materials",
+    "vendorSymbol": "PPG"
+  },
+  {
+    "symbol": "PPL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "PPL Corporation",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "PPL"
+  },
+  {
+    "symbol": "PRU",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Prudential Financial",
+    "peerGroup": "Financials",
+    "vendorSymbol": "PRU"
+  },
+  {
+    "symbol": "PSA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Public Storage",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "PSA"
+  },
+  {
+    "symbol": "PSKY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Paramount Skydance Corporation",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "PSKY"
+  },
+  {
+    "symbol": "PSX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Phillips 66",
+    "peerGroup": "Energy",
+    "vendorSymbol": "PSX"
+  },
+  {
+    "symbol": "PTC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "PTC Inc.",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "PTC"
+  },
+  {
+    "symbol": "PWR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Quanta Services",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "PWR"
+  },
+  {
+    "symbol": "PYPL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "PayPal",
+    "peerGroup": "Financials",
+    "vendorSymbol": "PYPL"
+  },
+  {
+    "symbol": "Q",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Qnity Electronics",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "Q"
+  },
+  {
+    "symbol": "QCOM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Qualcomm",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "QCOM"
+  },
+  {
+    "symbol": "QQQ",
+    "venue": "US",
+    "assetClass": "ETF",
+    "name": "Invesco QQQ Trust",
+    "peerGroup": "ETF",
+    "vendorSymbol": "QQQ"
+  },
+  {
+    "symbol": "RCL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Royal Caribbean Group",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "RCL"
+  },
+  {
+    "symbol": "RDDT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Reddit",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "RDDT"
+  },
+  {
+    "symbol": "REG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Regency Centers",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "REG"
+  },
+  {
+    "symbol": "REGN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Regeneron Pharmaceuticals",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "REGN"
+  },
+  {
+    "symbol": "RF",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Regions Financial Corporation",
+    "peerGroup": "Financials",
+    "vendorSymbol": "RF"
+  },
+  {
+    "symbol": "RJF",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Raymond James Financial",
+    "peerGroup": "Financials",
+    "vendorSymbol": "RJF"
+  },
+  {
+    "symbol": "RL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ralph Lauren Corporation",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "RL"
+  },
+  {
+    "symbol": "RMD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "ResMed|",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "RMD"
+  },
+  {
+    "symbol": "ROK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Rockwell Automation",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "ROK"
+  },
+  {
+    "symbol": "ROL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Rollins, Inc.",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "ROL"
+  },
+  {
+    "symbol": "ROP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Roper Technologies",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "ROP"
+  },
+  {
+    "symbol": "ROST",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ross Stores",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "ROST"
+  },
+  {
+    "symbol": "RSG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Republic Services",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "RSG"
+  },
+  {
+    "symbol": "RTX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "RTX Corporation",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "RTX"
+  },
+  {
+    "symbol": "RVTY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Revvity",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "RVTY"
+  },
+  {
+    "symbol": "SBAC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "SBA Communications",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "SBAC"
+  },
+  {
+    "symbol": "SBUX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Starbucks",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "SBUX"
+  },
+  {
+    "symbol": "SCHW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Charles Schwab Corporation",
+    "peerGroup": "Financials",
+    "vendorSymbol": "SCHW"
+  },
+  {
+    "symbol": "SHW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Sherwin-Williams",
+    "peerGroup": "Materials",
+    "vendorSymbol": "SHW"
+  },
+  {
+    "symbol": "SJM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "J.M. Smucker Company (The)",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "SJM"
+  },
+  {
+    "symbol": "SLB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Schlumberger",
+    "peerGroup": "Energy",
+    "vendorSymbol": "SLB"
+  },
+  {
+    "symbol": "SMCI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Supermicro",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "SMCI"
+  },
+  {
+    "symbol": "SNA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Snap-on",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "SNA"
+  },
+  {
+    "symbol": "SNDK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Sandisk",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "SNDK"
+  },
+  {
+    "symbol": "SNPS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Synopsys",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "SNPS"
+  },
+  {
+    "symbol": "SO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Southern Company",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "SO"
+  },
+  {
+    "symbol": "SOLV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Solventum",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "SOLV"
+  },
+  {
+    "symbol": "SPG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Simon Property Group",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "SPG"
+  },
+  {
+    "symbol": "SPGI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "S&P Global",
+    "peerGroup": "Financials",
+    "vendorSymbol": "SPGI"
+  },
+  {
+    "symbol": "SPY",
+    "venue": "US",
+    "assetClass": "ETF",
+    "name": "SPDR S&P 500 ETF Trust",
+    "peerGroup": "ETF",
+    "vendorSymbol": "SPY"
+  },
+  {
+    "symbol": "SRE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Sempra",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "SRE"
+  },
+  {
+    "symbol": "STE",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Steris",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "STE"
+  },
+  {
+    "symbol": "STLD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Steel Dynamics",
+    "peerGroup": "Materials",
+    "vendorSymbol": "STLD"
+  },
+  {
+    "symbol": "STT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "State Street Corporation",
+    "peerGroup": "Financials",
+    "vendorSymbol": "STT"
+  },
+  {
+    "symbol": "STX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Seagate Technology",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "STX"
+  },
+  {
+    "symbol": "STZ",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Constellation Brands",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "STZ"
+  },
+  {
+    "symbol": "SW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Smurfit Westrock",
+    "peerGroup": "Materials",
+    "vendorSymbol": "SW"
+  },
+  {
+    "symbol": "SWK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Stanley Black & Decker",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "SWK"
+  },
+  {
+    "symbol": "SWKS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Skyworks Solutions",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "SWKS"
+  },
+  {
+    "symbol": "SYF",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Synchrony Financial",
+    "peerGroup": "Financials",
+    "vendorSymbol": "SYF"
+  },
+  {
+    "symbol": "SYK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Stryker Corporation",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "SYK"
+  },
+  {
+    "symbol": "SYY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Sysco",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "SYY"
+  },
+  {
+    "symbol": "T",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "AT&T",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "T"
+  },
+  {
+    "symbol": "TAP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Molson Coors Beverage Company",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "TAP"
+  },
+  {
+    "symbol": "TDG",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "TransDigm Group",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "TDG"
+  },
+  {
+    "symbol": "TDY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Teledyne Technologies",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "TDY"
+  },
+  {
+    "symbol": "TECH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Bio-Techne",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "TECH"
+  },
+  {
+    "symbol": "TEL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "TE Connectivity",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "TEL"
+  },
+  {
+    "symbol": "TER",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Teradyne",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "TER"
+  },
+  {
+    "symbol": "TFC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Truist Financial",
+    "peerGroup": "Financials",
+    "vendorSymbol": "TFC"
+  },
+  {
+    "symbol": "TGT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Target Corporation",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "TGT"
+  },
+  {
+    "symbol": "TJX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "TJX Companies",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "TJX"
+  },
+  {
+    "symbol": "TKO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "TKO Group Holdings",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "TKO"
+  },
+  {
+    "symbol": "TLT",
+    "venue": "US",
+    "assetClass": "ETF",
+    "name": "iShares 20+ Year Treasury Bond ETF",
+    "peerGroup": "ETF",
+    "vendorSymbol": "TLT"
+  },
+  {
+    "symbol": "TMO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Thermo Fisher Scientific",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "TMO"
+  },
+  {
+    "symbol": "TMUS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "T-Mobile US",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "TMUS"
+  },
+  {
+    "symbol": "TPL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Texas Pacific Land Corporation",
+    "peerGroup": "Energy",
+    "vendorSymbol": "TPL"
+  },
+  {
+    "symbol": "TPR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Tapestry, Inc.",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "TPR"
+  },
+  {
+    "symbol": "TRGP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Targa Resources",
+    "peerGroup": "Energy",
+    "vendorSymbol": "TRGP"
+  },
+  {
+    "symbol": "TRMB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Trimble Inc.",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "TRMB"
+  },
+  {
+    "symbol": "TROW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "T. Rowe Price",
+    "peerGroup": "Financials",
+    "vendorSymbol": "TROW"
+  },
+  {
+    "symbol": "TRV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Travelers Companies (The)",
+    "peerGroup": "Financials",
+    "vendorSymbol": "TRV"
+  },
+  {
+    "symbol": "TSCO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Tractor Supply",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "TSCO"
+  },
+  {
+    "symbol": "TSLA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Tesla, Inc.",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "TSLA"
+  },
+  {
+    "symbol": "TSN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Tyson Foods",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "TSN"
+  },
+  {
+    "symbol": "TT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Trane Technologies",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "TT"
+  },
+  {
+    "symbol": "TTD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Trade Desk (The)",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "TTD"
+  },
+  {
+    "symbol": "TTWO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Take-Two Interactive",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "TTWO"
+  },
+  {
+    "symbol": "TXN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Texas Instruments",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "TXN"
+  },
+  {
+    "symbol": "TXT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Textron",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "TXT"
+  },
+  {
+    "symbol": "TYL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Tyler Technologies",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "TYL"
+  },
+  {
+    "symbol": "UAL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "United Airlines Holdings",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "UAL"
+  },
+  {
+    "symbol": "UBER",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Uber",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "UBER"
+  },
+  {
+    "symbol": "UDR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "UDR, Inc.",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "UDR"
+  },
+  {
+    "symbol": "UHS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Universal Health Services",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "UHS"
+  },
+  {
+    "symbol": "ULTA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ulta Beauty",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "ULTA"
+  },
+  {
+    "symbol": "UNH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "UnitedHealth Group",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "UNH"
+  },
+  {
+    "symbol": "UNP",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Union Pacific Corporation",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "UNP"
+  },
+  {
+    "symbol": "UPS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "United Parcel Service",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "UPS"
+  },
+  {
+    "symbol": "URI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "United Rentals",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "URI"
+  },
+  {
+    "symbol": "USB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "U.S. Bancorp",
+    "peerGroup": "Financials",
+    "vendorSymbol": "USB"
+  },
+  {
+    "symbol": "V",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Visa Inc.",
+    "peerGroup": "Financials",
+    "vendorSymbol": "V"
+  },
+  {
+    "symbol": "VEEV",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Veeva Systems",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "VEEV"
+  },
+  {
+    "symbol": "VICI",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Vici Properties",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "VICI"
+  },
+  {
+    "symbol": "VLO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Valero Energy",
+    "peerGroup": "Energy",
+    "vendorSymbol": "VLO"
+  },
+  {
+    "symbol": "VLTO",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Veralto",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "VLTO"
+  },
+  {
+    "symbol": "VMC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Vulcan Materials Company",
+    "peerGroup": "Materials",
+    "vendorSymbol": "VMC"
+  },
+  {
+    "symbol": "VMRK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Vivmark Residential",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "VMRK"
+  },
+  {
+    "symbol": "VRSK",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Verisk Analytics",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "VRSK"
+  },
+  {
+    "symbol": "VRSN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Verisign",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "VRSN"
+  },
+  {
+    "symbol": "VRT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Vertiv",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "VRT"
+  },
+  {
+    "symbol": "VRTX",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Vertex Pharmaceuticals",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "VRTX"
+  },
+  {
+    "symbol": "VST",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Vistra Corp.",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "VST"
+  },
+  {
+    "symbol": "VTR",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Ventas",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "VTR"
+  },
+  {
+    "symbol": "VTRS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Viatris",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "VTRS"
+  },
+  {
+    "symbol": "VZ",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Verizon",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "VZ"
+  },
+  {
+    "symbol": "WAB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Wabtec",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "WAB"
+  },
+  {
+    "symbol": "WAT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Waters Corporation",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "WAT"
+  },
+  {
+    "symbol": "WBD",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Warner Bros. Discovery",
+    "peerGroup": "Communication Services",
+    "vendorSymbol": "WBD"
+  },
+  {
+    "symbol": "WDAY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Workday, Inc.",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "WDAY"
+  },
+  {
+    "symbol": "WDC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Western Digital",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "WDC"
+  },
+  {
+    "symbol": "WEC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "WEC Energy Group",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "WEC"
+  },
+  {
+    "symbol": "WELL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Welltower",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "WELL"
+  },
+  {
+    "symbol": "WFC",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Wells Fargo",
+    "peerGroup": "Financials",
+    "vendorSymbol": "WFC"
+  },
+  {
+    "symbol": "WM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Waste Management",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "WM"
+  },
+  {
+    "symbol": "WMB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Williams Companies",
+    "peerGroup": "Energy",
+    "vendorSymbol": "WMB"
+  },
+  {
+    "symbol": "WMT",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Walmart",
+    "peerGroup": "Consumer Staples",
+    "vendorSymbol": "WMT"
+  },
+  {
+    "symbol": "WRB",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "W. R. Berkley Corporation",
+    "peerGroup": "Financials",
+    "vendorSymbol": "WRB"
+  },
+  {
+    "symbol": "WSM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Williams-Sonoma, Inc.",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "WSM"
+  },
+  {
+    "symbol": "WST",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "West Pharmaceutical Services",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "WST"
+  },
+  {
+    "symbol": "WTW",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Willis Towers Watson",
+    "peerGroup": "Financials",
+    "vendorSymbol": "WTW"
+  },
+  {
+    "symbol": "WY",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Weyerhaeuser",
+    "peerGroup": "Real Estate",
+    "vendorSymbol": "WY"
+  },
+  {
+    "symbol": "WYNN",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Wynn Resorts",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "WYNN"
+  },
+  {
+    "symbol": "XEL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Xcel Energy",
+    "peerGroup": "Utilities",
+    "vendorSymbol": "XEL"
+  },
+  {
+    "symbol": "XOM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "ExxonMobil",
+    "peerGroup": "Energy",
+    "vendorSymbol": "XOM"
+  },
+  {
+    "symbol": "XYL",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Xylem Inc.",
+    "peerGroup": "Industrials",
+    "vendorSymbol": "XYL"
+  },
+  {
+    "symbol": "XYZ",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Block, Inc.",
+    "peerGroup": "Financials",
+    "vendorSymbol": "XYZ"
+  },
+  {
+    "symbol": "YUM",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Yum! Brands",
+    "peerGroup": "Consumer Discretionary",
+    "vendorSymbol": "YUM"
+  },
+  {
+    "symbol": "ZBH",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Zimmer Biomet",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "ZBH"
+  },
+  {
+    "symbol": "ZBRA",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Zebra Technologies",
+    "peerGroup": "Information Technology",
+    "vendorSymbol": "ZBRA"
+  },
+  {
+    "symbol": "ZTS",
+    "venue": "US",
+    "assetClass": "EQUITY",
+    "name": "Zoetis",
+    "peerGroup": "Health Care",
+    "vendorSymbol": "ZTS"
+  }
+]
