@@ -73,10 +73,15 @@ export const assets = pgTable(
       .notNull()
       .references(() => universeVersions.id),
     activeTo: integer().references(() => universeVersions.id),
+    /** Incremental ingestion state. The ingest job picks the stalest assets first. */
+    lastPriceDay: date(),
+    lastIngestAt: timestamp({ withTimezone: true }),
+    lastIngestError: text(),
   },
   (t) => [
     uniqueIndex('assets_symbol_venue_idx').on(t.symbol, t.venue),
     index('assets_venue_active_idx').on(t.venue, t.activeTo),
+    index('assets_ingest_idx').on(t.lastIngestAt),
   ],
 )
 
@@ -388,3 +393,18 @@ export const referenceRuns = pgTable(
   },
   (t) => [uniqueIndex('reference_runs_participant_issue_idx').on(t.participantId, t.issueDate)],
 )
+
+// ---------------------------------------------------------------------------------------------
+// Prior tables, recomputed monthly (methodology §5)
+// ---------------------------------------------------------------------------------------------
+
+export const priorTables = pgTable('prior_tables', {
+  /** First day of the month the table is in force for. */
+  month: date().primaryKey(),
+  methodologyVersion: text().notNull(),
+  /** Serialised PriorTable from @vigoros/questions. */
+  table: jsonb().notNull(),
+  /** Trading day the window ended on. */
+  asOf: date().notNull(),
+  computedAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+})

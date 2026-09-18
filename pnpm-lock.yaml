@@ -59,6 +59,40 @@ importers:
         specifier: ^3.1.0
         version: 3.2.7(@types/node@22.20.3)(tsx@4.23.13)
 
+  packages/jobs:
+    dependencies:
+      '@vigoros/db':
+        specifier: workspace:*
+        version: link:../db
+      '@vigoros/domain':
+        specifier: workspace:*
+        version: link:../domain
+      '@vigoros/prices':
+        specifier: workspace:*
+        version: link:../prices
+      '@vigoros/questions':
+        specifier: workspace:*
+        version: link:../questions
+      '@vigoros/reference':
+        specifier: workspace:*
+        version: link:../reference
+      '@vigoros/scoring':
+        specifier: workspace:*
+        version: link:../scoring
+      '@vigoros/sealing':
+        specifier: workspace:*
+        version: link:../sealing
+      drizzle-orm:
+        specifier: ^0.44.0
+        version: 0.44.7(postgres@3.4.9)
+    devDependencies:
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+      vitest:
+        specifier: ^3.1.0
+        version: 3.2.7(@types/node@22.20.3)(tsx@4.23.13)
+
   packages/prices:
     dependencies:
       '@vigoros/domain':
@@ -117,6 +151,19 @@ importers:
         version: 3.2.7(@types/node@22.20.3)(tsx@4.23.13)
 
   packages/scoring:
+    dependencies:
+      '@vigoros/domain':
+        specifier: workspace:*
+        version: link:../domain
+    devDependencies:
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+      vitest:
+        specifier: ^3.1.0
+        version: 3.2.7(@types/node@22.20.3)(tsx@4.23.13)
+
+  packages/sealing:
     dependencies:
       '@vigoros/domain':
         specifier: workspace:*

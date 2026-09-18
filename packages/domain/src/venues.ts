@@ -23,7 +23,7 @@ export const VENUES: Readonly<Record<VenueId, VenueConfig>> = {
   US: { id: 'US', name: 'US equities', deadlineUtc: '13:00', tradesWeekends: false },
   UK: { id: 'UK', name: 'UK equities', deadlineUtc: '07:30', tradesWeekends: false },
   FX: { id: 'FX', name: 'FX majors', deadlineUtc: '07:00', tradesWeekends: false },
-  CRYPTO: { id: 'CRYPTO', name: 'Crypto', deadlineUtc: '00:00', tradesWeekends: true },
+  CRYPTO: { id: 'CRYPTO', name: 'Crypto', deadlineUtc: '06:00', tradesWeekends: true },
 }
 
 export const deadlineFor = (venue: VenueId, issueDate: string): Date => {

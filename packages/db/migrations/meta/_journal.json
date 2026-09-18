@@ -15,6 +15,20 @@
       "when": 1789767997953,
       "tag": "0001_security",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789768922290,
+      "tag": "0002_broken_tag",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1789768977788,
+      "tag": "0003_bumpy_star_brand",
+      "breakpoints": true
     }
   ]
 }

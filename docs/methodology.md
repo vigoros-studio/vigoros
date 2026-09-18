@@ -22,7 +22,7 @@ The universe is a versioned list of assets, each belonging to one venue. Venues 
 | US equities (NYSE, Nasdaq) | S&P 500 constituents plus SPY, QQQ, IWM | Official close, dividend and split adjusted | 13:00 UTC |
 | UK equities (LSE) | FTSE 100 constituents plus ISF | Official close, adjusted | 07:30 UTC |
 | FX | G10 majors against USD | 21:00 UTC mid | 07:00 UTC |
-| Crypto | BTC, ETH, SOL | 00:00 UTC | 00:00 UTC |
+| Crypto | BTC, ETH, SOL | 00:00 UTC | 06:00 UTC |
 
 Every deadline falls before that venue opens on day D. Questions for day D are generated from the close of the previous trading day, D−1. Universe membership changes are versioned; a question is always scored against the universe version it was issued under.
 
