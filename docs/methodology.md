@@ -30,6 +30,8 @@ Every deadline falls before that venue opens on day D. Questions for day D are g
 
 Each trading day D, Vigoros generates a deterministic question set from prices at D−1. The generator is open source and seeded, so anyone can regenerate the set and verify it.
 
+Every asset in the universe receives exactly three questions per day, one of each type below. The horizon, and for level questions the k value, are drawn per asset by a pseudo-random generator seeded from the published daily seed, the issue date and the symbol. The draw is therefore stable and reproducible, but cannot be anticipated before the seed is published. Version 1 issues roughly 1,900 questions per day.
+
 Three question types, three horizons (5, 10 and 21 trading days):
 
 **Level.** Will the adjusted close on resolution day exceed threshold K? K is set at the D−1 close multiplied by (1 + k·σ), where σ is the trailing 21-day realised daily volatility scaled by √h, and k ∈ {−1, 0, +1}. The three k values give base rates near 16%, 50% and 84%, which exercises calibration across the range.
@@ -38,9 +40,9 @@ Three question types, three horizons (5, 10 and 21 trading days):
 
 **Quintile.** Will the asset's total return over the horizon rank in the top quintile of its venue universe? Base rate 20%.
 
-Each question carries: a ULID, the issue date, the asset, the type, the horizon, the threshold where relevant, the deadline, the resolution date, and the prior (section 5). Roughly 3,000 questions are issued per day across the version 1 universe.
+Each question carries: a ULID, the issue date, the asset, the type, the horizon, the threshold where relevant, the deadline, the resolution date, and the prior (section 5). The resolution date for horizon h is the h-th trading day of the venue counting from D, with D itself as day one when the venue trades on D.
 
-**Resolution** uses only the reference prices defined in section 2. A question resolves to 1 or 0. If the asset is delisted, halted through the resolution date, or the reference price is unavailable, the question is voided and excluded from all scoring. Voids are logged publicly.
+**Resolution** uses only the reference prices defined in section 2, dividend and split adjusted at both ends. A level question resolves by comparing the adjusted return from D−1 to the resolution date with the threshold return, so a corporate action between the two dates cannot flip an outcome. Relative and quintile questions rank the asset's adjusted return against every universe asset in the same venue at issue, whether or not that asset had a question. A question resolves to 1 or 0. If the asset is delisted, halted through the resolution date, or the reference price is unavailable, the question is voided and excluded from all scoring. Voids are logged publicly.
 
 ## 4. Commitments
 
@@ -77,7 +79,7 @@ Every question has a prior probability `q`, fixed at issue and published with th
 | Relative | 0.50 |
 | Quintile | 0.20 |
 
-Priors are computed per asset class, not per asset, so that they cannot leak asset-specific information. The prior table for each issue date is published with the question set.
+Priors are computed per asset class, not per asset, so that they cannot leak asset-specific information. The empirical cells are recomputed on the first trading day of each month over the trailing 504 trading days and held fixed for the month. The prior table in force is published with every question set, together with the number of observations behind each cell.
 
 ## 6. Scoring a single commitment
 
