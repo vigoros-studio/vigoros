@@ -75,6 +75,22 @@ importers:
         specifier: ^3.1.0
         version: 3.2.7(@types/node@22.20.3)(tsx@4.23.13)
 
+  packages/questions:
+    dependencies:
+      '@vigoros/domain':
+        specifier: workspace:*
+        version: link:../domain
+      '@vigoros/scoring':
+        specifier: workspace:*
+        version: link:../scoring
+    devDependencies:
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+      vitest:
+        specifier: ^3.1.0
+        version: 3.2.7(@types/node@22.20.3)(tsx@4.23.13)
+
   packages/scoring:
     dependencies:
       '@vigoros/domain':
