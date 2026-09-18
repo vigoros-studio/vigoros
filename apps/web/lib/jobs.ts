@@ -1,6 +1,6 @@
 import 'server-only'
 import { consoleLogger, type JobContext, type ReferenceModelConfig } from '@vigoros/jobs'
-import { StooqSource, TiingoSource, type PriceSource } from '@vigoros/prices'
+import { TiingoSource, YahooSource, type PriceSource } from '@vigoros/prices'
 import { AnthropicProvider, OpenAICompatibleProvider, type ForecastProvider } from '@vigoros/reference'
 import { OtsClient } from '@vigoros/sealing'
 import { db } from './db'
@@ -9,7 +9,7 @@ import { env } from './env'
 export const jobContext = (): JobContext => {
   const e = env()
   const tiingo = e.TIINGO_API_KEY ? new TiingoSource({ apiKey: e.TIINGO_API_KEY }) : null
-  const stooq = new StooqSource()
+  const yahoo = new YahooSource()
   const withTiingo = (...rest: PriceSource[]): PriceSource[] => (tiingo ? [tiingo, ...rest] : rest)
   return {
     db: db(),
@@ -18,12 +18,15 @@ export const jobContext = (): JobContext => {
     timeBudgetMs: e.JOB_TIME_BUDGET_MS,
     ots: new OtsClient(),
     prices: {
+      // Daily: Tiingo (licensed vendor) first for US, FX and crypto; Yahoo covers the LSE.
       sourcesByVenue: {
-        US: withTiingo(stooq),
-        UK: [stooq],
-        FX: withTiingo(stooq),
-        CRYPTO: withTiingo(),
+        US: withTiingo(yahoo),
+        UK: [yahoo],
+        FX: withTiingo(yahoo),
+        CRYPTO: withTiingo(yahoo),
       },
+      // Deep backfills go to the unmetered source so a first load finishes in minutes, not days.
+      backfillSourcesByVenue: { US: [yahoo, ...withTiingo()], UK: [yahoo], FX: [yahoo, ...withTiingo()], CRYPTO: [yahoo, ...withTiingo()] },
       concurrency: 4,
     },
     providerFor: (config: ReferenceModelConfig): ForecastProvider | null => {

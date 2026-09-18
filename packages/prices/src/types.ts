@@ -10,6 +10,8 @@ export interface PriceBar {
 
 export interface PriceSourceAsset {
   assetId: string
+  /** Our display symbol, e.g. "BT.A". Adapters derive their own conventions from it. */
+  symbol?: string
   vendorSymbol: string
   venue: VenueId
   assetClass: AssetClass

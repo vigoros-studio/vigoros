@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { TiingoSource } from './tiingo'
-import { StooqSource } from './stooq'
+import { YahooSource } from './yahoo'
 import { fetchUniverse } from './ingest'
 import { TokenBucket, mapConcurrent } from './rate-limit'
 import type { PriceSourceAsset } from './types'
@@ -41,24 +41,38 @@ describe('TiingoSource', () => {
   })
 })
 
-describe('StooqSource', () => {
-  it('parses csv and maps symbols', async () => {
-    const s = new StooqSource(mockFetch({ 's=shel.uk': 'Date,Open,High,Low,Close,Volume\n2026-09-17,1,2,0.5,2700.5,123\n' }))
-    expect(StooqSource.symbolFor(shel)).toBe('shel.uk')
-    expect(await s.fetchBars(shel, '2026-09-17', '2026-09-17')).toEqual([
-      { day: '2026-09-17', close: 2700.5, adjClose: 2700.5, volume: 123 },
-    ])
+const chart = (ts: number[], close: (number | null)[], adj?: (number | null)[]) => ({
+  chart: { result: [{ meta: { currency: 'GBp' }, timestamp: ts, indicators: { quote: [{ close, volume: close.map(() => 10) }], adjclose: adj ? [{ adjclose: adj }] : undefined } }], error: null },
+})
+
+describe('YahooSource', () => {
+  it('maps symbols per venue', () => {
+    expect(YahooSource.symbolFor({ ...shel, symbol: 'SHEL' })).toBe('SHEL.L')
+    expect(YahooSource.symbolFor({ ...shel, symbol: 'BT.A' })).toBe('BT-A.L')
+    expect(YahooSource.symbolFor({ ...eur, symbol: 'EURUSD' })).toBe('EURUSD=X')
+    expect(YahooSource.symbolFor({ ...btc, symbol: 'BTC' })).toBe('BTC-USD')
+    expect(YahooSource.symbolFor({ ...aapl, symbol: 'BRK.B' })).toBe('BRK-B')
+  })
+  it('parses the chart payload, drops null bars and out-of-range days, uses adjclose', async () => {
+    const t = (d: string) => Math.floor(Date.parse(`${d}T15:30:00Z`) / 1000)
+    const y = new YahooSource(mockFetch({ 'SHEL.L': chart([t('2026-09-15'), t('2026-09-16'), t('2026-09-17')], [2700, null, 2710], [2690, null, 2710]) }))
+    expect(await y.fetchBars({ ...shel, symbol: 'SHEL' }, '2026-09-16', '2026-09-17')).toEqual([{ day: '2026-09-17', close: 2710, adjClose: 2710, volume: 10 }])
+  })
+  it('surfaces yahoo errors as typed errors', async () => {
+    const y = new YahooSource(mockFetch({ 'NOPE.L': { chart: { result: null, error: { code: 'Not Found', description: 'No data found' } } } }))
+    await expect(y.fetchBars({ ...shel, symbol: 'NOPE' }, '2026-09-17', '2026-09-17')).rejects.toMatchObject({ source: 'yahoo' })
   })
 })
 
 describe('fetchUniverse', () => {
   it('falls back to the next source and reports failures', async () => {
     const tiingo = new TiingoSource({ apiKey: 'k', fetchImpl: mockFetch({ '/tiingo/daily/AAPL/prices': [{ date: '2026-09-17', close: 1, adjClose: 1 }] }) })
-    const stooq = new StooqSource(mockFetch({ 's=shel.uk': 'Date,Open,High,Low,Close,Volume\n2026-09-17,1,2,0.5,2,3\n' }))
-    const { ok, failed } = await fetchUniverse([aapl, shel, eur], '2026-09-17', '2026-09-17', {
-      sourcesByVenue: { US: [tiingo], UK: [tiingo, stooq], FX: [tiingo], CRYPTO: [tiingo] },
+    const t = Math.floor(Date.parse('2026-09-17T15:30:00Z') / 1000)
+    const yahoo = new YahooSource(mockFetch({ 'SHEL.L': chart([t], [2]) }))
+    const { ok, failed } = await fetchUniverse([aapl, { ...shel, symbol: 'SHEL' }, eur], '2026-09-17', '2026-09-17', {
+      sourcesByVenue: { US: [tiingo], UK: [tiingo, yahoo], FX: [tiingo], CRYPTO: [tiingo] },
     })
-    expect(ok.map((o) => [o.assetId, o.source])).toEqual([['A', 'tiingo'], ['S', 'stooq']])
+    expect(ok.map((o) => [o.assetId, o.source])).toEqual([['A', 'tiingo'], ['S', 'yahoo']])
     expect(failed.map((f) => f.assetId)).toEqual(['E'])
   })
 })

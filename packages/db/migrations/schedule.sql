@@ -29,9 +29,9 @@ revoke all on function public.call_vigoros_job(text) from public;
 
 -- 4. The daily pipeline (all times UTC). Every step is idempotent and chunked, so frequent calls are safe.
 select cron.schedule('vigoros-ingest',        '*/10 * * * *', $$select public.call_vigoros_job('ingest')$$);
-select cron.schedule('vigoros-generate',      '5 0 * * *',    $$select public.call_vigoros_job('generate')$$);
-select cron.schedule('vigoros-baselines',     '15 0 * * *',   $$select public.call_vigoros_job('baselines')$$);
-select cron.schedule('vigoros-reference',     '*/10 0-6 * * *', $$select public.call_vigoros_job('reference')$$);
+select cron.schedule('vigoros-generate',      '35 0 * * *',    $$select public.call_vigoros_job('generate')$$);
+select cron.schedule('vigoros-baselines',     '45 0 * * *',   $$select public.call_vigoros_job('baselines')$$);
+select cron.schedule('vigoros-reference',     '50 0 * * *,*/10 1-5 * * *', $$select public.call_vigoros_job('reference')$$);
 select cron.schedule('vigoros-resolve',       '30 * * * *',   $$select public.call_vigoros_job('resolve')$$);
 select cron.schedule('vigoros-seal',          '45 23 * * *',  $$select public.call_vigoros_job('seal')$$);
 select cron.schedule('vigoros-upgrade-seals', '0 */6 * * *',  $$select public.call_vigoros_job('upgrade-seals')$$);

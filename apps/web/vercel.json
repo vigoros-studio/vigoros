@@ -4,7 +4,7 @@
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm turbo run build --filter=@vigoros/web",
   "crons": [
-    { "path": "/api/jobs/generate", "schedule": "5 1 * * *" },
+    { "path": "/api/jobs/generate", "schedule": "35 0 * * *" },
     { "path": "/api/jobs/stats", "schedule": "0 3 * * *" }
   ]
 }

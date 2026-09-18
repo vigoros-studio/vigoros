@@ -1,5 +1,5 @@
 export * from './types'
 export * from './rate-limit'
 export * from './tiingo'
-export * from './stooq'
+export * from './yahoo'
 export * from './ingest'

@@ -35,6 +35,12 @@ export const generateDay = async (ctx: JobContext, issueDate: IsoDate, seedSecre
   const out = generateQuestions({ issueDate, seed, assets: universe, calendars, prices: series, priors })
   const universeVersion = active[0]?.activeFrom
   if (universeVersion === undefined) throw new Error('empty universe')
+  if (out.questions.length === 0) {
+    // Nothing to issue (all venues closed, or reference prices not yet ingested). Do not persist an
+    // empty set, so a later run on the same date can still generate it.
+    ctx.log.warn('no questions generated', { issueDate, skipped: out.skipped.length, reasons: [...new Set(out.skipped.map((s) => s.reason))] })
+    return { created: 0, skipped: out.skipped.length, existed: false }
+  }
 
   await ctx.db.transaction(async (tx) => {
     await tx.insert(questionSets).values({

@@ -17,6 +17,8 @@ export interface IngestFailure {
 export interface IngestPlan {
   /** Ordered preference per venue. First source that supports the asset and succeeds wins. */
   sourcesByVenue: Record<VenueId, PriceSource[]>
+  /** Optional separate preference for deep backfills, where a metered vendor would stall. */
+  backfillSourcesByVenue?: Partial<Record<VenueId, PriceSource[]>>
   concurrency?: number
 }
 
@@ -30,10 +32,12 @@ export const fetchUniverse = async (
   from: IsoDate,
   to: IsoDate,
   plan: IngestPlan,
+  mode: 'daily' | 'backfill' = 'daily',
 ): Promise<{ ok: IngestResult[]; failed: IngestFailure[] }> => {
   const settled = await mapConcurrent(assets, plan.concurrency ?? 4, async (asset) => {
     const errors: string[] = []
-    for (const source of plan.sourcesByVenue[asset.venue]) {
+    const sources = (mode === 'backfill' ? plan.backfillSourcesByVenue?.[asset.venue] : undefined) ?? plan.sourcesByVenue[asset.venue]
+    for (const source of sources) {
       if (!source.supports(asset)) continue
       try {
         const bars = await source.fetchBars(asset, from, to)

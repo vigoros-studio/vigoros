@@ -1,6 +1,6 @@
-import { and, asc, eq, isNull, or, sql } from 'drizzle-orm'
+import { and, eq, isNull, or, sql } from 'drizzle-orm'
 import { assets, prices } from '@vigoros/db'
-import type { IsoDate } from '@vigoros/domain'
+import { VENUES, type IsoDate, type VenueId } from '@vigoros/domain'
 import { fetchUniverse, type PriceSourceAsset } from '@vigoros/prices'
 import { recordTradingDays } from './calendar'
 import { Deadline, type JobContext } from './context'
@@ -9,6 +9,21 @@ const addDays = (d: IsoDate, n: number): IsoDate => {
   const t = new Date(`${d}T00:00:00.000Z`)
   t.setUTCDate(t.getUTCDate() + n)
   return t.toISOString().slice(0, 10)
+}
+
+/**
+ * A bar is final only once its session has closed. Vendors return the in-progress bar for the
+ * current day, which must never become a reference or resolution price. Weekend bars for
+ * weekday venues (Yahoo emits Sunday FX bars) are dropped too.
+ */
+export const isFinalBar = (day: IsoDate, venue: VenueId, now: Date): boolean => {
+  const wd = new Date(`${day}T00:00:00.000Z`).getUTCDay()
+  if (!VENUES[venue].tradesWeekends && (wd === 0 || wd === 6)) return false
+  const today = now.toISOString().slice(0, 10)
+  if (day > today) return false
+  if (day < today) return true
+  // Same UTC day: crypto's daily bar closes at 00:00 UTC next day; equities and FX by 22:00 UTC.
+  return venue === 'CRYPTO' ? false : now.getUTCHours() >= 22
 }
 
 export interface IngestStepResult {
@@ -37,6 +52,7 @@ export const ingestStep = async (
   const candidates = await ctx.db
     .select({
       id: assets.id,
+      symbol: assets.symbol,
       vendorSymbol: assets.vendorSymbol,
       venue: assets.venue,
       assetClass: assets.assetClass,
@@ -45,28 +61,31 @@ export const ingestStep = async (
     })
     .from(assets)
     .where(and(isNull(assets.activeTo), or(isNull(assets.lastIngestAt), sql`${assets.lastIngestAt} < ${staleBefore.toISOString()}`)))
-    .orderBy(asc(sql`${assets.lastIngestAt} nulls first`))
+    .orderBy(sql`${assets.lastIngestAt} asc nulls first`)
     .limit(maxAssets)
 
   if (candidates.length === 0) return { attempted: 0, succeeded: 0, failed: 0, bars: 0 }
 
-  // Assets with no history get a deep backfill; others a trailing window.
-  const groups = new Map<IsoDate, PriceSourceAsset[]>()
+  // Assets with no history get a deep backfill from the fast sources; others a trailing window.
+  const groups = new Map<'daily' | 'backfill', PriceSourceAsset[]>()
   for (const c of candidates) {
-    const from = c.lastPriceDay ? addDays(opts.asOf, -(opts.windowDays ?? 45)) : addDays(opts.asOf, -(opts.backfillDays ?? 900))
-    const list = groups.get(from) ?? []
-    list.push({ assetId: c.id, vendorSymbol: c.vendorSymbol, venue: c.venue, assetClass: c.assetClass })
-    groups.set(from, list)
+    const mode = c.lastPriceDay ? 'daily' : 'backfill'
+    const list = groups.get(mode) ?? []
+    list.push({ assetId: c.id, symbol: c.symbol, vendorSymbol: c.vendorSymbol, venue: c.venue, assetClass: c.assetClass })
+    groups.set(mode, list)
   }
 
   let succeeded = 0
   let failed = 0
   let bars = 0
-  for (const [from, list] of groups) {
+  for (const [mode, list] of groups) {
     if (deadline.expired) break
-    const { ok, failed: bad } = await fetchUniverse(list, from, opts.asOf, ctx.prices)
+    const from = mode === 'daily' ? addDays(opts.asOf, -(opts.windowDays ?? 45)) : addDays(opts.asOf, -(opts.backfillDays ?? 900))
+    const { ok, failed: bad } = await fetchUniverse(list, from, opts.asOf, ctx.prices, mode)
     for (const r of ok) {
-      const rows = r.bars.map((b) => ({ assetId: r.assetId, day: b.day, close: b.close, adjClose: b.adjClose, volume: b.volume, source: r.source }))
+      const venue = list.find((a) => a.assetId === r.assetId)?.venue ?? 'US'
+      const finalBars = r.bars.filter((b) => isFinalBar(b.day, venue, ctx.now()))
+      const rows = finalBars.map((b) => ({ assetId: r.assetId, day: b.day, close: b.close, adjClose: b.adjClose, volume: b.volume, source: r.source }))
       for (let i = 0; i < rows.length; i += 500) {
         await ctx.db
           .insert(prices)
@@ -76,9 +95,8 @@ export const ingestStep = async (
             set: { close: sql`excluded.close`, adjClose: sql`excluded.adj_close`, volume: sql`excluded.volume`, source: sql`excluded.source`, ingestedAt: sql`now()` },
           })
       }
-      const venue = list.find((a) => a.assetId === r.assetId)?.venue
-      if (venue) await recordTradingDays(ctx, venue, r.bars.map((b) => b.day))
-      const last = r.bars.reduce((m, b) => (b.day > m ? b.day : m), '')
+      await recordTradingDays(ctx, venue, finalBars.map((b) => b.day))
+      const last = finalBars.reduce((m, b) => (b.day > m ? b.day : m), '')
       await ctx.db
         .update(assets)
         .set({ lastPriceDay: last || null, lastIngestAt: ctx.now(), lastIngestError: null })
