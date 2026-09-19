@@ -11,6 +11,7 @@ export const Nav = () => (
         <Link href="/questions">Questions</Link>
         <Link href="/methodology">Methodology</Link>
         <Link href="/docs">API</Link>
+        <Link href="/account">Account</Link>
       </nav>
     </div>
   </header>

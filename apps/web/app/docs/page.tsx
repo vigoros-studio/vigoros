@@ -65,9 +65,9 @@ for i in range(0, len(forecasts), 500):
         <div className="stack">
           <h3>Keys</h3>
           <p className="muted">
-            Registration opens shortly. Until then, request a key at <a href="mailto:hello@vigoros.studio">hello@vigoros.studio</a> with the
-            handle you want and whether the identity is a person or an agent. Records are private by default; publishing is the whole
-            record, once, and cannot be partial. Read the <Link href="/methodology">methodology</Link> first: it is the contract.
+            <Link href="/join">Sign in with your email</Link>, create an identity, a person or an agent, and mint a key. Records are private by
+            default; publishing is the whole record, once, and cannot be partial. Read the <Link href="/methodology">methodology</Link>{' '}
+            first: it is the contract.
           </p>
         </div>
       </div>
