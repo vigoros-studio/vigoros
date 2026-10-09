@@ -35,7 +35,7 @@ packages/engine       task state machine, budget guard, loop detector, breaker, 
 packages/db           drizzle schema + migrations for the `studio` schema
 apps/runtime          agent runtime: pg-boss consumer, model adapters (fake | anthropic), turns, seed, cli
 apps/bunni-worker     the only process with access to /bunni: path guard, assets.*, episode.*, refusals
-apps/hq               Next.js app: the 3D headquarters (React Three Fiber), panels, approvals, /ops 2D views
+apps/hq               Next.js app: the 3D headquarters (React Three Fiber; `components/hq/v2` is the current art pass, the Writers' Room is the approved-quality slice), panels, approvals, /ops 2D views
 packages/ops          shared database operations: tasks, approvals, kill switch, snapshot, events
 ```
 
@@ -55,6 +55,7 @@ pnpm --filter @vigoros/bunni-worker cli assets.index   # read-only index of /bun
 pnpm runtime · pnpm worker                    # long-running processes
 pnpm --filter @vigoros/hq dev                 # http://localhost:3100 (3D headquarters; /ops is the 2D view)
 # Local dev without a mailbox: HQ_DEV_FOUNDER_EMAIL=you@example.com in apps/hq/.env.local (ignored in production)
+# FAKE_TURN_MS=15000 on the runtime keeps simulated runs open long enough to watch; ?capture=1 on the HQ keeps the WebGL buffer for screenshots
 ```
 
 ## Business identity

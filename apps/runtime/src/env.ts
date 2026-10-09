@@ -7,6 +7,8 @@ const Env = z.object({
   /** `fake` never calls a paid API. Switching to `anthropic` is a founder decision. */
   MODEL_ADAPTER: z.enum(['fake', 'anthropic']).default('fake'),
   COMPANY_DAILY_CAP_USD: z.coerce.number().positive().default(5),
+  /** Fake adapter only: how long a simulated run stays open, for watching the headquarters. */
+  FAKE_TURN_MS: z.coerce.number().min(0).max(120_000).default(0),
   RUNTIME_ID: z.string().default(() => `rt-${process.pid}`),
 })
 export type Env = z.infer<typeof Env>

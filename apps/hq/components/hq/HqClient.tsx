@@ -5,7 +5,7 @@ import { useLiveSnapshot } from '@/lib/realtime'
 import { useHq } from '@/lib/store'
 import { Panels } from './Panels'
 
-const Scene = dynamic(() => import('./Scene').then((m) => m.Scene), {
+const Scene = dynamic(() => import('./v2/SceneV2').then((m) => m.SceneV2), {
   ssr: false,
   loading: () => <div className="hq-loading">Lighting the building…</div>,
 })

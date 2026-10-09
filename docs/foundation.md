@@ -24,3 +24,13 @@ Done on the `studio` branch, 9 October 2026.
 - Verification: `cli verify` runs twelve checks against the live database.
 
 Known limits: Realtime unverified without the anon key; drei `Html` labels black out headless captures (replaced with in-scene text); meetings, memory retrieval and the tool-use loop remain phase 4 work.
+
+# Phase 1.5: the visual overhaul, Writers' Room slice
+
+Done on the `studio` branch, 9 October 2026. Art direction and results: https://claude.ai/code/artifact/1102d6b3-9ee3-41a2-9c77-2eebb9e7b884
+
+- New scene under `apps/hq/components/hq/v2`: material library, parametric furniture, building shell with glazing, partitions and doors, perspective camera with three framings on `camera-controls`, N8AO, SMAA, restrained bloom, procedural environment light, performance tiers.
+- Writers' Room vertical slice: two parametric writers (state-driven typing, leaning, glances), two complete workstations with live monitor textures, mood board from Bunni's references (`public/moodboard`, resized copies), whiteboard with the current brief, bookshelf, plants, pendants.
+- Other rooms keep the new shell with grey block-out desks and capsule avatars until the slice is approved.
+- Capture tooling in the session scratchpad: headless CDP script (`?capture=1` keeps the drawing buffer) and a visible-Chrome recorder measuring frame rate on the real GPU.
+- `FAKE_TURN_MS` on the runtime keeps a simulated run open for a chosen time so working states can be observed; it spends nothing.

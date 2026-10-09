@@ -12,7 +12,7 @@ export const adapter = (): ModelAdapter => {
     if (!e.ANTHROPIC_API_KEY) throw new Error('MODEL_ADAPTER=anthropic needs ANTHROPIC_API_KEY')
     cached = anthropicAdapter(e.ANTHROPIC_API_KEY)
   } else {
-    cached = fakeAdapter(FIXTURES)
+    cached = fakeAdapter(FIXTURES, e.FAKE_TURN_MS)
   }
   return cached
 }
