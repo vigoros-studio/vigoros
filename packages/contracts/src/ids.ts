@@ -18,6 +18,7 @@ export const ID_PREFIXES = {
   cost: 'cst',
   event: 'evt',
   note: 'nte',
+  workflow: 'wfl',
 } as const
 
 export type IdKind = keyof typeof ID_PREFIXES

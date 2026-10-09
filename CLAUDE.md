@@ -9,9 +9,9 @@ Bunni's production environment: `~/Desktop/bunni` (canon in `character/`, never 
 
 - **Nothing on screen without a row.** Every avatar state, room light and feed line is derived from `studio.tasks`, `studio.runs`, `studio.meetings` or `studio.events`. No fabricated activity, no fake metrics, no pretend decisions.
 - **Agents act only through typed tools.** No filesystem, no shell, no free-form side effects. A tool is a database operation or a Bunni worker job.
-- **Only the Bunni worker touches `/bunni`.** Reads anywhere under the root; writes only inside one `production/episodes/EPnnn-slug/` directory. Reference files are never written. The anchor's rules are enforced by code, not by prompts.
+- **Only the Bunni worker touches `/bunni`, and it speaks Bunni's contract.** Her `production/interface/` (manifest, `job-schema.json`, inbox/outbox, hash-chained `events.jsonl`) is the integration surface. The worker reads anywhere under the root, writes only inside one `production/episodes/EPnnn-slug/` directory or `production/jobs/inbox/`, sends `scene_text` only (the anchor is hers), uses her `canon_version`, and runs her integrity check at start. Reference files are never written. During development `BUNNI_ROOT` points at a sandbox copy (`apps/bunni-worker/scripts/make-sandbox.sh`); pointing it at the real folder is the founder's call.
 - **Caps are code.** Per run, per task, per department per day, per company per day. A cap hit blocks the task and raises an approval; it never fails silently and never proceeds.
-- **The founder approves** publishing, paid rendering above cap, commercial commitments, canon changes, account changes, hiring and pausing. In phase 1 paid jobs are disabled entirely (`PAID_JOBS_ENABLED=false`) and `MODEL_ADAPTER=fake` costs nothing.
+- **The founder approves** publishing, paid rendering, commercial commitments, canon changes, account changes, hiring and pausing. The approval row is the control: the Production Manager re-checks it before dispatch, and Bunni's jobs carry `paid_generation_allowed:false` until the founder changes policy P1 (zero spend). `MODEL_ADAPTER=fake` costs nothing and labels every output SIMULATED.
 - **Decisions are rows.** Chooser, options, chosen, evidence, reasoning, confidence. Structured output on every decision-bearing call.
 - **Meetings are bounded.** Chair, at most four participants, one question, three rounds, one of: decision, action, blocker.
 - **Canon beats creativity.** When they conflict, choose consistency.
@@ -35,7 +35,8 @@ packages/engine       task state machine, budget guard, loop detector, breaker, 
 packages/db           drizzle schema + migrations for the `studio` schema
 apps/runtime          agent runtime: pg-boss consumer, model adapters (fake | anthropic), turns, seed, cli
 apps/bunni-worker     the only process with access to /bunni: path guard, assets.*, episode.*, refusals
-apps/hq               Next.js app: auth gate, 2D company view now; the 3D headquarters in phase 1
+apps/hq               Next.js app: the 3D headquarters (React Three Fiber), panels, approvals, /ops 2D views
+packages/ops          shared database operations: tasks, approvals, kill switch, snapshot, events
 ```
 
 ## Commands
@@ -45,12 +46,15 @@ pnpm install
 pnpm test · pnpm typecheck
 pnpm db:generate · pnpm db:migrate            # needs DIRECT_DATABASE_URL
 pnpm seed                                     # company, Bunni, departments, seven agents (idempotent)
-pnpm --filter @vigoros/runtime cli task research.opportunities trend-researcher "Find this week's formats"
-pnpm --filter @vigoros/runtime cli turn <task-id>     # one agent turn (fake adapter by default)
-pnpm --filter @vigoros/runtime cli status
+pnpm --filter @vigoros/runtime cli workflow "<focus>" "<guidance>"   # start an episode workflow
+pnpm --filter @vigoros/runtime cli approve <approval-id> "<note>"     # or reject; the runtime acts on the row
+pnpm --filter @vigoros/runtime cli instruct studio-director "<text>"   # founder instruction as a task
+pnpm --filter @vigoros/runtime cli status · audit · verify            # verify = phase 1 checklist against the live DB
+pnpm --filter @vigoros/bunni-worker scripts/make-sandbox.sh           # sandbox copy of /bunni for development
 pnpm --filter @vigoros/bunni-worker cli assets.index   # read-only index of /bunni
 pnpm runtime · pnpm worker                    # long-running processes
-pnpm --filter @vigoros/hq dev                 # http://localhost:3100
+pnpm --filter @vigoros/hq dev                 # http://localhost:3100 (3D headquarters; /ops is the 2D view)
+# Local dev without a mailbox: HQ_DEV_FOUNDER_EMAIL=you@example.com in apps/hq/.env.local (ignored in production)
 ```
 
 ## Business identity

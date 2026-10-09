@@ -100,22 +100,45 @@ export const BunniJobs = {
       slug: z.string().regex(/^[a-z0-9-]{3,40}$/),
       brief: z.string(),
       script: EpisodeScript,
+      approvalId: z.string().optional(),
     }),
-    output: z.object({ episode: z.string(), dir: z.string(), files: z.array(z.string()) }),
+    output: z.object({
+      episode: z.string(),
+      dir: z.string(),
+      files: z.array(z.string()),
+      canonVersion: z.string(),
+    }),
   },
+  /**
+   * Drops one plan-only keyframe job per beat into Bunni's inbox (her schema, her anchor, her canon
+   * version), runs her zero-cost simulated runner, and returns her outbox results. Nothing is paid.
+   */
   'episode.package': {
     paid: false,
     tier: 2,
-    input: z.object({ episode: z.string() }),
+    input: z.object({ episode: z.string(), approvalId: z.string().optional() }),
     output: z.object({
       episode: z.string(),
-      shots: z.array(ShotPrompt),
+      canonVersion: z.string(),
+      jobs: z.array(
+        z.object({
+          jobId: z.string(),
+          shot: z.string(),
+          type: z.string(),
+          status: z.string(),
+          nextGate: z.string().nullable(),
+          message: z.string(),
+          simulated: z.boolean(),
+          creditsSpent: z.number(),
+          outputs: z.array(z.object({ path: z.string(), kind: z.string(), qcVerdict: z.string() })),
+        }),
+      ),
       files: z.array(z.string()),
       estimate: z.object({
         keyframes: z.number().int(),
+        clips: z.number().int(),
         videoSeconds: z.number(),
         credits: z.number(),
-        usd: z.number(),
         basis: z.string(),
       }),
     }),

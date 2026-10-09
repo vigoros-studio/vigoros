@@ -1,54 +1,53 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import type { PathGuard } from './guard'
 
-/** Reads the anchor block and the never-list from character/bunni-anchor.md. Verbatim, never paraphrased. */
-export const readAnchor = (guard: PathGuard): { anchor: string; never: string } => {
-  const text = readFileSync(guard.readPath('character/bunni-anchor.md'), 'utf8')
-  const lines = text.split('\n')
-  const start = lines.findIndex((l) => l.startsWith('Bunni, the same canonical'))
-  const neverIdx = lines.findIndex((l) => l.trim() === '## Never')
-  const refIdx = lines.findIndex((l) => l.trim() === '## Reference order')
-  if (start < 0 || neverIdx < 0) throw new Error('anchor file does not have the expected shape')
-  const anchor = lines.slice(start, neverIdx).join('\n').trim()
-  const never = lines
-    .slice(neverIdx + 1, refIdx > 0 ? refIdx : undefined)
-    .join('\n')
-    .trim()
-  return { anchor, never }
+/**
+ * Bunni's manifest is the contract: canon version, authoritative documents, reference packs.
+ * The anchor text is Bunni's; callers send scene text only (interface README, rule 7).
+ */
+export interface BunniManifest {
+  canon_version: string
+  canon_date?: string
+  authoritative_documents?: Record<string, unknown>
 }
 
-export const OUTFITS: Record<string, string> = {
-  default: 'her default oversized soft pink knit sweater with the black bunny-face logo',
-  'sleep-mode':
-    'Sleep Mode outfit: soft pink pyjama set, long sleeves, relaxed trousers, white piping, small heart detail',
-  'tiny-ceo':
-    'Tiny CEO outfit: tailored pink blazer, white collared shirt, black tie, high-waisted wide-leg pink trousers, elegant pink heels',
-  'street-bunni':
-    'Street Bunni outfit: oversized pink hoodie, baggy pink cargo trousers, pink and white sneakers',
-  cozy: 'Cozy outfit: plush pink belted robe and fluffy pink slippers',
-  chef: 'Chef outfit: white chef jacket with pink piping and buttons, pink apron, white chef hat with pink accent',
+export const readManifest = (guard: PathGuard): BunniManifest => {
+  const p = guard.readPath('production/interface/bunni.manifest.json')
+  if (!existsSync(p))
+    throw new Error(
+      'production/interface/bunni.manifest.json is missing; the Bunni interface is not installed in this root',
+    )
+  const m = JSON.parse(readFileSync(p, 'utf8')) as BunniManifest
+  if (!m.canon_version) throw new Error('manifest has no canon_version')
+  return m
 }
 
-export const ACCESSORIES: Record<string, string> = {
-  none: '',
-  sunglasses: 'wearing her pink sunglasses over her eyes',
-  'sunglasses-on-head': 'pink sunglasses resting on top of her head',
-  phone: 'holding her pink smartphone with the pink Bunni logo',
-  'pink-baseball-cap': 'wearing her pink baseball cap with the black Bunni logo',
-  'oversized-headphones': 'wearing large pink over-ear headphones',
-  handbag: 'carrying her tiny black handbag with pink trim and a pink heart',
-  facemask: 'wearing her soft pink sleep mask',
+/** Vigoros script vocabulary to Bunni job-schema vocabulary. */
+export const ACCESSORY_TO_JOB: Record<string, string> = {
+  none: 'none',
+  sunglasses: 'sunglasses',
+  'sunglasses-on-head': 'sunglasses-on-head',
+  phone: 'phone',
+  'pink-baseball-cap': 'cap',
+  'oversized-headphones': 'headphones',
+  handbag: 'handbag',
+  facemask: 'sleep-mask',
 }
 
-export const EXPRESSIONS: Record<string, string> = {
-  neutral: 'default expression: mouth closed, half-lidded eyes, sleepy and mildly unimpressed',
-  'happy-ish': 'happy-ish: small restrained smile, eyes still somewhat half-lidded',
-  unhinged: 'unhinged: wide chaotic grin, mouth open, tongue may show, eyes animated',
-  sassy: 'sassy: side-eye, raised brow, subtle smirk, confident posture',
-  tired: 'tired: heavy eyelids, tiny exhausted pout, slumped posture',
-  judging: 'judging: strong side-eye, one brow lifted, mouth closed, arms folded',
-  angry: 'angry: brows lowered, tight mouth, tense stare, cute anger',
-  excited: 'excited: eyes wider, bright open happy mouth, paws lifted',
-  sad: 'sad: inner brows raised, large wet eyes, small downturned mouth',
-  confused: 'confused: brows uneven, eyes glancing sideways, tiny open mouth, paw at chin',
+export const EXPRESSION_TO_JOB: Record<string, string> = {
+  neutral: 'default',
+  'happy-ish': 'happy-ish',
+  unhinged: 'unhinged',
+  sassy: 'sassy',
+  tired: 'tired',
+  judging: 'judging',
+  angry: 'angry',
+  excited: 'excited',
+  sad: 'sad',
+  confused: 'confused',
 }
+
+/** Verified credit estimates from production/templates/build_prompts.py (higgsfield generate cost, 2026-10-09, 9:16). */
+export const CREDITS = { keyframe: 2.0, clipMini: 5.0, plate: 0.12 } as const
+export const CREDITS_BASIS =
+  'verified estimates from `higgsfield generate cost` on 2026-10-09 (nano_banana_pro keyframe 2.0, seedance_2_0_mini clip 5.0), per production/templates/build_prompts.py; no call made'

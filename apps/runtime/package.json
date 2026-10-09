@@ -16,6 +16,7 @@
     "@vigoros/contracts": "workspace:*",
     "@vigoros/db": "workspace:*",
     "@vigoros/engine": "workspace:*",
+    "@vigoros/ops": "workspace:*",
     "@vigoros/org": "workspace:*",
     "drizzle-orm": "^0.45.0",
     "pg-boss": "^12.37.0",

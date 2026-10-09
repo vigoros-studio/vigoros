@@ -8,7 +8,7 @@ describe('task kinds', () => {
   it('bind only to hired roles and have a schema-valid fake fixture each', async () => {
     const fake = fakeAdapter(FIXTURES)
     for (const k of TASK_KINDS) {
-      expect(PHASE_ONE_ROLES.some((r) => r.key === k.roleKey)).toBe(true)
+      expect(k.roleKey === '*' || PHASE_ONE_ROLES.some((r) => r.key === k.roleKey)).toBe(true)
       const r = await fake.complete({
         model: 'claude-haiku-5-5',
         effort: 'low',

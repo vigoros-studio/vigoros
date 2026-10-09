@@ -32,5 +32,11 @@ describe('PathGuard', () => {
     expect(() => g.writePath('master', 'front.png')).toThrow()
     expect(g.isReference(g.readPath('master/front.png'))).toBe(true)
     expect(g.isReference(g.writePath('EP001-day-one', 'script.md'))).toBe(false)
+    expect(
+      g
+        .inboxPath('ep001-s01-keyframe-abc')
+        .endsWith('/production/jobs/inbox/ep001-s01-keyframe-abc.json'),
+    ).toBe(true)
+    expect(() => g.inboxPath('../x')).toThrow()
   })
 })

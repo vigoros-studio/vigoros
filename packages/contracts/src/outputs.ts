@@ -63,6 +63,22 @@ export const ApprovalItem = z.object({
   reasoning: z.string().max(400),
 })
 
+/** The Director's reading of a founder instruction. The runtime applies it; the Director only proposes. */
+export const DirectorPlan = z.object({
+  summary: z.string().max(400),
+  startWorkflow: z.boolean(),
+  focus: z.string().max(200),
+  guidance: z.string().max(600),
+  returnCount: z.number().int().min(1).max(3).default(1),
+})
+
+/** Any other agent's reading of a founder instruction. */
+export const Acknowledgement = z.object({
+  summary: z.string().max(400),
+  actions: z.array(z.string().max(200)).max(5),
+  needsFounder: z.string().max(300).nullable(),
+})
+
 export const Briefing = z.object({
   greeting: z.string().max(300),
   highlights: z.array(z.string().max(200)).max(6),
@@ -77,3 +93,5 @@ export type ProductionEstimate = z.infer<typeof ProductionEstimate>
 export type MeasurementPlan = z.infer<typeof MeasurementPlan>
 export type ApprovalItem = z.infer<typeof ApprovalItem>
 export type Briefing = z.infer<typeof Briefing>
+export type DirectorPlan = z.infer<typeof DirectorPlan>
+export type Acknowledgement = z.infer<typeof Acknowledgement>

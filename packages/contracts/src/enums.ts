@@ -100,5 +100,34 @@ export const EventKind = z.enum([
   'company.paused',
   'company.resumed',
   'worker.job',
+  'worker.started',
+  'workflow.started',
+  'workflow.step',
+  'workflow.finished',
 ])
 export type EventKind = z.infer<typeof EventKind>
+
+export const WorkflowStatus = z.enum([
+  'running',
+  'awaiting_approval',
+  'producing',
+  'done',
+  'rejected',
+  'failed',
+  'cancelled',
+])
+export type WorkflowStatus = z.infer<typeof WorkflowStatus>
+
+/** Steps of the episode workflow, in order. The runtime advances; agents never choose the next step. */
+export const EpisodeStep = z.enum([
+  'research',
+  'pick',
+  'write',
+  'review',
+  'plan',
+  'approval_item',
+  'approval',
+  'produce',
+  'estimate',
+])
+export type EpisodeStep = z.infer<typeof EpisodeStep>

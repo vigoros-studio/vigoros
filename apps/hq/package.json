@@ -11,22 +11,29 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
+    "@react-three/postprocessing": "^3.1.3",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.117.0",
     "@vigoros/contracts": "workspace:*",
     "@vigoros/db": "workspace:*",
     "@vigoros/engine": "workspace:*",
+    "@vigoros/ops": "workspace:*",
     "@vigoros/org": "workspace:*",
     "drizzle-orm": "^0.45.0",
     "next": "^16.3.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "server-only": "^0.0.1",
-    "zod": "^4.1.0"
+    "three": "^0.186.1",
+    "zod": "^4.1.0",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
+    "@types/three": "^0.186.0",
     "typescript": "^5.8.3",
     "vitest": "^3.1.0"
   }

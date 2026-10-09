@@ -3,8 +3,9 @@ import { z } from 'zod'
 
 const Env = z.object({
   DATABASE_URL: z.string().url(),
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
+  /** Both required for sign-in and Realtime. Without them the HQ polls, and only the local dev bypass can sign in. */
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1).optional(),
   /** Comma-separated. The HQ is private: anyone not listed is signed out. */
   HQ_ALLOWED_EMAILS: z.string().default(''),
 })

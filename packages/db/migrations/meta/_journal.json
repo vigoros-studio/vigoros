@@ -8,6 +8,13 @@
       "when": 1791560406833,
       "tag": "0000_studio_foundation",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791563590645,
+      "tag": "0001_workflows_and_simulation",
+      "breakpoints": true
     }
   ]
 }

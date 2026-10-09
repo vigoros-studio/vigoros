@@ -1,0 +1,16 @@
+{
+  "name": "@vigoros/ops",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": { "types": "./src/index.ts", "default": "./src/index.ts" } },
+  "scripts": { "test": "vitest run --passWithNoTests", "typecheck": "tsc --noEmit" },
+  "dependencies": {
+    "@vigoros/contracts": "workspace:*",
+    "@vigoros/db": "workspace:*",
+    "@vigoros/engine": "workspace:*",
+    "drizzle-orm": "^0.45.0",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": { "typescript": "^5.8.3", "vitest": "^3.1.0" }
+}

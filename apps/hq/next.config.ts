@@ -2,6 +2,7 @@ import type { NextConfig } from 'next'
 
 const config: NextConfig = {
   reactStrictMode: true,
+  agentRules: false,
   poweredByHeader: false,
   transpilePackages: ['@vigoros/db', '@vigoros/contracts', '@vigoros/engine', '@vigoros/org'],
   serverExternalPackages: ['postgres'],

@@ -10,7 +10,8 @@ async function sendLink(form: FormData) {
     .trim()
     .toLowerCase()
   if (!email || !allowedEmails().has(email)) redirect('/login?sent=1')
-  const supabase = await supabaseServer()
+  const supabase = await supabaseServer().catch(() => null)
+  if (!supabase) redirect('/login?sent=1')
   const origin = process.env['NEXT_PUBLIC_SITE_URL'] ?? 'http://localhost:3100'
   await supabase.auth.signInWithOtp({
     email,

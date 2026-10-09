@@ -111,6 +111,38 @@ export const agents = studio.table(
   ],
 )
 
+export const workflows = studio.table(
+  'workflows',
+  {
+    id: text().primaryKey(),
+    companyId: text()
+      .notNull()
+      .references(() => companies.id),
+    characterId: text().references(() => characters.id),
+    kind: text().notNull(),
+    title: text().notNull(),
+    status: text().notNull().default('running'),
+    step: text().notNull(),
+    /** Agent id or 'founder'. */
+    startedBy: text().notNull(),
+    input: json<Record<string, unknown>>().notNull().default({}),
+    /** Artifact ids by step, approval id, the chosen script, the episode directory. */
+    state: json<Record<string, unknown>>().notNull().default({}),
+    /** Whether any run inside it used the fake adapter. Shown everywhere the workflow is. */
+    simulated: boolean().notNull().default(false),
+    capUsd: doublePrecision().notNull(),
+    spentUsd: doublePrecision().notNull().default(0),
+    error: text(),
+    createdAt: createdAt(),
+    updatedAt: ts('updated_at').notNull().defaultNow(),
+    finishedAt: ts('finished_at'),
+  },
+  (t) => [
+    index('workflows_status').on(t.status, t.updatedAt),
+    index('workflows_character').on(t.characterId, t.createdAt),
+  ],
+)
+
 export const tasks = studio.table(
   'tasks',
   {
@@ -120,6 +152,9 @@ export const tasks = studio.table(
       .references(() => companies.id),
     characterId: text().references(() => characters.id),
     parentId: text(),
+    workflowId: text().references(() => workflows.id),
+    /** Step name inside the workflow; with workflowId and ownerAgentId this is unique, which is what prevents duplicates. */
+    step: text(),
     ownerAgentId: text()
       .notNull()
       .references(() => agents.id),
@@ -146,6 +181,8 @@ export const tasks = studio.table(
     index('tasks_parent').on(t.parentId),
     index('tasks_character_status').on(t.characterId, t.status),
     index('tasks_status_updated').on(t.status, t.updatedAt),
+    index('tasks_workflow').on(t.workflowId),
+    uniqueIndex('tasks_workflow_step_owner').on(t.workflowId, t.step, t.ownerAgentId),
   ],
 )
 
@@ -162,6 +199,8 @@ export const runs = studio.table(
     status: text().notNull().default('started'),
     model: text().notNull(),
     effort: text().notNull(),
+    /** 'fake' | 'anthropic'. A fake run is simulated and is shown as such everywhere. */
+    adapter: text().notNull().default('fake'),
     /** Full request and response bodies, kept 90 days then reduced to usage and summary. */
     request: json<unknown>(),
     response: json<unknown>(),
@@ -232,6 +271,7 @@ export const decisions = studio.table(
       .references(() => companies.id),
     characterId: text().references(() => characters.id),
     taskId: text().references(() => tasks.id),
+    workflowId: text(),
     runId: text(),
     chooserId: text().notNull(),
     question: text().notNull(),
@@ -259,6 +299,7 @@ export const approvals = studio.table(
       .references(() => companies.id),
     characterId: text().references(() => characters.id),
     taskId: text().references(() => tasks.id),
+    workflowId: text(),
     requestedBy: text().notNull(),
     kind: text().notNull(),
     headline: text().notNull(),
@@ -284,9 +325,11 @@ export const artifacts = studio.table(
     characterId: text().references(() => characters.id),
     taskId: text().references(() => tasks.id),
     runId: text(),
+    workflowId: text(),
     producedBy: text().notNull(),
     kind: text().notNull(),
     title: text().notNull(),
+    simulated: boolean().notNull().default(false),
     /** Structured content for agent outputs; null when the artifact is a file on the worker machine. */
     content: json<unknown>(),
     /** Path relative to the character's production root, for files the worker wrote. */
@@ -357,6 +400,7 @@ export const events = studio.table(
     agentId: text(),
     departmentId: text(),
     taskId: text(),
+    workflowId: text(),
     kind: text().notNull(),
     subject: text().notNull(),
     caption: text().notNull(),

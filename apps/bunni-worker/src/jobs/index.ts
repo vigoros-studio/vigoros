@@ -55,7 +55,13 @@ export const runJob = (guard: PathGuard, policy: JobPolicy, raw: unknown): Bunni
       }
       case 'episode.package': {
         const out = episodePackage(guard, input.data as never)
-        return { status: 'ok', job: req.job, output: out, artifacts: out.files, credits: 0 }
+        return {
+          status: 'ok',
+          job: req.job,
+          output: out,
+          artifacts: out.files,
+          credits: out.jobs.reduce((a, j) => a + j.creditsSpent, 0),
+        }
       }
       case 'publish.package':
         return {

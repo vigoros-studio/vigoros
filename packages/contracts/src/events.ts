@@ -12,6 +12,7 @@ export const Event = z.object({
   agentId: z.string().nullable(),
   departmentId: z.string().nullable(),
   taskId: z.string().nullable(),
+  workflowId: z.string().nullable().default(null),
   /** Row that caused the event, as `table:id`. */
   subject: z.string(),
   /** One line a person can read in the feed. Written by code, not a model. */

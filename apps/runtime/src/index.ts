@@ -1,10 +1,11 @@
 import { QUEUES, boss, stopBoss } from './boss'
 import { env } from './env'
-import { runTurn } from './turn'
+import { onBunniResult, runTurn } from './turn'
+import { tick } from './workflow'
 
 /**
- * The runtime process. Any number of these can run; pg-boss hands each job to exactly one.
- * Turns are serialised per task by singleton key, so two runtimes never run the same task at once.
+ * The runtime process. Any number of these can run; pg-boss hands each job to exactly one, turns
+ * are singleton-keyed per task, and the tick is idempotent, so restarts never duplicate work.
  */
 const main = async () => {
   const e = env()
@@ -15,25 +16,40 @@ const main = async () => {
 
   await b.work<{ taskId: string }>(
     QUEUES.agentTurn,
-    { batchSize: 1, pollingIntervalSeconds: 2 },
+    { batchSize: 1, pollingIntervalSeconds: 1 },
     async ([job]) => {
       if (!job) return
       await runTurn(job.data.taskId)
     },
   )
 
-  await b.work<{ taskId: string; result: unknown }>(
+  await b.work<Parameters<typeof onBunniResult>[0]>(
     QUEUES.bunniResult,
-    { batchSize: 1, pollingIntervalSeconds: 2 },
+    { batchSize: 1, pollingIntervalSeconds: 1 },
     async ([job]) => {
       if (!job) return
-      // Phase 1: fold worker results back into the requesting task and continue the workflow.
-      console.log('[runtime] bunni result for', job.data.taskId)
+      await onBunniResult(job.data)
     },
   )
 
+  let ticking = false
+  const heartbeat = setInterval(async () => {
+    if (ticking) return
+    ticking = true
+    try {
+      const r = await tick()
+      if (r.enqueued)
+        console.log(`[runtime] tick: ${r.advanced} workflows, ${r.enqueued} turns enqueued`)
+    } catch (err) {
+      console.error('[runtime] tick failed', err)
+    } finally {
+      ticking = false
+    }
+  }, 3000)
+
   const shutdown = async () => {
     console.log('[runtime] stopping')
+    clearInterval(heartbeat)
     await stopBoss()
     process.exit(0)
   }

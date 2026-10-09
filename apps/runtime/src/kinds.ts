@@ -1,8 +1,10 @@
 import {
+  Acknowledgement,
   ApprovalItem,
   ArtifactKind,
   Briefing,
   DirectorPick,
+  DirectorPlan,
   MeasurementPlan,
   OpportunityReport,
   ProductionEstimate,
@@ -120,6 +122,30 @@ export const TASK_KINDS: readonly TaskKind[] = [
     maxOutputTokens: 2000,
     user: (_input, a) =>
       `Write the approval item for the founder from these artifacts.${artifactsBlock(a)}`,
+  },
+  {
+    kind: 'direct.instruction',
+    roleKey: 'studio-director',
+    schemaName: 'DirectorPlan',
+    schema: DirectorPlan,
+    artifactKind: 'briefing',
+    reviewing: false,
+    webSearch: false,
+    maxOutputTokens: 2000,
+    user: (input) =>
+      `The founder says: "${String(input['instruction'] ?? '')}". Read it as the Studio Director. If it asks for content, set startWorkflow to true with the focus and guidance the writers need; otherwise summarise what you will do.`,
+  },
+  {
+    kind: 'agent.instruction',
+    roleKey: '*',
+    schemaName: 'Acknowledgement',
+    schema: Acknowledgement,
+    artifactKind: 'briefing',
+    reviewing: false,
+    webSearch: false,
+    maxOutputTokens: 1500,
+    user: (input) =>
+      `The founder says: "${String(input['instruction'] ?? '')}". Acknowledge it in your role: what you will do, and anything only the founder can decide.`,
   },
   {
     kind: 'direct.briefing',

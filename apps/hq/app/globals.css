@@ -101,3 +101,359 @@ button {
   border-radius: 6px;
   cursor: pointer;
 }
+
+/* Headquarters overlay */
+.hq {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+.hq-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--quiet);
+}
+.hq-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: linear-gradient(to bottom, rgba(8, 8, 10, 0.9), rgba(8, 8, 10, 0));
+  pointer-events: none;
+  z-index: 5;
+}
+.hq-header > div {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  pointer-events: auto;
+}
+.hq-header strong {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.hq-actions {
+  gap: 8px;
+}
+.pill {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--quiet);
+}
+.pill.sim {
+  color: #f2c48b;
+  border-color: #5a4324;
+}
+.pill.real {
+  color: #9ff0c4;
+  border-color: #2a5a3f;
+}
+.pill.paused {
+  color: var(--accent);
+  border-color: #6a3a4e;
+}
+.pill.conn.live {
+  color: #9ff0c4;
+}
+.pill.conn.polling,
+.pill.conn.connecting {
+  color: #f2c48b;
+}
+.pill.conn.offline {
+  color: var(--accent);
+}
+.pill.small {
+  font-size: 10px;
+  padding: 2px 6px;
+  margin-right: 6px;
+}
+button.ghost,
+a.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+button.ghost.small {
+  padding: 2px 8px;
+  font-size: 12px;
+}
+button.danger {
+  background: #3a1b27;
+  color: #ffb3cf;
+}
+button.resume,
+button.approve {
+  background: #1d3a2b;
+  color: #9ff0c4;
+}
+.hq-rail {
+  position: absolute;
+  left: 20px;
+  top: 64px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 4;
+}
+.rail-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  background: rgba(12, 12, 14, 0.72);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 8px 10px;
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+}
+.rail-item.active {
+  border-color: var(--lit);
+}
+.rail-item em {
+  color: #f2c48b;
+  font-style: normal;
+  font-size: 11px;
+}
+.rail-flows {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.lamp {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2a2a30;
+  flex: none;
+}
+.lamp.on,
+.lamp.running,
+.lamp.producing {
+  background: var(--lit);
+  box-shadow: 0 0 8px var(--lit);
+}
+.lamp.awaiting_approval {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.lamp.done {
+  background: #9ff0c4;
+}
+.lamp.failed,
+.lamp.rejected {
+  background: #ff6b6b;
+}
+.hq-panel {
+  position: absolute;
+  right: 20px;
+  top: 64px;
+  bottom: 90px;
+  width: 400px;
+  overflow: auto;
+  background: rgba(12, 12, 14, 0.84);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px 18px 24px;
+  backdrop-filter: blur(12px);
+  z-index: 4;
+}
+.hq-panel h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 500;
+}
+.hq-panel h4 {
+  margin: 18px 0 6px;
+  font-size: 12px;
+  color: var(--quiet);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+.hq-panel .close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: transparent;
+  color: var(--quiet);
+  font-size: 20px;
+  padding: 2px 8px;
+}
+.hq-panel dl {
+  margin: 10px 0;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 4px 10px;
+  font-size: 13px;
+}
+.hq-panel dt {
+  color: var(--quiet);
+}
+.hq-panel dd {
+  margin: 0;
+}
+.hq-panel .state {
+  font-size: 13px;
+}
+.state.working,
+.state.reviewing {
+  color: var(--lit);
+}
+.state.blocked {
+  color: var(--accent);
+}
+.line {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.line.as-button {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: var(--ink);
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 0;
+  padding: 8px 0;
+}
+.line.as-button.active {
+  color: var(--lit);
+}
+.dot.queued,
+.dot.running {
+  background: var(--lit);
+}
+.dot.done {
+  background: #9ff0c4;
+}
+.dot.failed,
+.dot.cancelled {
+  background: #ff6b6b;
+}
+.instruct textarea,
+.approval textarea {
+  width: 100%;
+  background: #0e0e11;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 8px;
+  font: inherit;
+  font-size: 13px;
+  resize: vertical;
+}
+.instruct button {
+  margin-top: 6px;
+}
+.artifact pre {
+  font-size: 11.5px;
+  line-height: 1.45;
+  background: #0e0e11;
+  padding: 10px;
+  border-radius: 6px;
+  overflow: auto;
+  max-height: 320px;
+  white-space: pre-wrap;
+}
+.approval {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+.approval p {
+  font-size: 13px;
+}
+.decide {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.msg {
+  font-size: 13px;
+  background: #121216;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+.small {
+  font-size: 12px;
+}
+.hq-ticker {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  color: #c9c9cf;
+  pointer-events: none;
+  z-index: 3;
+}
+.hq-ticker div:nth-child(n + 2) {
+  opacity: 0.55;
+}
+.hq-ticker div:nth-child(n + 4) {
+  opacity: 0.3;
+}
+.tag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 11px;
+  color: var(--ink);
+  background: rgba(10, 10, 12, 0.7);
+  padding: 3px 7px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  line-height: 1.25;
+}
+.tag strong {
+  font-weight: 500;
+}
+.tag span {
+  color: var(--quiet);
+  font-size: 10px;
+}
+.tag.working span,
+.tag.reviewing span {
+  color: var(--lit);
+}
+.tag.blocked span {
+  color: var(--accent);
+}
+.tag.selected {
+  border-color: var(--lit);
+}
+@media (max-width: 900px) {
+  .hq-rail {
+    display: none;
+  }
+  .hq-panel {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    top: 72px;
+  }
+}

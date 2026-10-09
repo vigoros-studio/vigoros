@@ -2,8 +2,8 @@ import { newId } from '@vigoros/contracts'
 import { agents, budgets, characterState, characters, companies, departments } from '@vigoros/db'
 import { DEPARTMENTS, PHASE_ONE_ROLES, ROOMS } from '@vigoros/org'
 import { eq } from 'drizzle-orm'
+import { emit } from '@vigoros/ops'
 import { db } from './db'
-import { emit } from './events'
 
 const AVATAR_NAMES: Record<string, string> = {
   'studio-director': 'Director',
@@ -79,23 +79,21 @@ export const seed = async (opts: { bunniRoot: string; dailyCapUsd: number }) => 
     const desk = (deskCounter.get(departmentId) ?? 0) + 1
     deskCounter.set(departmentId, desk)
     const id = newId('agent')
-    await d
-      .insert(agents)
-      .values({
-        id,
-        companyId: company.id,
-        characterId,
-        departmentId,
-        roleKey: role.key,
-        roleVersion: role.version,
-        title: role.title,
-        name: AVATAR_NAMES[role.key] ?? role.title,
-        model: role.model,
-        tier: role.tier,
-        desk,
-      })
+    await d.insert(agents).values({
+      id,
+      companyId: company.id,
+      characterId,
+      departmentId,
+      roleKey: role.key,
+      roleVersion: role.version,
+      title: role.title,
+      name: AVATAR_NAMES[role.key] ?? role.title,
+      model: role.model,
+      tier: role.tier,
+      desk,
+    })
     created.push(role.key)
-    await emit({
+    await emit(d, {
       kind: 'agent.state',
       companyId: company.id,
       characterId,
