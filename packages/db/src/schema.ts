@@ -1,410 +1,392 @@
-import { sql } from 'drizzle-orm'
 import {
+  bigserial,
   boolean,
-  char,
-  check,
-  date,
   doublePrecision,
   index,
   integer,
   jsonb,
-  pgEnum,
-  pgTable,
-  primaryKey,
+  pgSchema,
   real,
-  smallint,
   text,
   timestamp,
   uniqueIndex,
-  customType,
 } from 'drizzle-orm/pg-core'
 
-/*
- * Conventions
- * - ULIDs are char(26). Time-sortable, so every primary key index is append-only.
- * - Every fact table that grows with time carries issue_date, and every hot query filters on it.
- * - Aggregates are additive (sums, counts) and stored per participant per day so that
- *   reads are O(days), never O(commitments). See @vigoros/scoring accumulators.
- * - Sealed commitment fields (p, reasoning, falsifier) are never exposed through PostgREST.
- *   Public reads go through views that require revealed_at IS NOT NULL (see custom migration).
- */
-
-const ulid = (name?: string) => (name ? char(name, { length: 26 }) : char({ length: 26 }))
-const bytea = customType<{ data: Uint8Array; driverData: Uint8Array }>({ dataType: () => 'bytea' })
-
-export const venueEnum = pgEnum('venue', ['US', 'UK', 'FX', 'CRYPTO'])
-export const assetClassEnum = pgEnum('asset_class', ['EQUITY', 'ETF', 'FX', 'CRYPTO'])
-export const questionTypeEnum = pgEnum('question_type', ['LEVEL', 'RELATIVE', 'QUINTILE'])
-export const questionStatusEnum = pgEnum('question_status', ['OPEN', 'PENDING', 'RESOLVED', 'VOID'])
-export const participantKindEnum = pgEnum('participant_kind', ['HUMAN', 'AGENT', 'REFERENCE_MODEL', 'BASELINE'])
-export const visibilityEnum = pgEnum('visibility', ['PRIVATE', 'PUBLISHED'])
-
-// ---------------------------------------------------------------------------------------------
-// Reference data
-// ---------------------------------------------------------------------------------------------
-
-export const methodologyVersions = pgTable('methodology_versions', {
-  version: text().primaryKey(),
-  effectiveFrom: date().notNull(),
-  announcedAt: timestamp({ withTimezone: true }).notNull(),
-  docUrl: text().notNull(),
-})
-
-export const universeVersions = pgTable('universe_versions', {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  effectiveFrom: date().notNull(),
-  note: text(),
-  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-})
-
-export const assets = pgTable(
-  'assets',
-  {
-    id: ulid().primaryKey(),
-    symbol: text().notNull(),
-    venue: venueEnum().notNull(),
-    assetClass: assetClassEnum().notNull(),
-    name: text().notNull(),
-    /** Peer group for RELATIVE questions. GICS sector for equities, venue for FX/crypto. */
-    peerGroup: text().notNull(),
-    /** Vendor symbol, e.g. Tiingo ticker. */
-    vendorSymbol: text().notNull(),
-    activeFrom: integer()
-      .notNull()
-      .references(() => universeVersions.id),
-    activeTo: integer().references(() => universeVersions.id),
-    /** Incremental ingestion state. The ingest job picks the stalest assets first. */
-    lastPriceDay: date(),
-    lastIngestAt: timestamp({ withTimezone: true }),
-    lastIngestError: text(),
-  },
-  (t) => [
-    uniqueIndex('assets_symbol_venue_idx').on(t.symbol, t.venue),
-    index('assets_venue_active_idx').on(t.venue, t.activeTo),
-    index('assets_ingest_idx').on(t.lastIngestAt),
-  ],
-)
-
-export const tradingDays = pgTable(
-  'trading_days',
-  {
-    venue: venueEnum().notNull(),
-    day: date().notNull(),
-  },
-  (t) => [primaryKey({ columns: [t.venue, t.day] })],
-)
-
-/** End-of-day reference prices. Composite PK gives the only access path we need: (asset, date range). */
-export const prices = pgTable(
-  'prices',
-  {
-    assetId: ulid()
-      .notNull()
-      .references(() => assets.id),
-    day: date().notNull(),
-    close: doublePrecision().notNull(),
-    adjClose: doublePrecision().notNull(),
-    volume: doublePrecision(),
-    source: text().notNull(),
-    ingestedAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-  },
-  (t) => [primaryKey({ columns: [t.assetId, t.day] }), index('prices_day_idx').using('brin', t.day)],
-)
-
-// ---------------------------------------------------------------------------------------------
-// Questions
-// ---------------------------------------------------------------------------------------------
-
-export const questionSets = pgTable('question_sets', {
-  issueDate: date().primaryKey(),
-  seed: text().notNull(),
-  methodologyVersion: text()
-    .notNull()
-    .references(() => methodologyVersions.version),
-  universeVersion: integer()
-    .notNull()
-    .references(() => universeVersions.id),
-  questionCount: integer().notNull(),
-  /** Published prior table for this issue date: { assetClass: { horizon: { k: q } } }. */
-  priorTable: jsonb().notNull(),
-  generatedAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-})
-
-export const questions = pgTable(
-  'questions',
-  {
-    id: ulid().primaryKey(),
-    issueDate: date()
-      .notNull()
-      .references(() => questionSets.issueDate),
-    venue: venueEnum().notNull(),
-    assetId: ulid()
-      .notNull()
-      .references(() => assets.id),
-    type: questionTypeEnum().notNull(),
-    horizon: smallint().notNull(),
-    levelK: smallint(),
-    threshold: doublePrecision(),
-    referencePrice: doublePrecision().notNull(),
-    prior: real().notNull(),
-    deadlineAt: timestamp({ withTimezone: true }).notNull(),
-    resolvesOn: date().notNull(),
-    status: questionStatusEnum().notNull().default('OPEN'),
-    outcome: smallint(),
-    resolvedAt: timestamp({ withTimezone: true }),
-    voidReason: text(),
-    methodologyVersion: text().notNull(),
-  },
-  (t) => [
-    index('questions_issue_date_idx').on(t.issueDate),
-    index('questions_resolves_status_idx').on(t.resolvesOn, t.status),
-    index('questions_asset_issue_idx').on(t.assetId, t.issueDate),
-    check('questions_horizon_chk', sql`${t.horizon} in (5, 10, 21)`),
-    check('questions_prior_chk', sql`${t.prior} > 0 and ${t.prior} < 1`),
-    check('questions_outcome_chk', sql`${t.outcome} is null or ${t.outcome} in (0, 1)`),
-  ],
-)
-
-// ---------------------------------------------------------------------------------------------
-// Identity
-// ---------------------------------------------------------------------------------------------
-
-export const publishers = pgTable('publishers', {
-  id: ulid().primaryKey(),
-  /** Supabase auth user id. */
-  authUserId: text().notNull().unique(),
-  email: text().notNull().unique(),
-  displayName: text().notNull(),
-  verifiedAt: timestamp({ withTimezone: true }),
-  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-})
-
-export const participants = pgTable(
-  'participants',
-  {
-    id: ulid().primaryKey(),
-    publisherId: ulid()
-      .notNull()
-      .references(() => publishers.id),
-    kind: participantKindEnum().notNull(),
-    handle: text().notNull().unique(),
-    displayName: text().notNull(),
-    visibility: visibilityEnum().notNull().default('PRIVATE'),
-    publishedAt: timestamp({ withTimezone: true }),
-    /** For REFERENCE_MODEL: provider/model/prompt version. For BASELINE: strategy id. */
-    config: jsonb(),
-    createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-  },
-  (t) => [index('participants_publisher_idx').on(t.publisherId), index('participants_visibility_idx').on(t.visibility)],
-)
-
-export const apiKeys = pgTable(
-  'api_keys',
-  {
-    id: ulid().primaryKey(),
-    participantId: ulid()
-      .notNull()
-      .references(() => participants.id),
-    /** SHA-256 of the full key. The key itself is shown once and never stored. */
-    keyHash: char({ length: 64 }).notNull().unique(),
-    /** First 8 chars, for display. */
-    prefix: char({ length: 8 }).notNull(),
-    label: text(),
-    createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-    lastUsedAt: timestamp({ withTimezone: true }),
-    revokedAt: timestamp({ withTimezone: true }),
-  },
-  (t) => [index('api_keys_participant_idx').on(t.participantId)],
-)
-
-// ---------------------------------------------------------------------------------------------
-// Commitments and sealing
-// ---------------------------------------------------------------------------------------------
-
-export const sealRoots = pgTable('seal_roots', {
-  id: ulid().primaryKey(),
-  sealDate: date().notNull().unique(),
-  merkleRoot: char({ length: 64 }).notNull(),
-  leafCount: integer().notNull(),
-  /** OpenTimestamps proof, upgraded once the Bitcoin attestation lands. */
-  otsProof: bytea(),
-  anchoredAt: timestamp({ withTimezone: true }),
-  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-})
-
-export const commitments = pgTable(
-  'commitments',
-  {
-    id: ulid().primaryKey(),
-    participantId: ulid()
-      .notNull()
-      .references(() => participants.id),
-    questionId: ulid()
-      .notNull()
-      .references(() => questions.id),
-    issueDate: date().notNull(),
-    p: real().notNull(),
-    reasoning: text(),
-    falsifier: text(),
-    /** SHA-256 of the canonical sealed payload. */
-    hash: char({ length: 64 }).notNull(),
-    submittedAt: timestamp({ withTimezone: true }).notNull(),
-    sealRootId: ulid().references(() => sealRoots.id),
-    /** Merkle inclusion proof, once sealed: array of {position, hash}. */
-    inclusionProof: jsonb(),
-    revealedAt: timestamp({ withTimezone: true }),
-  },
-  (t) => [
-    uniqueIndex('commitments_participant_question_idx').on(t.participantId, t.questionId),
-    index('commitments_question_idx').on(t.questionId),
-    index('commitments_participant_issue_idx').on(t.participantId, t.issueDate),
-    index('commitments_unsealed_idx').on(t.submittedAt).where(sql`${t.sealRootId} is null`),
-    check('commitments_p_chk', sql`${t.p} >= 0.01 and ${t.p} <= 0.99`),
-  ],
-)
-
-// ---------------------------------------------------------------------------------------------
-// Scores and aggregates
-// ---------------------------------------------------------------------------------------------
-
-/** One row per resolved commitment per methodology version. Immutable once written. */
-export const scores = pgTable(
-  'scores',
-  {
-    commitmentId: ulid()
-      .notNull()
-      .references(() => commitments.id),
-    methodologyVersion: text().notNull(),
-    participantId: ulid().notNull(),
-    questionId: ulid().notNull(),
-    issueDate: date().notNull(),
-    horizon: smallint().notNull(),
-    questionType: questionTypeEnum().notNull(),
-    outcome: smallint().notNull(),
-    brier: real().notNull(),
-    priorBrier: real().notNull(),
-    log: real().notNull(),
-    priorLog: real().notNull(),
-    scoredAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-  },
-  (t) => [
-    primaryKey({ columns: [t.commitmentId, t.methodologyVersion] }),
-    index('scores_participant_issue_idx').on(t.participantId, t.issueDate),
-  ],
-)
-
 /**
- * Additive daily aggregates. Key includes horizon and question type so decay-by-horizon and
- * per-type skill are sums over at most 9 rows per participant-day. Calibration bins are
- * stored as arrays of 10.
+ * Vigoros Studio lives in its own Postgres schema. Every table is character-scoped where it can be,
+ * so a second character is a new row set, not a new schema. Ids are typed ULIDs from @vigoros/contracts.
  */
-export const participantDaily = pgTable(
-  'participant_daily',
-  {
-    participantId: ulid()
-      .notNull()
-      .references(() => participants.id),
-    issueDate: date().notNull(),
-    methodologyVersion: text().notNull(),
-    horizon: smallint().notNull(),
-    questionType: questionTypeEnum().notNull(),
-    n: integer().notNull(),
-    sumBrier: doublePrecision().notNull(),
-    sumPriorBrier: doublePrecision().notNull(),
-    sumLog: doublePrecision().notNull(),
-    sumPriorLog: doublePrecision().notNull(),
-    calCounts: integer().array().notNull(),
-    calSumForecast: doublePrecision().array().notNull(),
-    calSumOutcome: doublePrecision().array().notNull(),
-    updatedAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-  },
-  (t) => [
-    primaryKey({ columns: [t.participantId, t.issueDate, t.methodologyVersion, t.horizon, t.questionType] }),
-  ],
-)
+export const studio = pgSchema('studio')
 
-/** Materialised nightly. Everything a record page or the board shows comes from this one row. */
-export const participantStats = pgTable(
-  'participant_stats',
-  {
-    participantId: ulid()
-      .notNull()
-      .references(() => participants.id),
-    methodologyVersion: text().notNull(),
-    n: integer().notNull(),
-    distinctIssueDates: integer().notNull(),
-    firstIssueDate: date(),
-    lastIssueDate: date(),
-    /** Whether the minimum record (§7) is met. Board and record pages hide scores otherwise. */
-    eligible: boolean().notNull(),
-    bss: doublePrecision(),
-    bssLower: doublePrecision(),
-    bssUpper: doublePrecision(),
-    evidenceNats: doublePrecision(),
-    ece: doublePrecision(),
-    reliability: doublePrecision(),
-    resolution: doublePrecision(),
-    uncertainty: doublePrecision(),
-    pValue: doublePrecision(),
-    identityCount: integer().notNull().default(1),
-    adjustedPValue: doublePrecision(),
-    /** Fraction of issued questions answered over the record's span. */
-    coverage: doublePrecision(),
-    distinctAssets: integer(),
-    /** { "5": bss, "10": bss, "21": bss } and { LEVEL: bss, ... } for the decay and type panels. */
-    bssByHorizon: jsonb(),
-    bssByType: jsonb(),
-    /** Rolling 63-day BSS series: [{ date, bss, n }]. Bounded length, built from participant_daily. */
-    rollingSeries: jsonb(),
-    calibrationBins: jsonb(),
-    bootstrapSeed: integer().notNull(),
-    computedAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-  },
-  (t) => [
-    primaryKey({ columns: [t.participantId, t.methodologyVersion] }),
-    index('participant_stats_board_idx').on(t.methodologyVersion, t.eligible, t.bssLower),
-  ],
-)
+const ts = (name: string) => timestamp(name, { withTimezone: true, mode: 'date' })
+const createdAt = () => ts('created_at').notNull().defaultNow()
+const json = <T>() => jsonb().$type<T>()
 
-// ---------------------------------------------------------------------------------------------
-// Reference board audit trail
-// ---------------------------------------------------------------------------------------------
-
-export const referenceRuns = pgTable(
-  'reference_runs',
-  {
-    id: ulid().primaryKey(),
-    participantId: ulid()
-      .notNull()
-      .references(() => participants.id),
-    issueDate: date().notNull(),
-    provider: text().notNull(),
-    model: text().notNull(),
-    promptVersion: text().notNull(),
-    requestHash: char({ length: 64 }).notNull(),
-    responseHash: char({ length: 64 }),
-    questionsAnswered: integer().notNull().default(0),
-    inputTokens: integer(),
-    outputTokens: integer(),
-    latencyMs: integer(),
-    error: text(),
-    startedAt: timestamp({ withTimezone: true }).notNull(),
-    finishedAt: timestamp({ withTimezone: true }),
-  },
-  (t) => [uniqueIndex('reference_runs_participant_issue_idx').on(t.participantId, t.issueDate)],
-)
-
-// ---------------------------------------------------------------------------------------------
-// Prior tables, recomputed monthly (methodology §5)
-// ---------------------------------------------------------------------------------------------
-
-export const priorTables = pgTable('prior_tables', {
-  /** First day of the month the table is in force for. */
-  month: date().primaryKey(),
-  methodologyVersion: text().notNull(),
-  /** Serialised PriorTable from @vigoros/questions. */
-  table: jsonb().notNull(),
-  /** Trading day the window ended on. */
-  asOf: date().notNull(),
-  computedAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+export const companies = studio.table('companies', {
+  id: text().primaryKey(),
+  name: text().notNull(),
+  paused: boolean().notNull().default(false),
+  pausedReason: text(),
+  dailyCapUsd: doublePrecision().notNull().default(5),
+  createdAt: createdAt(),
 })
+
+export const characters = studio.table(
+  'characters',
+  {
+    id: text().primaryKey(),
+    companyId: text()
+      .notNull()
+      .references(() => companies.id),
+    key: text().notNull(),
+    name: text().notNull(),
+    handle: text().notNull(),
+    /** Root of the character's production environment on the worker machine. Never read by the runtime. */
+    productionRoot: text().notNull(),
+    active: boolean().notNull().default(true),
+    createdAt: createdAt(),
+  },
+  (t) => [uniqueIndex('characters_company_key').on(t.companyId, t.key)],
+)
+
+export const characterState = studio.table('character_state', {
+  characterId: text()
+    .primaryKey()
+    .references(() => characters.id),
+  /** Running storyline, gag register, episode summaries. Updated by the Showrunner after approval. */
+  storyline: text().notNull().default(''),
+  gags: json<string[]>().notNull().default([]),
+  episodes: json<
+    { episode: string; title: string; summary: string; publishedAt: string | null }[]
+  >()
+    .notNull()
+    .default([]),
+  canonVersion: text().notNull().default('bunni-bible-2026-10'),
+  updatedAt: ts('updated_at').notNull().defaultNow(),
+})
+
+export const departments = studio.table(
+  'departments',
+  {
+    id: text().primaryKey(),
+    companyId: text()
+      .notNull()
+      .references(() => companies.id),
+    key: text().notNull(),
+    name: text().notNull(),
+    purpose: text().notNull(),
+    room: json<{ origin: [number, number]; size: [number, number]; desks: number }>().notNull(),
+    dailyCapUsd: doublePrecision().notNull().default(2),
+    paused: boolean().notNull().default(false),
+  },
+  (t) => [uniqueIndex('departments_company_key').on(t.companyId, t.key)],
+)
+
+export const agents = studio.table(
+  'agents',
+  {
+    id: text().primaryKey(),
+    companyId: text()
+      .notNull()
+      .references(() => companies.id),
+    characterId: text().references(() => characters.id),
+    departmentId: text()
+      .notNull()
+      .references(() => departments.id),
+    roleKey: text().notNull(),
+    roleVersion: integer().notNull(),
+    title: text().notNull(),
+    /** Display name of the avatar. */
+    name: text().notNull(),
+    model: text().notNull(),
+    tier: integer().notNull(),
+    desk: integer().notNull(),
+    active: boolean().notNull().default(true),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('agents_department').on(t.departmentId),
+    index('agents_character').on(t.characterId),
+    uniqueIndex('agents_role_character').on(t.roleKey, t.characterId),
+  ],
+)
+
+export const tasks = studio.table(
+  'tasks',
+  {
+    id: text().primaryKey(),
+    companyId: text()
+      .notNull()
+      .references(() => companies.id),
+    characterId: text().references(() => characters.id),
+    parentId: text(),
+    ownerAgentId: text()
+      .notNull()
+      .references(() => agents.id),
+    /** Agent id, or 'founder'. */
+    requestedBy: text().notNull(),
+    kind: text().notNull(),
+    title: text().notNull(),
+    status: text().notNull().default('queued'),
+    input: json<Record<string, unknown>>().notNull().default({}),
+    output: json<Record<string, unknown>>(),
+    /** Ids of artifacts this task should read. */
+    inputArtifactIds: json<string[]>().notNull().default([]),
+    capUsd: doublePrecision().notNull(),
+    spentUsd: doublePrecision().notNull().default(0),
+    turns: integer().notNull().default(0),
+    blockedReason: text(),
+    deadlineAt: ts('deadline_at'),
+    createdAt: createdAt(),
+    updatedAt: ts('updated_at').notNull().defaultNow(),
+    finishedAt: ts('finished_at'),
+  },
+  (t) => [
+    index('tasks_owner_status').on(t.ownerAgentId, t.status),
+    index('tasks_parent').on(t.parentId),
+    index('tasks_character_status').on(t.characterId, t.status),
+    index('tasks_status_updated').on(t.status, t.updatedAt),
+  ],
+)
+
+export const runs = studio.table(
+  'runs',
+  {
+    id: text().primaryKey(),
+    taskId: text()
+      .notNull()
+      .references(() => tasks.id),
+    agentId: text()
+      .notNull()
+      .references(() => agents.id),
+    status: text().notNull().default('started'),
+    model: text().notNull(),
+    effort: text().notNull(),
+    /** Full request and response bodies, kept 90 days then reduced to usage and summary. */
+    request: json<unknown>(),
+    response: json<unknown>(),
+    toolCalls: json<{ name: string; input: unknown; output: unknown; ms: number }[]>()
+      .notNull()
+      .default([]),
+    outputFingerprint: text(),
+    inputTokens: integer().notNull().default(0),
+    outputTokens: integer().notNull().default(0),
+    cacheReadTokens: integer().notNull().default(0),
+    cacheWriteTokens: integer().notNull().default(0),
+    costUsd: doublePrecision().notNull().default(0),
+    summary: text(),
+    error: text(),
+    startedAt: createdAt(),
+    finishedAt: ts('finished_at'),
+  },
+  (t) => [index('runs_task').on(t.taskId), index('runs_agent_started').on(t.agentId, t.startedAt)],
+)
+
+export const messages = studio.table(
+  'messages',
+  {
+    id: text().primaryKey(),
+    taskId: text().references(() => tasks.id),
+    meetingId: text(),
+    /** Agent id or 'founder'. */
+    fromId: text().notNull(),
+    toId: text().notNull(),
+    body: text().notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [index('messages_task').on(t.taskId), index('messages_to').on(t.toId, t.createdAt)],
+)
+
+export const meetings = studio.table(
+  'meetings',
+  {
+    id: text().primaryKey(),
+    companyId: text()
+      .notNull()
+      .references(() => companies.id),
+    taskId: text().references(() => tasks.id),
+    chairAgentId: text()
+      .notNull()
+      .references(() => agents.id),
+    participantIds: json<string[]>().notNull(),
+    question: text().notNull(),
+    round: integer().notNull().default(0),
+    status: text().notNull().default('open'),
+    outcome: json<
+      | { kind: 'decision'; decisionId: string }
+      | { kind: 'action'; taskId: string }
+      | { kind: 'blocker'; summary: string }
+    >(),
+    openedAt: createdAt(),
+    closedAt: ts('closed_at'),
+  },
+  (t) => [index('meetings_status').on(t.status)],
+)
+
+export const decisions = studio.table(
+  'decisions',
+  {
+    id: text().primaryKey(),
+    companyId: text()
+      .notNull()
+      .references(() => companies.id),
+    characterId: text().references(() => characters.id),
+    taskId: text().references(() => tasks.id),
+    runId: text(),
+    chooserId: text().notNull(),
+    question: text().notNull(),
+    chosen: text().notNull(),
+    alternatives: json<{ option: string; whyNot: string }[]>().notNull().default([]),
+    evidenceArtifactIds: json<string[]>().notNull().default([]),
+    reasoning: text().notNull(),
+    confidence: real(),
+    objections: json<{ byId: string; reason: string; at: string }[]>().notNull().default([]),
+    reopenedCount: integer().notNull().default(0),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('decisions_task').on(t.taskId),
+    index('decisions_character_created').on(t.characterId, t.createdAt),
+  ],
+)
+
+export const approvals = studio.table(
+  'approvals',
+  {
+    id: text().primaryKey(),
+    companyId: text()
+      .notNull()
+      .references(() => companies.id),
+    characterId: text().references(() => characters.id),
+    taskId: text().references(() => tasks.id),
+    requestedBy: text().notNull(),
+    kind: text().notNull(),
+    headline: text().notNull(),
+    summary: text().notNull(),
+    recommendation: text(),
+    costUsd: doublePrecision(),
+    payload: json<Record<string, unknown>>().notNull().default({}),
+    status: text().notNull().default('pending'),
+    founderNote: text(),
+    createdAt: createdAt(),
+    decidedAt: ts('decided_at'),
+  },
+  (t) => [index('approvals_status_created').on(t.status, t.createdAt)],
+)
+
+export const artifacts = studio.table(
+  'artifacts',
+  {
+    id: text().primaryKey(),
+    companyId: text()
+      .notNull()
+      .references(() => companies.id),
+    characterId: text().references(() => characters.id),
+    taskId: text().references(() => tasks.id),
+    runId: text(),
+    producedBy: text().notNull(),
+    kind: text().notNull(),
+    title: text().notNull(),
+    /** Structured content for agent outputs; null when the artifact is a file on the worker machine. */
+    content: json<unknown>(),
+    /** Path relative to the character's production root, for files the worker wrote. */
+    path: text(),
+    sha256: text(),
+    bytes: integer(),
+    mime: text(),
+    thumbnail: text(),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('artifacts_task').on(t.taskId),
+    index('artifacts_character_kind').on(t.characterId, t.kind, t.createdAt),
+  ],
+)
+
+export const budgets = studio.table(
+  'budgets',
+  {
+    id: text().primaryKey(),
+    companyId: text()
+      .notNull()
+      .references(() => companies.id),
+    /** 'company' | 'department:<id>' | 'agent:<id>' | 'workflow:<kind>' */
+    scope: text().notNull(),
+    period: text().notNull().default('day'),
+    capUsd: doublePrecision().notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [uniqueIndex('budgets_scope_period').on(t.companyId, t.scope, t.period)],
+)
+
+export const costLedger = studio.table(
+  'cost_ledger',
+  {
+    id: text().primaryKey(),
+    companyId: text()
+      .notNull()
+      .references(() => companies.id),
+    characterId: text().references(() => characters.id),
+    departmentId: text().references(() => departments.id),
+    agentId: text().references(() => agents.id),
+    taskId: text().references(() => tasks.id),
+    runId: text(),
+    /** 'model' | 'higgsfield' | 'other' */
+    source: text().notNull(),
+    description: text().notNull(),
+    usd: doublePrecision().notNull(),
+    credits: doublePrecision(),
+    /** Calendar day in UTC, for daily caps. */
+    day: text().notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('cost_day_company').on(t.companyId, t.day),
+    index('cost_day_department').on(t.departmentId, t.day),
+    index('cost_task').on(t.taskId),
+  ],
+)
+
+export const events = studio.table(
+  'events',
+  {
+    seq: bigserial({ mode: 'number' }).primaryKey(),
+    id: text().notNull(),
+    companyId: text().notNull(),
+    characterId: text(),
+    agentId: text(),
+    departmentId: text(),
+    taskId: text(),
+    kind: text().notNull(),
+    subject: text().notNull(),
+    caption: text().notNull(),
+    payload: json<Record<string, unknown>>().notNull().default({}),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('events_company_seq').on(t.companyId, t.seq),
+    index('events_agent_seq').on(t.agentId, t.seq),
+    index('events_created').on(t.createdAt),
+  ],
+)
+
+export const memoryNotes = studio.table(
+  'memory_notes',
+  {
+    id: text().primaryKey(),
+    companyId: text()
+      .notNull()
+      .references(() => companies.id),
+    scope: text().notNull(),
+    scopeId: text(),
+    authorId: text().notNull(),
+    sourceDecisionId: text(),
+    sourceArtifactId: text(),
+    body: text().notNull(),
+    confidence: real().notNull().default(0.5),
+    promotedToCanon: boolean().notNull().default(false),
+    expiresAt: ts('expires_at'),
+    createdAt: createdAt(),
+  },
+  (t) => [index('notes_scope').on(t.scope, t.scopeId, t.createdAt)],
+)

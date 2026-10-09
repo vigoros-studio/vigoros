@@ -1,0 +1,21 @@
+{
+  "name": "@vigoros/bunni-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx --env-file-if-exists=../../.env src/index.ts",
+    "dev": "tsx watch --env-file-if-exists=../../.env src/index.ts",
+    "cli": "tsx --env-file-if-exists=../../.env src/cli.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vigoros/contracts": "workspace:*",
+    "@vigoros/db": "workspace:*",
+    "drizzle-orm": "^0.45.0",
+    "pg-boss": "^12.37.0",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": { "tsx": "^4.23.0", "typescript": "^5.8.3", "vitest": "^3.1.0" }
+}

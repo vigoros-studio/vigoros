@@ -3,5 +3,4 @@ packages:
   - "packages/*"
 allowBuilds:
   esbuild: true
-  "@sentry/cli": true
   sharp: true

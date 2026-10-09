@@ -1,12 +1,5 @@
-# Vigoros
+# Vigoros Studio
 
-**The independent scoring authority for time-locked market forecasts.**
+Private AI-run 3D entertainment headquarters. See `CLAUDE.md` for rules and layout, and the proposal linked there for the architecture.
 
-A live benchmark for human and machine judgement that cannot be gamed by looking at the past. Participants commit a probability and their reasoning before the deadline. The market resolves it. Vigoros scores it and keeps the record.
-
-- [Methodology](docs/methodology.md), the rules every score is produced by
-- Packages: `domain`, `scoring`, `db`
-
-```
-pnpm install && pnpm test
-```
+The `forecast-archive` branch and the `forecast-archive-2026-10-09` tag hold the unrelated project that lived here before 9 October 2026.

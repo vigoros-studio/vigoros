@@ -1,23 +1,26 @@
 {
-  "name": "vigoros",
+  "name": "vigoros-studio",
   "private": true,
   "packageManager": "pnpm@11.0.9",
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "test": "turbo run test",
-    "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "format": "prettier --write .",
     "db:generate": "pnpm --filter @vigoros/db generate",
-    "db:migrate": "pnpm --filter @vigoros/db migrate"
+    "db:migrate": "pnpm --filter @vigoros/db migrate",
+    "seed": "pnpm --filter @vigoros/runtime seed",
+    "runtime": "pnpm --filter @vigoros/runtime start",
+    "worker": "pnpm --filter @vigoros/bunni-worker start"
   },
   "devDependencies": {
-    "@types/node": "^22.15.0",
+    "@types/node": "^24.0.0",
     "prettier": "^3.5.3",
+    "tsx": "^4.23.13",
     "turbo": "^2.5.0",
     "typescript": "^5.8.3",
     "vitest": "^3.1.0"
