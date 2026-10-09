@@ -27,7 +27,12 @@ export function BuildingV2({ rooms, children }: { rooms: RoomGeom[]; children?: 
   return (
     <group>
       {/* ground, far and dark, slightly reflective so the lit building sits in the night */}
-      <mesh position={[b.cx, -SLAB_H - 0.01, b.cz]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+      <mesh
+        position={[b.cx, -SLAB_H - 0.01, b.cz]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        receiveShadow
+        raycast={() => null}
+      >
         <planeGeometry args={[220, 220]} />
         <primitive object={M.ground()} attach="material" />
       </mesh>
@@ -244,6 +249,7 @@ function Room({
         rotation={[-Math.PI / 2, 0, 0]}
         visible={false}
         onClick={(e) => {
+          if (e.delta > 6) return // a drag, not a click
           e.stopPropagation()
           select({ kind: 'department', id: room.id })
         }}

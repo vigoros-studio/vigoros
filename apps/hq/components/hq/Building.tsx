@@ -185,6 +185,7 @@ function Boardroom({ room }: { room: RoomGeom }) {
     <group
       position={[p.x, 0, p.z]}
       onClick={(e) => {
+        if (e.delta > 6) return
         e.stopPropagation()
         select({ kind: 'boardroom' })
         setFocus({ x: p.x, z: p.z, zoom: 1.8 })

@@ -16,6 +16,7 @@ export function Panels({ adapterMode }: { adapterMode: string }) {
   const select = useHq((s) => s.select)
   const setFocus = useHq((s) => s.setFocus)
   const refresh = useHq((s) => s.refresh)
+  const goHome = useHq((s) => s.goHome)
   if (!snapshot) return <div className="hq-loading">Loading the headquarters…</div>
   const simulated = adapterMode !== 'anthropic'
   const pending = snapshot.pendingApprovals.length
@@ -52,6 +53,9 @@ export function Panels({ adapterMode }: { adapterMode: string }) {
             }}
           >
             Boardroom{pending ? ` · ${pending}` : ''}
+          </button>
+          <button className="ghost" onClick={goHome} title="Home">
+            Overview
           </button>
           <a className="ghost" href="/ops">
             2D view

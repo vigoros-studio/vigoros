@@ -72,6 +72,7 @@ export function Avatar({
       ref={group}
       position={[home.x, 0, home.z]}
       onClick={(e) => {
+        if (e.delta > 6) return
         e.stopPropagation()
         select({ kind: 'agent', id: agent.id })
         setFocus({ x: home.x, z: home.z, zoom: 2.2 })

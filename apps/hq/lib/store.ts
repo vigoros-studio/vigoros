@@ -15,6 +15,9 @@ export interface HqState {
   focus: { x: number; z: number; zoom: number } | null
   connection: 'connecting' | 'live' | 'polling' | 'offline'
   lastEventAt: string | null
+  /** Bumped by Home so the camera returns to the overview even when nothing was selected. */
+  homeTick: number
+  goHome: () => void
   select: (s: Selection) => void
   setFocus: (f: HqState['focus']) => void
   setSnapshot: (s: Snapshot) => void
@@ -31,6 +34,8 @@ export const useHq = create<HqState>((set, get) => ({
   focus: null,
   connection: 'connecting',
   lastEventAt: null,
+  homeTick: 0,
+  goHome: () => set((s) => ({ selection: null, homeTick: s.homeTick + 1 })),
   select: (selection) => set({ selection }),
   setFocus: (focus) => set({ focus }),
   setSnapshot: (snapshot) => set({ snapshot }),

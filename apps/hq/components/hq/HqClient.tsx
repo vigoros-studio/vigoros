@@ -26,6 +26,21 @@ export function HqClient({
     // Development only: lets a capture script drive selection without clicking into the canvas.
     if (process.env.NODE_ENV !== 'production')
       (window as unknown as { __hq: typeof useHq }).__hq = useHq
+    // Keyboard: Escape steps back one framing (employee to room to overview), Home returns to the overview.
+    const onKey = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement | null)?.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return
+      const { selection, select, snapshot, goHome } = useHq.getState()
+      if (e.key === 'Home') goHome()
+      if (e.key === 'Escape') {
+        if (selection?.kind === 'agent') {
+          const a = snapshot?.agents.find((x) => x.id === selection.id)
+          select(a ? { kind: 'department', id: a.departmentId } : null)
+        } else select(null)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
   }, [])
   return (
     <div className="hq">

@@ -50,6 +50,7 @@ export function CameraRigV2({
   // The controls instance is recreated when the default camera changes; framing must re-apply to the new one.
   const [ready, setReady] = useState<CameraControls | null>(null)
   const { camera } = useThree()
+  const homeTick = useHq((s) => s.homeTick)
   const last = useRef<string>('')
   const attach = useCallback(
     (c: CameraControls | null) => {
@@ -88,7 +89,7 @@ export function CameraRigV2({
     const px = t.x + Math.sin(az) * Math.cos(spec.elevation) * spec.distance
     const pz = t.z + Math.cos(az) * Math.cos(spec.elevation) * spec.distance
     const py = t.y + Math.sin(spec.elevation) * spec.distance
-    const key = `${framing.kind}:${t.x.toFixed(1)},${t.z.toFixed(1)}`
+    const key = `${framing.kind}:${t.x.toFixed(1)},${t.z.toFixed(1)}:${homeTick}`
     if (key === last.current) return
     const first = last.current === ''
     last.current = key
@@ -110,7 +111,7 @@ export function CameraRigV2({
       if (k < 1) requestAnimationFrame(tick)
     }
     tick()
-  }, [framing, camera, bounds.w, bounds.d, ready])
+  }, [framing, camera, bounds.w, bounds.d, ready, homeTick])
 
   return (
     <>

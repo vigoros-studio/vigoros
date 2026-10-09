@@ -2,7 +2,7 @@
 import { ContactShadows, Environment, Lightformer, PerformanceMonitor } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Bloom, EffectComposer, N8AO, SMAA, Vignette } from '@react-three/postprocessing'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { flag } from '@/lib/flags'
 import { buildingBounds, deskPosition, roomGeom, seatAround, boardroomPosition } from '@/lib/layout'
@@ -34,11 +34,12 @@ export function SceneV2() {
   const exec = rooms.find((r) => r.key === 'executive')
   const table = exec ? boardroomPosition(exec) : null
   const meeting = (snapshot?.agents ?? []).filter((a) => a.state === 'meeting')
+  const downAt = useRef<{ x: number; y: number } | null>(null)
   const capture = flag('capture')
   const fx = !flag('nofx')
   // Performance tiers: the monitor steps down (resolution first, then ambient occlusion) when the frame rate falls.
   const [tier, setTier] = useState<2 | 1 | 0>(2)
-  const dpr: [number, number] = tier === 2 ? [1, 1.25] : [1, 1]
+  const dpr: [number, number] = flag('dpr1') ? [1, 1] : tier === 2 ? [1, 1.25] : [1, 1]
 
   const agentPos = (id: string) => {
     const a = snapshot?.agents.find((x) => x.id === id)
@@ -113,7 +114,19 @@ export function SceneV2() {
         toneMapping: THREE.ACESFilmicToneMapping,
         toneMappingExposure: 1.18,
       }}
-      onPointerMissed={() => select(null)}
+      onPointerMissed={(e) => {
+        const d = downAt.current
+        if (d && Math.hypot(e.clientX - d.x, e.clientY - d.y) > 6) return
+        select(null)
+      }}
+      onPointerDown={(e) => {
+        downAt.current = { x: e.clientX, y: e.clientY }
+      }}
+      onCreated={({ gl }) => {
+        // Development only: lets a profiling script read draw calls, triangles and programs.
+        if (process.env.NODE_ENV !== 'production')
+          (window as unknown as { __gl: unknown }).__gl = gl
+      }}
       style={{
         position: 'absolute',
         inset: 0,

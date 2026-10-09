@@ -1,6 +1,7 @@
 'use client'
 import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
+import { flag } from '@/lib/flags'
 import * as THREE from 'three'
 import { M, PALETTE, roundedBox } from './materials'
 import { ScreenTexture, type ScreenContent } from './ScreenTexture'

@@ -166,6 +166,7 @@ function Workstation({
       position={[x, 0, z]}
       rotation={[0, facing, 0]}
       onClick={(e) => {
+        if (e.delta > 6) return
         e.stopPropagation()
         select({ kind: 'agent', id: agent.id })
       }}
