@@ -457,3 +457,20 @@ button.approve {
     top: 72px;
   }
 }
+
+/* ?stats=1: renderer counters and a 10 s benchmark, read off the running app on whatever hardware opens it. */
+.hq-stats {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  z-index: 20;
+  margin: 0;
+  padding: 10px 12px;
+  background: rgba(8, 9, 12, 0.82);
+  color: #e8e4dc;
+  font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  border: 1px solid #262730;
+  border-radius: 6px;
+  pointer-events: none;
+  white-space: pre;
+}

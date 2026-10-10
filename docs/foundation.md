@@ -34,3 +34,14 @@ Done on the `studio` branch, 9 October 2026. Art direction and results: https://
 - Other rooms keep the new shell with grey block-out desks and capsule avatars until the slice is approved.
 - Capture tooling in the session scratchpad: headless CDP script (`?capture=1` keeps the drawing buffer) and a visible-Chrome recorder measuring frame rate on the real GPU.
 - `FAKE_TURN_MS` on the runtime keeps a simulated run open for a chosen time so working states can be observed; it spends nothing.
+
+# Phase 1.5B: game-art pipeline and the performance gate
+
+Done on the `studio` branch, 10 October 2026. Asset provenance: `docs/assets/REGISTER.md`.
+
+- Static batching (`apps/hq/components/hq/v2/batch.ts`, `Batched.tsx`): every static thing in the building is merged into one geometry per material. The shell, the block-out desks and the Writers' Room furniture are three batches. Clickable rooms and workstations keep invisible hit volumes; merged meshes never answer raycasts. Production build, post off, counts are hardware independent: overview 1,020 → 179 draw calls, room 778 → 154, employee 739 → 146. Triangles ~115k → ~128k (non-indexed merges).
+- Hybrid pipeline: procedural stays for what the database drives (rooms, partitions, screens, indicators, the creative wall); authored GLB for furniture and people. `?furniture=glb` swaps the Writers' Room furniture for KayKit Furniture Bits (CC0) re-materialised through a generated palette atlas, one draw call for the whole set. Monitors and keyboards stay procedural because the pack has no office electronics.
+- Rigged writers (`RiggedWriter.tsx`): Quaternius Modular Men/Women (CC0) restyled by material name, Idle clip from the pack, seated pose, typing, leaning, chin-hand and glances as bone overrides on named joints after the clip each frame. Same state mapping as before: nobody types without an open run. `?writers=parametric` restores the old rig for comparison.
+- Measurement on the founder's machine: `?stats=1` prints draw calls, triangles, resolution and a 10 s benchmark (median, 1 % low, longest frame) into the page. The local production build runs with `HQ_LOCAL_BENCH=1 pnpm -s next start -p 3101` from `apps/hq`; that flag enables the dev founder bypass for a local production build only and is ignored on Vercel.
+- Flags for bisecting: `nofx`, `noao`, `nobloom`, `nosmaa`, `msaa`, `noshadow`, `notext`, `noblockout`, `tierlock`, `dpr1`, `capture`.
+- Not done: Blender is not installed, so FBX-only packs and custom clothing could not be authored; Universal Base Characters (the better rigged base) wait on that. No purchases, no paid calls, no Bunni canon changes, no deploy.

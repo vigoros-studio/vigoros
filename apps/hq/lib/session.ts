@@ -28,8 +28,9 @@ export const supabaseServer = async () => {
 export const founder = async (): Promise<{ email: string } | null> => {
   // Local development only: lets screenshots and tests load the HQ without a mailbox round trip.
   const bypass = process.env['HQ_DEV_FOUNDER_EMAIL']
-  if (bypass && process.env['NODE_ENV'] !== 'production' && process.env['VERCEL'] !== '1')
-    return { email: bypass }
+  // HQ_LOCAL_BENCH=1 extends it to a local production build (never on Vercel) for benchmarks.
+  const local = process.env['NODE_ENV'] !== 'production' || process.env['HQ_LOCAL_BENCH'] === '1'
+  if (bypass && local && process.env['VERCEL'] !== '1') return { email: bypass }
   const e = env()
   if (!e.NEXT_PUBLIC_SUPABASE_URL || !e.NEXT_PUBLIC_SUPABASE_ANON_KEY) return null
   const supabase = await supabaseServer()

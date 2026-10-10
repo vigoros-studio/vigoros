@@ -11,6 +11,7 @@ import { Avatar } from '../Avatar'
 import { Blockout } from './Blockout'
 import { BuildingV2 } from './BuildingV2'
 import { CameraRigV2, framingFor } from './CameraRigV2'
+import { Stats } from './Stats'
 import { WritersRoom, writerStation } from './WritersRoom'
 
 /**
@@ -64,7 +65,7 @@ export function SceneV2() {
     () => framingFor(selection, rooms, bounds, agentPos),
     [selection, rooms, bounds, snapshot?.agents],
   )
-  if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production')
+  if (typeof window !== 'undefined' && process.env['NEXT_PUBLIC_HQ_DEBUG'] === '1')
     (window as unknown as { __framing: unknown }).__framing = framing
 
   const brief =
@@ -124,7 +125,7 @@ export function SceneV2() {
       }}
       onCreated={({ gl }) => {
         // Development only: lets a profiling script read draw calls, triangles and programs.
-        if (process.env.NODE_ENV !== 'production')
+        if (process.env['NEXT_PUBLIC_HQ_DEBUG'] === '1')
           (window as unknown as { __gl: unknown }).__gl = gl
       }}
       style={{
@@ -142,6 +143,11 @@ export function SceneV2() {
         onFallback={() => setTier(0)}
       />
       <CameraRigV2 framing={framing} bounds={bounds} />
+      {flag('stats') && (
+        <Stats
+          label={`${framing.kind} · post ${fx ? 'on' : 'off'} · tier ${tier}${flag('furniture') ? ' · furniture=glb' : ''}${flag('writers') ? ' · writers=parametric' : ''}`}
+        />
+      )}
       {/* environment: a cool sky dome and a warm strip above the studio, no network */}
       <Environment resolution={256} frames={1}>
         <Lightformer
@@ -231,14 +237,18 @@ export function SceneV2() {
         frames={1}
       />
       {fx && (
-        <EffectComposer enableNormalPass={false} multisampling={0}>
-          {tier > 0 ? (
+        <EffectComposer enableNormalPass={false} multisampling={flag('msaa') ? 4 : 0}>
+          {tier > 0 && !flag('noao') ? (
             <N8AO aoRadius={1.2} intensity={1.6} distanceFalloff={0.6} quality="low" halfRes />
           ) : (
             <></>
           )}
-          <Bloom luminanceThreshold={1.0} luminanceSmoothing={0.15} intensity={0.3} mipmapBlur />
-          <SMAA />
+          {!flag('nobloom') ? (
+            <Bloom luminanceThreshold={1.0} luminanceSmoothing={0.15} intensity={0.3} mipmapBlur />
+          ) : (
+            <></>
+          )}
+          {!flag('nosmaa') ? <SMAA /> : <></>}
           <Vignette eskil={false} offset={0.25} darkness={0.55} />
         </EffectComposer>
       )}

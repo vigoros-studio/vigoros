@@ -21,10 +21,13 @@ export function HqClient({
 }) {
   useLiveSnapshot(supabaseUrl, anonKey)
   const [noScene, setNoScene] = useState(false)
+  const [stats, setStats] = useState(false)
   useEffect(() => {
-    setNoScene(new URLSearchParams(window.location.search).has('noscene'))
+    const q = new URLSearchParams(window.location.search)
+    setNoScene(q.has('noscene'))
+    setStats(q.has('stats'))
     // Development only: lets a capture script drive selection without clicking into the canvas.
-    if (process.env.NODE_ENV !== 'production')
+    if (process.env['NEXT_PUBLIC_HQ_DEBUG'] === '1')
       (window as unknown as { __hq: typeof useHq }).__hq = useHq
     // Keyboard: Escape steps back one framing (employee to room to overview), Home returns to the overview.
     const onKey = (e: KeyboardEvent) => {
@@ -46,6 +49,7 @@ export function HqClient({
     <div className="hq">
       {!noScene && <Scene />}
       <Panels adapterMode={adapterMode} />
+      {stats && <pre id="hq-stats" className="hq-stats" />}
     </div>
   )
 }

@@ -3,6 +3,7 @@ import { CameraControls, PerspectiveCamera } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { flag } from '@/lib/flags'
 import type { RoomGeom } from '@/lib/layout'
 import { useHq } from '@/lib/store'
 
@@ -84,7 +85,8 @@ export function CameraRigV2({
         ? { ...base, distance: Math.max(bounds.w, bounds.d) * 1.32 * fit }
         : base
     const az = framing.kind === 'overview' ? THREE.MathUtils.degToRad(45) : framing.azimuth
-    if (process.env.NODE_ENV !== 'production') (window as unknown as { __cam: unknown }).__cam = c
+    if (process.env['NEXT_PUBLIC_HQ_DEBUG'] === '1')
+      (window as unknown as { __cam: unknown }).__cam = c
     const t = framing.target
     const px = t.x + Math.sin(az) * Math.cos(spec.elevation) * spec.distance
     const pz = t.z + Math.cos(az) * Math.cos(spec.elevation) * spec.distance
@@ -99,7 +101,7 @@ export function CameraRigV2({
     c.maxAzimuthAngle = az + spec.azimuthRange
     c.minDistance = spec.distance * 0.45
     c.maxDistance = spec.distance * 1.8
-    void c.setLookAt(px, py, pz, t.x, t.y, t.z, !first)
+    void c.setLookAt(px, py, pz, t.x, t.y, t.z, !first && !flag('capture'))
     const cam = camera as THREE.PerspectiveCamera
     const fovFrom = cam.fov
     const start = performance.now()

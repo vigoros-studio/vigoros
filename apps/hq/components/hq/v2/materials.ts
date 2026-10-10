@@ -157,6 +157,27 @@ export const M = {
           roughness: 1,
         }),
     ),
+  bulb: () =>
+    mat(
+      'bulb',
+      () =>
+        new THREE.MeshStandardMaterial({
+          color: '#fff3e0',
+          emissive: PALETTE.warm,
+          emissiveIntensity: 2.2,
+        }),
+    ),
+  shade: () =>
+    mat(
+      'shade',
+      () =>
+        new THREE.MeshStandardMaterial({
+          color: '#2a2b31',
+          roughness: 0.6,
+          metalness: 0.3,
+          side: THREE.DoubleSide,
+        }),
+    ),
   emissive: (color: string, intensity = 1) =>
     new THREE.MeshStandardMaterial({
       color: '#111',
