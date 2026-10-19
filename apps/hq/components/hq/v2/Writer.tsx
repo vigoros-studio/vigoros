@@ -22,21 +22,21 @@ export interface Look {
 }
 
 export const LOOKS: Record<string, Look> = {
-  'comedy-writer-a': {
+  'managing-director': {
     skin: '#c69b7b',
     hair: '#2a2420',
     hairStyle: 'short-part',
-    top: '#e3a53a',
+    top: '#1a1c1f',
     trousers: '#2f3340',
     shoes: '#f2f0ea',
     glasses: true,
     build: 0.94,
   },
-  'comedy-writer-b': {
+  'content-director': {
     skin: '#e8c3a6',
     hair: '#8a4a2c',
     hairStyle: 'bun',
-    top: '#3f8f8a',
+    top: '#7fa6cf',
     trousers: '#5a5f3e',
     shoes: '#3a2e26',
     glasses: false,

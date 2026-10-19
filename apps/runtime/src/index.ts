@@ -1,6 +1,6 @@
 import { QUEUES, boss, stopBoss } from './boss'
 import { env } from './env'
-import { onBunniResult, runTurn } from './turn'
+import { onWorkerResult, runTurn } from './turn'
 import { tick } from './workflow'
 
 /**
@@ -23,12 +23,12 @@ const main = async () => {
     },
   )
 
-  await b.work<Parameters<typeof onBunniResult>[0]>(
-    QUEUES.bunniResult,
+  await b.work<Parameters<typeof onWorkerResult>[0]>(
+    QUEUES.workerResult,
     { batchSize: 1, pollingIntervalSeconds: 1 },
     async ([job]) => {
       if (!job) return
-      await onBunniResult(job.data)
+      await onWorkerResult(job.data)
     },
   )
 

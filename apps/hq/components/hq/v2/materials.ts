@@ -6,20 +6,21 @@ import * as THREE from 'three'
  * to light the same way and a change of palette is a change here. Colours from the art direction.
  */
 export const PALETTE = {
-  night: '#0b0e18',
-  charcoal: '#2a2b31',
-  offWhite: '#e8e4dc',
+  night: '#0e0f11',
+  charcoal: '#1a1c1f',
+  offWhite: '#faf8f4',
   oak: '#a8865a',
-  warm: '#ffd2a0',
-  screen: '#d7e3ff',
-  pink: '#f28bb5',
+  warm: '#f1d3b4',
+  screen: '#d9e4ef',
+  pink: '#da8657',
+  /** Colour belongs to the products: Signals blue for the content studio, the reference grey for the executive office. */
   accents: {
-    executive: '#8e7cc3',
-    creative: '#e3a53a',
-    production: '#5aa9d6',
-    growth: '#5cc39a',
-    commercial: '#d9955e',
-    operations: '#9aa0ad',
+    executive: '#4a5663',
+    content: '#7fa6cf',
+    signals: '#7fa6cf',
+    scores: '#da8657',
+    monitor: '#3c8a7b',
+    intelligence: '#6857b0',
   } as Record<string, string>,
 }
 

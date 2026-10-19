@@ -42,7 +42,7 @@ export const insertTask = async (db: Db, t: NewTask): Promise<{ id: string; crea
     .values({
       id,
       companyId: owner.companyId,
-      characterId: owner.characterId,
+      subjectId: owner.subjectId,
       parentId: t.parentId ?? null,
       workflowId: t.workflowId ?? null,
       step: t.step ?? null,
@@ -58,7 +58,7 @@ export const insertTask = async (db: Db, t: NewTask): Promise<{ id: string; crea
   await emit(db, {
     kind: 'task.created',
     companyId: owner.companyId,
-    characterId: owner.characterId,
+    subjectId: owner.subjectId,
     agentId: owner.id,
     departmentId: owner.departmentId,
     taskId: id,
@@ -74,7 +74,7 @@ export const insertTask = async (db: Db, t: NewTask): Promise<{ id: string; crea
 export const instruct = async (db: Db, agentId: string, text: string): Promise<string> => {
   const [agent] = await db.select().from(agents).where(eq(agents.id, agentId))
   if (!agent) throw new Error(`no agent ${agentId}`)
-  const kind = agent.roleKey === 'studio-director' ? 'direct.instruction' : 'agent.instruction'
+  const kind = agent.roleKey === 'managing-director' ? 'direct.instruction' : 'agent.instruction'
   const { id } = await insertTask(db, {
     kind,
     title: text.length > 80 ? `${text.slice(0, 77)}...` : text,

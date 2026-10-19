@@ -28,29 +28,32 @@ export interface RiggedLook {
 const MODELS = '/models/quaternius-modular'
 
 export const RIGGED_LOOKS: Record<string, RiggedLook> = {
-  'comedy-writer-a': {
-    model: `${MODELS}/men_casual_hoodie.glb`,
+  'managing-director': {
+    model: `${MODELS}/men_suit.glb`,
     colors: {
       Skin: '#c69b7b',
       Hair: '#2a2420',
       Eyebrows: '#2a2420',
-      Purple: '#e3a53a', // the hoodie, in the creative accent
-      LightBlue: '#2f3340', // jeans
-      White: '#f2f0ea', // trainers
+      Suit: '#1a1c1f', // ink
+      Tie: '#24405e', // Signals, deep
+      White: '#faf8f4', // paper shirt
+      Grey: '#4a5663', // reference grey
+      Black: '#0e0f11',
+      DarkBrown: '#3a3328',
     },
     handed: 'right',
-    scale: 0.96,
+    scale: 0.97,
     yaw: 0,
   },
-  'comedy-writer-b': {
+  'content-director': {
     model: `${MODELS}/women_casual.glb`,
     colors: {
       Skin: '#e8c3a6',
       Hair_Brown: '#8a4a2c',
       Hair_Blond: '#7e4327',
       Brown: '#5a3a26',
-      White: '#3f8f8a', // the top, teal
-      Orange: '#5a5f3e', // trousers, olive
+      White: '#7fa6cf', // the top, Signals blue
+      Orange: '#1a1c1f', // trousers, ink
       Grey: '#3a2e26', // shoes
     },
     handed: 'left',

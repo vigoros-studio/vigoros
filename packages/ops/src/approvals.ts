@@ -22,7 +22,7 @@ export const resolveApproval = async (
   await emit(db, {
     kind: 'approval.resolved',
     companyId: row.companyId,
-    characterId: row.characterId,
+    subjectId: row.subjectId,
     agentId: null,
     departmentId: null,
     taskId: row.taskId,

@@ -7,10 +7,10 @@ describe('org', () => {
       .map((p) => p.key)
       .sort()
     expect(PHASE_ONE_ROLES.map((r) => r.key).sort()).toEqual(phaseOne)
-    expect(PHASE_ONE_ROLES).toHaveLength(7)
+    expect(PHASE_ONE_ROLES).toHaveLength(2)
     for (const d of DEPARTMENTS) expect(ROOMS.some((r) => r.key === d.key)).toBe(true)
   })
-  it('keeps publishing and paid video outside every agent tier', () => {
+  it('keeps publishing and spend outside every agent tier', () => {
     for (const r of PHASE_ONE_ROLES) expect(r.tier).toBeLessThan(4)
   })
 })

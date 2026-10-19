@@ -34,7 +34,10 @@ export function Panels({ adapterMode }: { adapterMode: string }) {
     <>
       <header className="hq-header">
         <div>
-          <strong>{snapshot.company.name}</strong>
+          <strong>
+            <img src="/brand/onegoodarea-mark-paper.svg" alt="" />
+            {snapshot.company.name}
+          </strong>
           <span className={`pill ${simulated ? 'sim' : 'real'}`}>
             {simulated ? 'SIMULATION · fake adapter, no model calls' : 'LIVE MODELS'}
           </span>
@@ -391,14 +394,14 @@ function BoardroomPanel({ snapshot }: { snapshot: Snapshot }) {
     setOpenId(null)
     await refresh()
   }
-  const director = snapshot.agents.find((a) => a.roleKey === 'studio-director')
+  const director = snapshot.agents.find((a) => a.roleKey === 'managing-director')
   return (
     <div>
       <h3>Boardroom</h3>
       <p className="quiet">
         {snapshot.pendingApprovals.length} decision
         {snapshot.pendingApprovals.length === 1 ? '' : 's'} awaiting you
-        {director ? ` · Director is ${STATE_LABEL[director.state]}` : ''}
+        {director ? ` · Managing Director is ${STATE_LABEL[director.state]}` : ''}
       </p>
       {snapshot.pendingApprovals.map((p) => (
         <button
@@ -437,8 +440,8 @@ function BoardroomPanel({ snapshot }: { snapshot: Snapshot }) {
             </button>
           </div>
           <p className="quiet small">
-            Approving lets the Production Manager send this script to the Bunni worker. Rejecting
-            ends the workflow. Both are recorded.
+            Approving lets the Content Director send this piece to the outbox. Rejecting ends the
+            workflow. Both are recorded.
           </p>
         </div>
       )}

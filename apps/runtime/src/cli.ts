@@ -1,14 +1,6 @@
-import {
-  agents,
-  approvals,
-  artifacts,
-  companies,
-  events,
-  runs,
-  tasks,
-  workflows,
-} from '@vigoros/db'
-import { insertTask, instruct, resolveApproval, setPaused } from '@vigoros/ops'
+import { Audience, Surface } from '@vigoros/contracts'
+import { agents, approvals, artifacts, events, runs, tasks, workflows } from '@vigoros/db'
+import { activeCompany, insertTask, instruct, resolveApproval, setPaused } from '@vigoros/ops'
 import { desc, eq } from 'drizzle-orm'
 import { QUEUES, boss, stopBoss } from './boss'
 import { db } from './db'
@@ -16,7 +8,7 @@ import { env } from './env'
 import { seed } from './seed'
 import { runTurn } from './turn'
 import { verify } from './verify'
-import { advance, startEpisodeWorkflow, tick } from './workflow'
+import { advance, startContentWorkflow, tick } from './workflow'
 
 const [cmd, ...rest] = process.argv.slice(2)
 
@@ -27,7 +19,7 @@ const main = async () => {
       console.log(
         JSON.stringify(
           await seed({
-            bunniRoot: process.env['BUNNI_ROOT'] ?? '',
+            docsRoot: process.env['OGA_DOCS_ROOT'] ?? '',
             dailyCapUsd: env().COMPANY_DAILY_CAP_USD,
           }),
           null,
@@ -66,18 +58,26 @@ const main = async () => {
       break
     }
     case 'workflow': {
-      const [focus, guidance] = rest
-      const [bunni] = await d.select().from(agents).where(eq(agents.roleKey, 'trend-researcher'))
-      if (!bunni?.characterId) throw new Error('seed first')
+      // workflow "<focus>" ["<guidance>"] [surface] [audience] [place,place,...]
+      const [focus, guidance, surface, audience, placeList] = rest
+      const [cd] = await d.select().from(agents).where(eq(agents.roleKey, 'content-director'))
+      if (!cd?.subjectId) throw new Error('seed first')
       console.log(
-        await startEpisodeWorkflow({
-          characterId: bunni.characterId,
+        await startContentWorkflow({
+          subjectId: cd.subjectId,
           startedBy: 'founder',
-          title: (focus ?? 'Episode').slice(0, 80),
+          title: (focus ?? 'Piece').slice(0, 80),
           input: {
-            focus: focus ?? 'relatable daily-life comedy',
+            focus: focus ?? 'a change worth a sentence',
             guidance: guidance ?? '',
-            returnCount: 1,
+            surface: Surface.parse(surface ?? 'change_digest'),
+            audience: Audience.parse(audience ?? 'property_data'),
+            places: placeList
+              ? placeList
+                  .split(',')
+                  .map((p) => p.trim())
+                  .filter(Boolean)
+              : [],
           },
           capUsd: 3,
         }),
@@ -107,14 +107,14 @@ const main = async () => {
     }
     case 'pause':
     case 'resume': {
-      const [c] = await d.select().from(companies).limit(1)
+      const c = await activeCompany(d)
       if (!c) throw new Error('seed first')
       await setPaused(d, c.id, cmd === 'pause', rest[0])
       console.log(cmd)
       break
     }
     case 'status': {
-      const [c] = await d.select().from(companies)
+      const c = await activeCompany(d)
       const flows = await d
         .select({
           id: workflows.id,

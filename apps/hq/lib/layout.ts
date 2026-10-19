@@ -86,12 +86,8 @@ export const buildingBounds = (rooms: RoomGeom[]) => {
 }
 
 export const DEPARTMENT_TINT: Record<string, string> = {
-  executive: '#c9b8ff',
-  creative: '#ffd58a',
-  production: '#8ad4ff',
-  growth: '#9ff0c4',
-  commercial: '#ffc2a1',
-  operations: '#d0d0d8',
+  executive: '#a3adb8',
+  content: '#7fa6cf',
 }
 
 export const STATE_LABEL: Record<string, string> = {

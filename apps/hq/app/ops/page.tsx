@@ -25,7 +25,7 @@ export default async function Page() {
   if (!company) {
     return (
       <main>
-        <h1>Vigoros Studio</h1>
+        <h1>OneGoodArea</h1>
         <p className="quiet">
           No company yet. Run <code>pnpm seed</code>.
         </p>
@@ -72,7 +72,7 @@ export default async function Page() {
 
   return (
     <main>
-      <h1>Vigoros Studio</h1>
+      <h1>OneGoodArea</h1>
       <p className="quiet">
         {company.paused ? 'Paused' : 'Running'} · {staff.length} agents · {openTasks.length} open
         tasks · {pending.length} awaiting you · <a href="/auth/signout">sign out</a>

@@ -102,7 +102,7 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ id: string
       tier: agent.tier,
       desk: agent.desk,
       department: department?.name ?? null,
-      characterId: agent.characterId,
+      subjectId: agent.subjectId,
     },
     role: role
       ? {
@@ -135,7 +135,7 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
   const body = (await req.json().catch(() => ({}))) as { text?: string }
   const text = String(body.text ?? '').trim()
   if (!text || text.length > 2000)
-    return NextResponse.json({ error: 'instruction must be 1 to 2000 characters' }, { status: 400 })
+    return NextResponse.json({ error: 'instruction must be 1 to 2000 subjects' }, { status: 400 })
   const taskId = await instruct(db(), id, text)
   return NextResponse.json({ taskId })
 }

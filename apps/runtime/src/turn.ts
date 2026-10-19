@@ -3,12 +3,16 @@ import {
   TaskStatus,
   newId,
   type Acknowledgement,
-  type EpisodeScript,
+  type ContentDraft,
+  type EditorialReview,
   type Effort,
   type ModelId,
+  type WorkerJobRequest,
+  type WorkerJobResult,
 } from '@vigoros/contracts'
 import {
   agents,
+  approvals,
   artifacts,
   companies,
   costLedger,
@@ -35,9 +39,9 @@ import { and, desc, eq, inArray, sql } from 'drizzle-orm'
 import { QUEUES, boss } from './boss'
 import { db } from './db'
 import { env } from './env'
-import { taskKind } from './kinds'
+import { WORKER_KINDS, taskKind } from './kinds'
 import { adapter } from './model'
-import { advance, startEpisodeWorkflow } from './workflow'
+import { advance, startContentWorkflow } from './workflow'
 
 const today = () => new Date().toISOString().slice(0, 10)
 
@@ -48,6 +52,10 @@ const spentToday = async (where: ReturnType<typeof eq>): Promise<number> => {
     .where(and(where, eq(costLedger.day, today())))
   return Number(row?.usd ?? 0)
 }
+
+type TaskRow = typeof tasks.$inferSelect
+type AgentRow = typeof agents.$inferSelect
+type DepartmentRow = typeof departments.$inferSelect
 
 /**
  * One agent turn against one task. Every guard runs before the model is called; every outcome is
@@ -81,7 +89,7 @@ export const runTurn = async (taskId: string): Promise<void> => {
       .where(eq(tasks.id, task.id))
     await emit(d, {
       companyId: task.companyId,
-      characterId: task.characterId,
+      subjectId: task.subjectId,
       agentId: agent.id,
       departmentId: department.id,
       taskId: task.id,
@@ -93,18 +101,13 @@ export const runTurn = async (taskId: string): Promise<void> => {
     })
     return
   }
-  if (task.kind === 'produce.dispatch') return dispatchToProduction(task, agent, department)
+  if (WORKER_KINDS.has(task.kind)) return dispatchToWorker(task, agent, department)
   const kind = taskKind(task.kind)
-  if (
-    kind.roleKey !== '*' &&
-    kind.roleKey !== agent.roleKey &&
-    !(task.kind === 'write.script' && agent.roleKey === 'comedy-writer-b')
-  ) {
+  if (kind.roleKey !== '*' && kind.roleKey !== agent.roleKey)
     throw new Error(`task kind ${task.kind} is not for role ${agent.roleKey}`)
-  }
   const base = {
     companyId: task.companyId,
-    characterId: task.characterId,
+    subjectId: task.subjectId,
     agentId: agent.id,
     departmentId: department.id,
     taskId: task.id,
@@ -241,25 +244,23 @@ export const runTurn = async (taskId: string): Promise<void> => {
     const fp = fingerprint(result.output)
     const simulated = which.name === 'fake'
     const artifactId = newId('artifact')
-    const candidate =
-      typeof task.input['candidate'] === 'string' ? ` (${task.input['candidate']})` : ''
     await d.insert(artifacts).values({
       id: artifactId,
       companyId: task.companyId,
-      characterId: task.characterId,
+      subjectId: task.subjectId,
       taskId: task.id,
       workflowId: task.workflowId,
       runId,
       producedBy: agent.id,
       kind: kind.artifactKind,
-      title: `${simulated ? '[SIMULATED] ' : ''}${kind.schemaName}${candidate}: ${task.title}`,
+      title: `${simulated ? '[SIMULATED] ' : ''}${kind.schemaName}: ${task.title}`,
       simulated,
       content: result.output,
     })
     await d.insert(costLedger).values({
       id: newId('cost'),
       companyId: task.companyId,
-      characterId: task.characterId,
+      subjectId: task.subjectId,
       departmentId: department.id,
       agentId: agent.id,
       taskId: task.id,
@@ -310,7 +311,7 @@ export const runTurn = async (taskId: string): Promise<void> => {
       ...base,
       kind: 'artifact.created',
       subject: `artifacts:${artifactId}`,
-      caption: `${agent.name} produced ${simulated ? 'a simulated ' : ''}${kind.artifactKind}`,
+      caption: `${agent.name} produced ${simulated ? 'a simulated ' : ''}${kind.artifactKind.replace('_', ' ')}`,
       payload: { artifactId, kind: kind.artifactKind, simulated },
     })
     await emit(d, {
@@ -345,10 +346,10 @@ export const runTurn = async (taskId: string): Promise<void> => {
   }
 }
 
-/** Founder instructions: the Director's plan may start a workflow; everyone else just answers. */
+/** Founder instructions: the Managing Director's plan may start a workflow; everyone else just answers. */
 const applyInstruction = async (
-  task: typeof tasks.$inferSelect,
-  agent: typeof agents.$inferSelect,
+  task: TaskRow,
+  agent: AgentRow,
   schemaName: string,
   output: unknown,
 ) => {
@@ -365,27 +366,33 @@ const applyInstruction = async (
     await emit(d, {
       kind: 'message.sent',
       companyId: task.companyId,
-      characterId: task.characterId,
+      subjectId: task.subjectId,
       agentId: agent.id,
       departmentId: agent.departmentId,
       taskId: task.id,
       workflowId: null,
       subject: `tasks:${task.id}`,
-      caption: `Director to founder: ${plan.summary.slice(0, 120)}`,
+      caption: `Managing Director to founder: ${plan.summary.slice(0, 120)}`,
       payload: { startWorkflow: plan.startWorkflow },
     })
     if (plan.startWorkflow) {
-      const [bunni] = await d
+      const [cd] = await d
         .select()
         .from(agents)
-        .where(and(eq(agents.roleKey, 'trend-researcher')))
-      const characterId = bunni?.characterId ?? null
-      if (characterId)
-        await startEpisodeWorkflow({
-          characterId,
+        .where(and(eq(agents.companyId, task.companyId), eq(agents.roleKey, 'content-director')))
+      const subjectId = cd?.subjectId ?? null
+      if (subjectId)
+        await startContentWorkflow({
+          subjectId,
           startedBy: agent.id,
-          title: plan.focus.slice(0, 80) || 'Episode',
-          input: { focus: plan.focus, guidance: plan.guidance, returnCount: plan.returnCount },
+          title: plan.focus.slice(0, 80) || 'Piece',
+          input: {
+            focus: plan.focus,
+            guidance: plan.guidance,
+            surface: plan.surface,
+            audience: plan.audience,
+            places: plan.places,
+          },
           capUsd: 3,
         })
     }
@@ -401,7 +408,7 @@ const applyInstruction = async (
     await emit(d, {
       kind: 'message.sent',
       companyId: task.companyId,
-      characterId: task.characterId,
+      subjectId: task.subjectId,
       agentId: agent.id,
       departmentId: agent.departmentId,
       taskId: task.id,
@@ -414,67 +421,79 @@ const applyInstruction = async (
 }
 
 /**
- * The production step. Not a model turn: the Production Manager's task sends the approved script
- * to the Bunni worker and waits. The approval is re-checked here, so an unapproved concept can
- * never reach the production folder even if a task row were created by hand.
+ * Worker steps. Not model turns: the task sends a typed job to the OneGoodArea worker and waits.
+ * `research.pack` fetches the signals a writer may cite. `content.publish` re-checks the approval
+ * row here, so an unapproved piece can never reach the outbox even if a task row were made by hand.
  */
-const dispatchToProduction = async (
-  task: typeof tasks.$inferSelect,
-  agent: typeof agents.$inferSelect,
-  department: typeof departments.$inferSelect,
-) => {
+const dispatchToWorker = async (task: TaskRow, agent: AgentRow, department: DepartmentRow) => {
   const d = db()
   const base = {
     companyId: task.companyId,
-    characterId: task.characterId,
+    subjectId: task.subjectId,
     agentId: agent.id,
     departmentId: department.id,
     taskId: task.id,
     workflowId: task.workflowId,
   }
-  const approvalId = String(task.input['approvalId'] ?? '')
-  const { approvals } = await import('@vigoros/db')
-  const [approval] = approvalId
-    ? await d.select().from(approvals).where(eq(approvals.id, approvalId))
-    : []
-  if (!approval || approval.status !== 'approved' || approval.workflowId !== task.workflowId) {
-    await d
-      .update(tasks)
-      .set({ status: 'blocked', blockedReason: 'no_approval', updatedAt: new Date() })
-      .where(eq(tasks.id, task.id))
-    await emit(d, {
-      ...base,
-      kind: 'task.status',
-      subject: `tasks:${task.id}`,
-      caption: `${agent.name} refused to dispatch without founder approval`,
-      payload: { status: 'blocked', reason: 'no_approval' },
-    })
-    return
+  let job: WorkerJobRequest['job']
+  let input: Record<string, unknown>
+  let caption: string
+  if (task.kind === 'research.pack') {
+    job = 'oga.research'
+    input = {
+      places: task.input['places'] ?? [],
+      grain: task.input['grain'] ?? 'neighbourhood',
+      changesSinceDays: task.input['changesSinceDays'] ?? 60,
+    }
+    caption = `${agent.name} asked the worker for the research pack`
+  } else if (task.kind === 'content.publish') {
+    const approvalId = String(task.input['approvalId'] ?? '')
+    const [approval] = approvalId
+      ? await d.select().from(approvals).where(eq(approvals.id, approvalId))
+      : []
+    if (!approval || approval.status !== 'approved' || approval.workflowId !== task.workflowId) {
+      await d
+        .update(tasks)
+        .set({ status: 'blocked', blockedReason: 'no_approval', updatedAt: new Date() })
+        .where(eq(tasks.id, task.id))
+      await emit(d, {
+        ...base,
+        kind: 'task.status',
+        subject: `tasks:${task.id}`,
+        caption: `${agent.name} refused to publish without founder approval`,
+        payload: { status: 'blocked', reason: 'no_approval' },
+      })
+      return
+    }
+    const draftId = task.inputArtifactIds[0]
+    const reviewId = task.inputArtifactIds[1]
+    const [draft] = draftId ? await d.select().from(artifacts).where(eq(artifacts.id, draftId)) : []
+    const [review] = reviewId
+      ? await d.select().from(artifacts).where(eq(artifacts.id, reviewId))
+      : []
+    if (!draft) {
+      await d
+        .update(tasks)
+        .set({ status: 'failed', blockedReason: 'no_draft', updatedAt: new Date() })
+        .where(eq(tasks.id, task.id))
+      return
+    }
+    const content = draft.content as ContentDraft
+    const edited = (review?.content as EditorialReview | undefined)?.revisedBody ?? null
+    const payload = (approval.payload ?? {}) as { slug?: string }
+    job = 'content.publish'
+    input = {
+      artifactId: draft.id,
+      surface: content.surface,
+      slug: payload.slug ?? draft.id.toLowerCase(),
+      approvalId: approval.id,
+      ...(edited ? { revisedBody: edited } : {}),
+      reviewArtifactId: review?.id ?? null,
+    }
+    caption = `${agent.name} sent the approved piece to the outbox`
+  } else {
+    throw new Error(`not a worker kind: ${task.kind}`)
   }
-  const scriptId = task.inputArtifactIds[1] ?? task.inputArtifactIds[0]
-  const briefId = task.inputArtifactIds[0]
-  const [script] = scriptId
-    ? await d.select().from(artifacts).where(eq(artifacts.id, scriptId))
-    : []
-  const [brief] = briefId ? await d.select().from(artifacts).where(eq(artifacts.id, briefId)) : []
-  if (!script) {
-    await d
-      .update(tasks)
-      .set({ status: 'failed', blockedReason: 'no_script', updatedAt: new Date() })
-      .where(eq(tasks.id, task.id))
-    return
-  }
-  const content = script.content as EpisodeScript
-  const slug = content.title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-    .slice(0, 40)
-    .padEnd(3, 'x')
-  const briefText =
-    typeof (brief?.content as { brief?: string } | undefined)?.brief === 'string'
-      ? (brief?.content as { brief: string }).brief
-      : ''
   const runId = newId('run')
   await d.insert(runs).values({
     id: runId,
@@ -483,7 +502,7 @@ const dispatchToProduction = async (
     model: 'none',
     effort: 'low',
     adapter: 'worker',
-    summary: 'episode.create requested',
+    summary: `${job} requested`,
   })
   await d
     .update(tasks)
@@ -491,49 +510,36 @@ const dispatchToProduction = async (
       status: 'waiting',
       turns: task.turns + 1,
       updatedAt: new Date(),
-      output: { stage: 'episode.create', runId },
+      output: { stage: job, runId },
     })
     .where(eq(tasks.id, task.id))
   const b = await boss()
-  await b.send(
-    QUEUES.bunni,
-    {
-      job: 'episode.create',
-      taskId: task.id,
-      runId,
-      requestedBy: agent.id,
-      input: {
-        slug,
-        brief: `${briefText}${script.simulated ? '\n\n(Script produced by the fake adapter: simulated creative work.)' : ''}`,
-        script: content,
-        approvalId: approval.id,
-      },
-    },
-    { singletonKey: `${task.id}:episode.create` },
-  )
+  const request: WorkerJobRequest = {
+    job,
+    taskId: task.id,
+    runId,
+    requestedBy: agent.id,
+    input,
+  }
+  await b.send(QUEUES.worker, request, { singletonKey: `${task.id}:${job}` })
   await emit(d, {
     ...base,
     kind: 'worker.job',
-    subject: `bunni:episode.create`,
-    caption: `${agent.name} sent the approved script to production`,
-    payload: { job: 'episode.create', slug, approvalId: approval.id },
+    subject: `oga:${job}`,
+    caption,
+    payload: { job, input: job === 'oga.research' ? input : { ...input, revisedBody: undefined } },
   })
 }
 
-/** Results from the Bunni worker fold back into the Production Manager's task. */
-export const onBunniResult = async (msg: {
-  taskId: string
-  runId: string | null
-  result: { status: string; job: string; output?: unknown; detail?: string; reason?: string }
-  artifactIds: string[]
-}) => {
+/** Results from the OneGoodArea worker fold back into the waiting task. */
+export const onWorkerResult = async (msg: WorkerJobResult) => {
   const d = db()
   const [task] = await d.select().from(tasks).where(eq(tasks.id, msg.taskId))
-  if (!task || task.kind !== 'produce.dispatch' || task.status !== 'waiting') return
+  if (!task || !WORKER_KINDS.has(task.kind) || task.status !== 'waiting') return
   const [agent] = await d.select().from(agents).where(eq(agents.id, task.ownerAgentId))
   const base = {
     companyId: task.companyId,
-    characterId: task.characterId,
+    subjectId: task.subjectId,
     agentId: task.ownerAgentId,
     departmentId: agent?.departmentId ?? null,
     taskId: task.id,
@@ -541,111 +547,51 @@ export const onBunniResult = async (msg: {
   }
   const { result } = msg
   if (result.status !== 'ok') {
+    const detail = result.status === 'failed' ? result.detail : result.reason
     await d
       .update(tasks)
       .set({
         status: 'failed',
-        blockedReason:
-          `${result.job}: ${result.reason ?? result.status} ${result.detail ?? ''}`.trim(),
+        blockedReason: `${result.job}: ${result.status} ${detail}`.trim(),
         updatedAt: new Date(),
       })
       .where(eq(tasks.id, task.id))
     if (msg.runId)
       await d
         .update(runs)
-        .set({ status: 'failed', error: result.detail ?? result.status, finishedAt: new Date() })
+        .set({ status: 'failed', error: detail, finishedAt: new Date() })
         .where(eq(runs.id, msg.runId))
     await emit(d, {
       ...base,
       kind: 'task.status',
       subject: `tasks:${task.id}`,
-      caption: `Production worker ${result.status} ${result.job}`,
-      payload: { status: 'failed', detail: result.detail ?? null },
+      caption: `Worker ${result.status} ${result.job}: ${detail.slice(0, 120)}`,
+      payload: { status: 'failed', detail },
     })
     if (task.workflowId) await advance(task.workflowId)
     return
   }
-  if (result.job === 'episode.create') {
-    const out = result.output as { episode: string }
+  const artifactId = msg.artifactIds[0] ?? null
+  if (msg.runId)
     await d
-      .update(tasks)
-      .set({
-        output: {
-          ...(task.output ?? {}),
-          stage: 'episode.package',
-          episode: out.episode,
-          createArtifactIds: msg.artifactIds,
-        },
-        updatedAt: new Date(),
-      })
-      .where(eq(tasks.id, task.id))
-    const b = await boss()
-    await b.send(
-      QUEUES.bunni,
-      {
-        job: 'episode.package',
-        taskId: task.id,
-        runId: msg.runId,
-        requestedBy: task.ownerAgentId,
-        input: { episode: out.episode, approvalId: String(task.input['approvalId'] ?? '') },
-      },
-      { singletonKey: `${task.id}:episode.package` },
-    )
-    return
-  }
-  if (result.job === 'episode.package') {
-    const out = result.output as {
-      episode: string
-      canonVersion: string
-      estimate: { keyframes: number; credits: number; basis: string }
-      jobs: {
-        jobId: string
-        shot: string
-        status: string
-        simulated: boolean
-        nextGate: string | null
-      }[]
-    }
-    const prev = (task.output ?? {}) as Record<string, unknown>
-    const artifactIds = [
-      ...((prev['createArtifactIds'] as string[] | undefined) ?? []),
-      ...msg.artifactIds,
-    ]
-    const statuses = [...new Set(out.jobs.map((j) => j.status))].join('/')
-    const summary = `episode ${out.episode} created; ${out.jobs.length} keyframe jobs in Bunni's inbox (${statuses}${out.jobs.some((j) => j.simulated) ? ', simulated runner' : ''}); canon ${out.canonVersion}`
-    if (msg.runId)
-      await d
-        .update(runs)
-        .set({ status: 'succeeded', summary, finishedAt: new Date() })
-        .where(eq(runs.id, msg.runId))
-    await d
-      .update(tasks)
-      .set({
-        status: 'done',
-        output: {
-          episode: out.episode,
-          artifactIds,
-          estimate: out.estimate,
-          shots: out.jobs.length,
-          jobs: out.jobs,
-          canonVersion: out.canonVersion,
-        },
-        updatedAt: new Date(),
-        finishedAt: new Date(),
-      })
-      .where(eq(tasks.id, task.id))
-    await emit(d, {
-      ...base,
-      kind: 'task.status',
-      subject: `tasks:${task.id}`,
-      caption: `Episode ${out.episode}: ${out.jobs.length} plan-only jobs placed with Bunni (${statuses})`,
-      payload: {
-        status: 'done',
-        episode: out.episode,
-        artifactIds,
-        jobs: out.jobs.map((j) => j.jobId),
-      },
+      .update(runs)
+      .set({ status: 'succeeded', summary: `${result.job} done`, finishedAt: new Date() })
+      .where(eq(runs.id, msg.runId))
+  await d
+    .update(tasks)
+    .set({
+      status: 'done',
+      output: { ...(task.output ?? {}), artifactId, artifactIds: msg.artifactIds },
+      updatedAt: new Date(),
+      finishedAt: new Date(),
     })
-    if (task.workflowId) await advance(task.workflowId)
-  }
+    .where(eq(tasks.id, task.id))
+  await emit(d, {
+    ...base,
+    kind: 'task.status',
+    subject: `tasks:${task.id}`,
+    caption: `${agent?.name ?? 'Worker'} received ${result.job.replace('.', ' ')} from the worker`,
+    payload: { status: 'done', job: result.job, artifactIds: msg.artifactIds },
+  })
+  if (task.workflowId) await advance(task.workflowId)
 }

@@ -5,19 +5,50 @@ import { Bloom, EffectComposer, N8AO, SMAA, Vignette } from '@react-three/postpr
 import { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { flag } from '@/lib/flags'
-import { buildingBounds, deskPosition, roomGeom, seatAround, boardroomPosition } from '@/lib/layout'
+import { buildingBounds, roomGeom } from '@/lib/layout'
 import { useHq } from '@/lib/store'
-import { Avatar } from '../Avatar'
-import { Blockout } from './Blockout'
 import { BuildingV2 } from './BuildingV2'
 import { CameraRigV2, framingFor } from './CameraRigV2'
 import { Stats } from './Stats'
-import { WritersRoom, writerStation } from './WritersRoom'
+import { Studio, stationFor } from './Studio'
+
+/** What hangs on each room's wall board. Brand assets, never stock people. */
+const WALLS: Record<string, { images: string[]; label: string }> = {
+  content: {
+    images: [
+      '/brand/signals-field.jpg',
+      '/brand/scores-field.jpg',
+      '/brand/monitor-field.jpg',
+      '/brand/intelligence-field.jpg',
+      '/brand/reference-field.jpg',
+      '/brand/share-card.jpg',
+    ],
+    label: 'ONEGOODAREA · PRODUCT WORLDS',
+  },
+  executive: {
+    images: [
+      '/brand/home-hero.jpg',
+      '/brand/proptech-hero.jpg',
+      '/brand/signals-motion.jpg',
+      '/brand/monitor-motion.jpg',
+      '/brand/intelligence-motion.jpg',
+      '/brand/scores-motion.jpg',
+    ],
+    label: 'THE INTELLIGENCE LAYER FOR PLACE',
+  },
+}
+
+const RULES = [
+  'Rules of the room:',
+  '1. Every figure traces to a signal row.',
+  '2. Withheld with the reason beats invented.',
+  '3. Never lead with AI. No banned words.',
+  '4. Great Britain. Four products, named exactly.',
+]
 
 /**
- * The headquarters, second art pass. The shell, lighting and camera are new for every room; the
- * Writers' Room is the finished vertical slice; the other rooms keep block-out desks and capsule
- * avatars until the slice is approved. Everything placed here is derived from the snapshot.
+ * The headquarters. The shell, lighting and camera are shared; every room is a finished studio
+ * with a workstation per agent. Everything placed here is derived from the snapshot.
  */
 export function SceneV2() {
   const snapshot = useHq((s) => s.snapshot)
@@ -28,13 +59,9 @@ export function SceneV2() {
     () =>
       rooms.length
         ? buildingBounds(rooms)
-        : { cx: 17, cz: 7, w: 36, d: 16, minX: 0, minZ: 0, maxX: 34, maxZ: 14 },
+        : { cx: 10, cz: 3.5, w: 24, d: 9, minX: 0, minZ: 0, maxX: 21, maxZ: 7 },
     [rooms],
   )
-  const writersRoom = rooms.find((r) => r.key === 'creative')
-  const exec = rooms.find((r) => r.key === 'executive')
-  const table = exec ? boardroomPosition(exec) : null
-  const meeting = (snapshot?.agents ?? []).filter((a) => a.state === 'meeting')
   const downAt = useRef<{ x: number; y: number } | null>(null)
   const capture = flag('capture')
   const fx = !flag('nofx')
@@ -46,20 +73,16 @@ export function SceneV2() {
     const a = snapshot?.agents.find((x) => x.id === id)
     const room = a ? rooms.find((r) => r.id === a.departmentId) : undefined
     if (!a || !room) return null
-    if (
-      room.key === 'creative' &&
-      (a.roleKey === 'comedy-writer-a' || a.roleKey === 'comedy-writer-b')
-    ) {
-      const s = writerStation(room, a.roleKey)
-      return {
-        x: s.x,
-        z: s.z + 0.78 * (a.roleKey === 'comedy-writer-a' ? 0 : 0),
-        facing: s.facing,
-        roomId: room.id,
-      }
-    }
-    const d = deskPosition(room, a.desk)
-    return { x: d.x, z: d.z + 0.6, facing: 0, roomId: room.id }
+    const members = (snapshot?.agents ?? []).filter((x) => x.departmentId === room.id)
+    const s = stationFor(
+      room,
+      Math.max(
+        0,
+        members.findIndex((x) => x.id === a.id),
+      ),
+      members.length,
+    )
+    return { x: s.x, z: s.z, facing: s.facing, roomId: room.id }
   }
   const framing = useMemo(
     () => framingFor(selection, rooms, bounds, agentPos),
@@ -68,41 +91,28 @@ export function SceneV2() {
   if (typeof window !== 'undefined' && process.env['NEXT_PUBLIC_HQ_DEBUG'] === '1')
     (window as unknown as { __framing: unknown }).__framing = framing
 
-  const brief =
+  const live =
     snapshot?.workflows.find(
       (w) => w.status !== 'done' && w.status !== 'rejected' && w.status !== 'failed',
     ) ?? snapshot?.workflows[0]
-  const briefTitle = brief ? brief.title : 'Writers’ room'
-  const briefLines = brief
+  const contentTitle = live ? live.title : 'Content studio'
+  const contentLines = live
     ? [
-        `Workflow ${brief.status}, step ${brief.step}${brief.simulated ? ' (simulated)' : ''}`,
+        `Workflow ${live.status}, step ${live.step}${live.simulated ? ' (simulated)' : ''}`,
         '',
-        'Rules of the room:',
-        '1. The situation is normal; her reaction is too serious.',
-        '2. Short lines. Silence is a joke.',
-        '3. One idea per episode, hook in the first second.',
-        '4. Stay inside the bible.',
+        ...RULES,
       ]
-    : [
-        'No workflow running.',
-        '',
-        'Rules of the room:',
-        '1. The situation is normal; her reaction is too serious.',
-        '2. Short lines. Silence is a joke.',
-        '3. One idea per episode, hook in the first second.',
-      ]
-
-  const blockout = rooms.filter((r) => r.key !== 'creative')
-  const deskCount = new Map<string, number>()
-  for (const r of rooms)
-    deskCount.set(
-      r.id,
-      Math.max(
-        2,
-        snapshot?.agents.filter((a) => a.departmentId === r.id).length ?? 0,
-        Math.min(6, r.d),
-      ),
-    )
+    : ['No workflow running.', '', ...RULES]
+  const pending = snapshot?.pendingApprovals.length ?? 0
+  const execTitle = 'This week'
+  const execLines = [
+    `${pending} decision${pending === 1 ? '' : 's'} awaiting the founder`,
+    ...(snapshot?.workflows
+      .slice(0, 4)
+      .map((w) => `${w.status === 'done' ? '✓' : '·'} ${w.title} (${w.step})`) ?? []),
+    '',
+    'Measures: Density · Reach · Speed',
+  ]
 
   return (
     <Canvas
@@ -131,11 +141,11 @@ export function SceneV2() {
       style={{
         position: 'absolute',
         inset: 0,
-        background: 'radial-gradient(ellipse at 50% 35%, #182038 0%, #0b0e18 65%)',
+        background: 'radial-gradient(ellipse at 50% 35%, #1c2127 0%, #0e0f11 65%)',
       }}
     >
-      <color attach="background" args={['#0b0e18']} />
-      <fog attach="fog" args={['#0b0e18', 55, 140]} />
+      <color attach="background" args={['#0e0f11']} />
+      <fog attach="fog" args={['#0e0f11', 55, 140]} />
       <PerformanceMonitor
         onDecline={() => setTier((t) => (t > 0 ? ((t - 1) as 2 | 1 | 0) : t))}
         onIncline={() => setTier((t) => (t < 2 ? ((t + 1) as 2 | 1 | 0) : t))}
@@ -148,19 +158,19 @@ export function SceneV2() {
           label={`${framing.kind} · post ${fx ? 'on' : 'off'} · tier ${tier}${flag('furniture') ? ' · furniture=glb' : ''}${flag('writers') ? ' · writers=parametric' : ''}`}
         />
       )}
-      {/* environment: a cool sky dome and a warm strip above the studio, no network */}
+      {/* environment: a cool sky dome and a warm paper strip above the studio, no network */}
       <Environment resolution={256} frames={1}>
         <Lightformer
           form="rect"
           intensity={1.2}
-          color="#3b4a7a"
+          color="#24405e"
           scale={[60, 30, 1]}
           position={[0, 20, -40]}
         />
         <Lightformer
           form="rect"
           intensity={0.6}
-          color="#2b3250"
+          color="#1c2127"
           scale={[60, 30, 1]}
           position={[-40, 10, 0]}
           rotation={[0, Math.PI / 2, 0]}
@@ -168,24 +178,24 @@ export function SceneV2() {
         <Lightformer
           form="ring"
           intensity={2.2}
-          color="#ffd2a0"
+          color="#f1d3b4"
           scale={10}
           position={[10, 14, 10]}
         />
         <Lightformer
           form="rect"
           intensity={0.4}
-          color="#1a1f33"
+          color="#1a1c1f"
           scale={[80, 80, 1]}
           position={[0, -10, 0]}
           rotation={[Math.PI / 2, 0, 0]}
         />
       </Environment>
-      <hemisphereLight args={['#5a6a9a', '#1a1816', 0.55]} />
+      <hemisphereLight args={['#4a5663', '#1a1816', 0.55]} />
       <directionalLight
         position={[bounds.cx - 18, 26, bounds.cz - 10]}
         intensity={1.35}
-        color="#c9d4ff"
+        color="#d9e4ef"
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-bias={-0.00025}
@@ -196,37 +206,23 @@ export function SceneV2() {
       </directionalLight>
       {rooms.length > 0 && (
         <BuildingV2 rooms={rooms}>
-          {writersRoom && (
-            <WritersRoom
-              room={writersRoom}
-              agents={snapshot?.agents ?? []}
-              briefTitle={briefTitle}
-              briefLines={briefLines}
-            />
-          )}
-          {/* block-out rooms: desks and capsules as before, inside the new shell */}
-          {!flag('noblockout') && blockout.length > 0 && (
-            <Blockout rooms={blockout} deskCount={deskCount} />
-          )}
+          {rooms.map((room) => {
+            const wall = WALLS[room.key] ?? WALLS['content']!
+            const exec = room.key === 'executive'
+            return (
+              <Studio
+                key={room.id}
+                room={room}
+                agents={snapshot?.agents ?? []}
+                briefTitle={exec ? execTitle : contentTitle}
+                briefLines={exec ? execLines : contentLines}
+                wall={wall.images}
+                wallLabel={wall.label}
+              />
+            )
+          })}
         </BuildingV2>
       )}
-      {snapshot?.agents.map((a) => {
-        const room = rooms.find((r) => r.id === a.departmentId)
-        if (!room || room.key === 'creative') return null
-        const home = deskPosition(room, a.desk)
-        const seatIndex = meeting.findIndex((m) => m.id === a.id)
-        const seat = table && seatIndex >= 0 ? seatAround(table, seatIndex, meeting.length) : null
-        return (
-          <Avatar
-            key={a.id}
-            agent={a}
-            departmentKey={room.key}
-            home={{ x: home.x, z: home.z }}
-            seat={seat}
-          />
-        )
-      })}
-      {/* writers' meeting seats: the writers walk to the boardroom when their row says meeting */}
       <ContactShadows
         position={[bounds.cx, 0.01, bounds.cz]}
         scale={60}

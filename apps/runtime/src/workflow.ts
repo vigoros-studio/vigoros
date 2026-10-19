@@ -1,41 +1,53 @@
-import { EpisodeStep, newId, Ranking, type ApprovalItem } from '@vigoros/contracts'
-import { agents, approvals, artifacts, companies, tasks, workflows } from '@vigoros/db'
-import { emit, insertTask } from '@vigoros/ops'
+import {
+  ContentStep,
+  FactCheck,
+  ContentPlan,
+  ContentDraft,
+  newId,
+  type Audience,
+  type EditorialReview,
+  type Surface,
+} from '@vigoros/contracts'
+import { agents, approvals, artifacts, tasks, workflows } from '@vigoros/db'
+import { activeCompany, emit, insertTask } from '@vigoros/ops'
 import { and, eq, inArray } from 'drizzle-orm'
 import { QUEUES, boss } from './boss'
 import { db } from './db'
 
 /**
- * The episode workflow. A durable row whose step the runtime advances when the step's tasks are done.
- * Re-entrant: advance() may be called any number of times, from any runtime, and converges on one
- * task per (workflow, step, owner). Nothing here calls a model; agents only ever see tasks.
+ * The content workflow: one piece from the Managing Director's plan to the outbox. A durable row
+ * whose step the runtime advances when the step's tasks are done. Re-entrant: advance() may be
+ * called any number of times, from any runtime, and converges on one task per (workflow, step,
+ * owner). Nothing here calls a model; agents only ever see tasks. Two steps are worker jobs.
  */
 
-export interface EpisodeInput {
+export interface ContentInput {
   focus: string
   guidance: string
-  returnCount: number
+  surface: Surface
+  audience: Audience
+  places: string[]
 }
 
-export const startEpisodeWorkflow = async (opts: {
-  characterId: string
+export const startContentWorkflow = async (opts: {
+  subjectId: string
   startedBy: string
   title: string
-  input: EpisodeInput
+  input: ContentInput
   capUsd: number
 }): Promise<string> => {
   const d = db()
-  const [company] = await d.select().from(companies).limit(1)
+  const company = await activeCompany(d)
   if (!company) throw new Error('no company')
   if (company.paused) throw new Error('company is paused')
   const id = newId('workflow')
   await d.insert(workflows).values({
     id,
     companyId: company.id,
-    characterId: opts.characterId,
-    kind: 'episode',
+    subjectId: opts.subjectId,
+    kind: 'content',
     title: opts.title,
-    step: 'research',
+    step: 'plan',
     startedBy: opts.startedBy,
     input: { ...opts.input },
     capUsd: opts.capUsd,
@@ -43,14 +55,14 @@ export const startEpisodeWorkflow = async (opts: {
   await emit(d, {
     kind: 'workflow.started',
     companyId: company.id,
-    characterId: opts.characterId,
+    subjectId: opts.subjectId,
     agentId: null,
     departmentId: null,
     taskId: null,
     workflowId: id,
     subject: `workflows:${id}`,
     caption: `Workflow started: ${opts.title}`,
-    payload: { startedBy: opts.startedBy, focus: opts.input.focus },
+    payload: { startedBy: opts.startedBy, focus: opts.input.focus, surface: opts.input.surface },
   })
   await advance(id)
   return id
@@ -58,10 +70,14 @@ export const startEpisodeWorkflow = async (opts: {
 
 type Wf = typeof workflows.$inferSelect
 type State = Record<string, unknown>
+type TaskRow = typeof tasks.$inferSelect
 
-const agentFor = async (characterId: string | null, roleKey: string) => {
-  const rows = await db().select().from(agents).where(eq(agents.roleKey, roleKey))
-  const a = rows.find((r) => r.characterId === characterId || r.characterId === null)
+const agentFor = async (companyId: string, subjectId: string | null, roleKey: string) => {
+  const rows = await db()
+    .select()
+    .from(agents)
+    .where(and(eq(agents.companyId, companyId), eq(agents.roleKey, roleKey)))
+  const a = rows.find((r) => r.subjectId === subjectId) ?? rows.find((r) => r.subjectId === null)
   if (!a) throw new Error(`no agent for role ${roleKey}`)
   return a
 }
@@ -72,7 +88,7 @@ const stepTasks = async (wf: Wf, step: string) =>
     .from(tasks)
     .where(and(eq(tasks.workflowId, wf.id), eq(tasks.step, step)))
 
-const artifactIdOf = (t: typeof tasks.$inferSelect | undefined): string | null =>
+const artifactIdOf = (t: TaskRow | undefined): string | null =>
   t?.output && typeof t.output['artifactId'] === 'string'
     ? (t.output['artifactId'] as string)
     : null
@@ -85,7 +101,7 @@ const setStep = async (wf: Wf, step: string, state: State, extra: Partial<Wf> = 
   await emit(db(), {
     kind: 'workflow.step',
     companyId: wf.companyId,
-    characterId: wf.characterId,
+    subjectId: wf.subjectId,
     agentId: null,
     departmentId: null,
     taskId: null,
@@ -104,7 +120,7 @@ const finish = async (wf: Wf, status: 'done' | 'rejected' | 'failed', error?: st
     .where(
       and(
         eq(workflows.id, wf.id),
-        inArray(workflows.status, ['running', 'awaiting_approval', 'producing']),
+        inArray(workflows.status, ['running', 'awaiting_approval', 'publishing']),
       ),
     )
     .returning({ id: workflows.id })
@@ -112,7 +128,7 @@ const finish = async (wf: Wf, status: 'done' | 'rejected' | 'failed', error?: st
   await emit(db(), {
     kind: 'workflow.finished',
     companyId: wf.companyId,
-    characterId: wf.characterId,
+    subjectId: wf.subjectId,
     agentId: null,
     departmentId: null,
     taskId: null,
@@ -125,6 +141,17 @@ const finish = async (wf: Wf, status: 'done' | 'rejected' | 'failed', error?: st
 
 const perStepCap = (wf: Wf) => Math.max(0.1, wf.capUsd / 8)
 
+const KIND_BY_STEP: Record<string, string> = {
+  plan: 'direct.plan',
+  research: 'research.pack',
+  draft: 'write.draft',
+  check: 'check.facts',
+  revise: 'write.draft',
+  recheck: 'check.facts',
+  review: 'direct.review',
+  publish: 'content.publish',
+}
+
 const ensure = async (
   wf: Wf,
   step: string,
@@ -133,7 +160,7 @@ const ensure = async (
   input: Record<string, unknown>,
   inputArtifactIds: string[],
 ) => {
-  const owner = await agentFor(wf.characterId, roleKey)
+  const owner = await agentFor(wf.companyId, wf.subjectId, roleKey)
   return insertTask(db(), {
     kind: KIND_BY_STEP[step] ?? step,
     title,
@@ -147,19 +174,27 @@ const ensure = async (
   })
 }
 
-const KIND_BY_STEP: Record<string, string> = {
-  research: 'research.opportunities',
-  pick: 'direct.pick',
-  write: 'write.script',
-  review: 'review.rank',
-  plan: 'plan.measurement',
-  approval_item: 'direct.approval-item',
-  produce: 'produce.dispatch',
-  estimate: 'produce.estimate',
+const failed = (list: TaskRow[]) => list.find((t) => t.status === 'failed')
+
+const contentOf = async <T>(id: unknown, parse: (c: unknown) => T): Promise<T | null> => {
+  if (typeof id !== 'string') return null
+  const [row] = await db().select().from(artifacts).where(eq(artifacts.id, id))
+  if (!row) return null
+  try {
+    return parse(row.content)
+  } catch {
+    return null
+  }
 }
 
-const failedOrBlocked = (list: (typeof tasks.$inferSelect)[]) =>
-  list.find((t) => t.status === 'failed')
+const slugOf = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/\[simulated\]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 60)
+    .padEnd(3, 'x')
 
 /** Advances one workflow as far as its completed tasks allow. Safe to call repeatedly. */
 export const advance = async (workflowId: string): Promise<void> => {
@@ -167,205 +202,176 @@ export const advance = async (workflowId: string): Promise<void> => {
   const [wf] = await d.select().from(workflows).where(eq(workflows.id, workflowId))
   if (!wf) return
   if (['done', 'rejected', 'failed', 'cancelled'].includes(wf.status)) return
-  const [company] = await d.select().from(companies).where(eq(companies.id, wf.companyId))
-  if (!company || company.paused) return
-  const input = wf.input as unknown as EpisodeInput
+  const company = await activeCompany(d)
+  if (!company || company.id !== wf.companyId || company.paused) return
+  const input = wf.input as unknown as ContentInput
   const state: State = { ...wf.state }
-  const step = EpisodeStep.parse(wf.step)
-
-  const done = async (list: (typeof tasks.$inferSelect)[], n: number) =>
-    list.filter((t) => t.status === 'done').length >= n
+  const step = ContentStep.parse(wf.step)
+  const done = (list: TaskRow[], n: number) => list.filter((t) => t.status === 'done').length >= n
 
   switch (step) {
-    case 'research': {
-      const list = await stepTasks(wf, 'research')
-      if (list.length === 0)
-        return void (await ensure(
-          wf,
-          'research',
-          'trend-researcher',
-          `Research: ${input.focus}`,
-          { focus: input.focus },
-          [],
-        ))
-      const f = failedOrBlocked(list)
-      if (f) return finish(wf, 'failed', `research failed: ${f.blockedReason ?? ''}`)
-      if (!(await done(list, 1))) return
-      state['research'] = artifactIdOf(list[0])
-      await setStep(wf, 'pick', state)
-      return advance(wf.id)
-    }
-    case 'pick': {
-      const list = await stepTasks(wf, 'pick')
-      if (list.length === 0)
-        return void (await ensure(
-          wf,
-          'pick',
-          'studio-director',
-          `Pick an opportunity: ${wf.title}`,
-          { guidance: input.guidance },
-          [String(state['research'])],
-        ))
-      const f = failedOrBlocked(list)
-      if (f) return finish(wf, 'failed', `pick failed: ${f.blockedReason ?? ''}`)
-      if (!(await done(list, 1))) return
-      state['brief'] = artifactIdOf(list[0])
-      await setStep(wf, 'write', state)
-      return advance(wf.id)
-    }
-    case 'write': {
-      const list = await stepTasks(wf, 'write')
-      if (list.length < 2) {
-        await ensure(
-          wf,
-          'write',
-          'comedy-writer-a',
-          `Script draft (Writer A): ${wf.title}`,
-          { direction: input.guidance, candidate: 'Writer A' },
-          [String(state['brief'])],
-        )
-        await ensure(
-          wf,
-          'write',
-          'comedy-writer-b',
-          `Script draft (Writer B): ${wf.title}`,
-          { direction: input.guidance, candidate: 'Writer B' },
-          [String(state['brief'])],
-        )
-        return
-      }
-      const f = failedOrBlocked(list)
-      if (f) return finish(wf, 'failed', `writing failed: ${f.blockedReason ?? ''}`)
-      if (!(await done(list, 2))) return
-      const byRole: Record<string, string> = {}
-      for (const t of list) {
-        const [owner] = await d
-          .select({ roleKey: agents.roleKey })
-          .from(agents)
-          .where(eq(agents.id, t.ownerAgentId))
-        const aid = artifactIdOf(t)
-        if (owner && aid)
-          byRole[owner.roleKey === 'comedy-writer-a' ? 'Writer A' : 'Writer B'] = aid
-      }
-      state['scripts'] = byRole
-      await setStep(wf, 'review', state)
-      return advance(wf.id)
-    }
-    case 'review': {
-      const scripts = (state['scripts'] ?? {}) as Record<string, string>
-      const list = await stepTasks(wf, 'review')
-      if (list.length === 0)
-        return void (await ensure(
-          wf,
-          'review',
-          'creative-reviewer',
-          `Rank the scripts: ${wf.title}`,
-          { returnCount: input.returnCount },
-          Object.values(scripts),
-        ))
-      const f = failedOrBlocked(list)
-      if (f) return finish(wf, 'failed', `review failed: ${f.blockedReason ?? ''}`)
-      if (!(await done(list, 1))) return
-      const rankingId = artifactIdOf(list[0])
-      state['ranking'] = rankingId
-      const [art] = rankingId
-        ? await d.select().from(artifacts).where(eq(artifacts.id, rankingId))
-        : []
-      const ranking = art ? Ranking.safeParse(art.content) : null
-      const winnerName = ranking?.success ? ranking.data.winner : undefined
-      const winner =
-        (winnerName && scripts[winnerName]) ||
-        (ranking?.success
-          ? scripts[
-              ranking.data.ranked.slice().sort((a, b) => b.score - a.score)[0]?.candidate ?? ''
-            ]
-          : undefined) ||
-        Object.values(scripts)[0]
-      state['winningScript'] = winner
-      state['winnerName'] = winnerName ?? Object.keys(scripts)[0]
-      await setStep(wf, 'plan', state)
-      return advance(wf.id)
-    }
     case 'plan': {
       const list = await stepTasks(wf, 'plan')
       if (list.length === 0)
         return void (await ensure(
           wf,
           'plan',
-          'performance-analyst',
-          `Measurement plan: ${wf.title}`,
-          {},
-          [String(state['brief']), String(state['ranking']), String(state['winningScript'])],
+          'managing-director',
+          `Plan: ${wf.title}`,
+          {
+            focus: input.focus,
+            guidance: input.guidance,
+            surface: input.surface,
+            audience: input.audience,
+            places: input.places,
+          },
+          [],
         ))
-      const f = failedOrBlocked(list)
+      const f = failed(list)
       if (f) return finish(wf, 'failed', `plan failed: ${f.blockedReason ?? ''}`)
-      if (!(await done(list, 1))) return
-      state['plan'] = artifactIdOf(list[0])
-      await setStep(wf, 'approval_item', state)
+      if (!done(list, 1)) return
+      const planId = artifactIdOf(list[0])
+      const plan = await contentOf(planId, (c) => ContentPlan.parse(c))
+      const piece = plan?.pieces.slice().sort((a, b) => a.priority - b.priority)[0]
+      state['plan'] = planId
+      if (!piece) {
+        await setStep(wf, 'plan', state)
+        return finish(wf, 'done', 'the Managing Director decided not to publish this week')
+      }
+      state['piece'] = piece
+      const places = piece.places.length ? piece.places : input.places
+      state['places'] = places
+      await setStep(wf, places.length ? 'research' : 'draft', state)
       return advance(wf.id)
     }
-    case 'approval_item': {
-      const list = await stepTasks(wf, 'approval_item')
+    case 'research': {
+      const list = await stepTasks(wf, 'research')
       if (list.length === 0)
         return void (await ensure(
           wf,
-          'approval_item',
-          'studio-director',
-          `Approval item: ${wf.title}`,
-          { winner: state['winnerName'] },
-          [
-            String(state['brief']),
-            String(state['ranking']),
-            String(state['winningScript']),
-            String(state['plan']),
-          ],
+          'research',
+          'content-director',
+          `Research pack: ${wf.title}`,
+          { places: state['places'], grain: 'neighbourhood', changesSinceDays: 60 },
+          [],
         ))
-      const f = failedOrBlocked(list)
-      if (f) return finish(wf, 'failed', `approval item failed: ${f.blockedReason ?? ''}`)
-      if (!(await done(list, 1))) return
-      const itemId = artifactIdOf(list[0])
-      state['approvalItem'] = itemId
-      const [art] = itemId ? await d.select().from(artifacts).where(eq(artifacts.id, itemId)) : []
-      const item = (art?.content ?? {}) as ApprovalItem
+      const f = failed(list)
+      if (f) return finish(wf, 'failed', `research failed: ${f.blockedReason ?? ''}`)
+      if (!done(list, 1)) return
+      state['research'] = artifactIdOf(list[0])
+      await setStep(wf, 'draft', state)
+      return advance(wf.id)
+    }
+    case 'draft':
+    case 'revise': {
+      const piece = (state['piece'] ?? {}) as Record<string, unknown>
+      const list = await stepTasks(wf, step)
+      if (list.length === 0)
+        return void (await ensure(
+          wf,
+          step,
+          'content-director',
+          `${step === 'revise' ? 'Revise' : 'Draft'}: ${wf.title}`,
+          {
+            surface: piece['surface'],
+            audience: piece['audience'],
+            title: piece['title'],
+            angle: piece['angle'],
+            ...(step === 'revise' ? { issues: state['issues'] ?? [] } : {}),
+          },
+          [String(state['plan']), ...(state['research'] ? [String(state['research'])] : [])],
+        ))
+      const f = failed(list)
+      if (f) return finish(wf, 'failed', `${step} failed: ${f.blockedReason ?? ''}`)
+      if (!done(list, 1)) return
+      state['draft'] = artifactIdOf(list[0])
+      await setStep(wf, step === 'revise' ? 'recheck' : 'check', state)
+      return advance(wf.id)
+    }
+    case 'check':
+    case 'recheck': {
+      const list = await stepTasks(wf, step)
+      if (list.length === 0)
+        return void (await ensure(wf, step, 'content-director', `Fact-check: ${wf.title}`, {}, [
+          String(state['draft']),
+          ...(state['research'] ? [String(state['research'])] : []),
+        ]))
+      const f = failed(list)
+      if (f) return finish(wf, 'failed', `${step} failed: ${f.blockedReason ?? ''}`)
+      if (!done(list, 1)) return
+      const checkId = artifactIdOf(list[0])
+      const check = await contentOf(checkId, (c) => FactCheck.parse(c))
+      state['check'] = checkId
+      if (!check) return finish(wf, 'failed', 'fact-check produced no readable verdict')
+      if (check.verdict === 'fail') {
+        if (step === 'recheck')
+          return finish(wf, 'failed', `fact-check failed twice: ${check.issues.length} issues`)
+        state['issues'] = check.issues
+        await setStep(wf, 'revise', state)
+        return advance(wf.id)
+      }
+      await setStep(wf, 'review', state)
+      return advance(wf.id)
+    }
+    case 'review': {
+      const list = await stepTasks(wf, 'review')
+      if (list.length === 0)
+        return void (await ensure(
+          wf,
+          'review',
+          'managing-director',
+          `Editorial review: ${wf.title}`,
+          {},
+          [String(state['draft']), String(state['check']), String(state['plan'])],
+        ))
+      const f = failed(list)
+      if (f) return finish(wf, 'failed', `review failed: ${f.blockedReason ?? ''}`)
+      if (!done(list, 1)) return
+      const reviewId = artifactIdOf(list[0])
+      state['review'] = reviewId
+      const review = (await contentOf(reviewId, (c) => c as EditorialReview)) ?? null
+      const draft = await contentOf(state['draft'], (c) => ContentDraft.parse(c))
       const [fresh] = await d.select().from(workflows).where(eq(workflows.id, wf.id))
-      const approvalId = newId('approval')
       const existing = await d
         .select({ id: approvals.id })
         .from(approvals)
-        .where(and(eq(approvals.workflowId, wf.id), eq(approvals.kind, 'episode_to_production')))
+        .where(and(eq(approvals.workflowId, wf.id), eq(approvals.kind, 'content_publish')))
       if (existing.length === 0) {
+        const approvalId = newId('approval')
+        const headline = review?.headline ?? draft?.title ?? wf.title
         await d.insert(approvals).values({
           id: approvalId,
           companyId: wf.companyId,
-          characterId: wf.characterId,
+          subjectId: wf.subjectId,
           taskId: list[0]?.id ?? null,
           workflowId: wf.id,
           requestedBy: list[0]?.ownerAgentId ?? 'workflow',
-          kind: 'episode_to_production',
-          headline: `${fresh?.simulated && !(item.headline ?? '').startsWith('[SIMULATED]') ? '[SIMULATED] ' : ''}${item.headline ?? wf.title} — ${wf.title}`,
-          summary: item.summary ?? '',
-          recommendation: item.recommendation ?? null,
+          kind: 'content_publish',
+          headline: `${fresh?.simulated && !headline.startsWith('[SIMULATED]') ? '[SIMULATED] ' : ''}${headline}`,
+          summary: review?.summary ?? draft?.summary ?? '',
+          recommendation: review?.recommendation ?? null,
           costUsd: fresh?.spentUsd ?? null,
           payload: {
             workflowId: wf.id,
-            winningScript: state['winningScript'],
-            winnerName: state['winnerName'],
-            plan: state['plan'],
-            ranking: state['ranking'],
+            draft: state['draft'],
+            review: reviewId,
+            check: state['check'],
+            surface: draft?.surface ?? null,
+            slug: slugOf(draft?.title ?? wf.title),
             simulated: fresh?.simulated ?? false,
           },
         })
         await emit(d, {
           kind: 'approval.requested',
           companyId: wf.companyId,
-          characterId: wf.characterId,
+          subjectId: wf.subjectId,
           agentId: list[0]?.ownerAgentId ?? null,
           departmentId: null,
           taskId: list[0]?.id ?? null,
           workflowId: wf.id,
           subject: `approvals:${approvalId}`,
-          caption: `Director asks the founder: ${item.headline ?? wf.title}`,
-          payload: { recommendation: item.recommendation ?? null },
+          caption: `Managing Director asks the founder: ${headline.slice(0, 120)}`,
+          payload: { recommendation: review?.recommendation ?? null },
         })
         state['approvalId'] = approvalId
       } else {
@@ -382,77 +388,52 @@ export const advance = async (workflowId: string): Promise<void> => {
       if (!row || row.status === 'pending') return
       if (row.status === 'rejected' || row.status === 'withdrawn')
         return finish(wf, 'rejected', row.founderNote ?? undefined)
-      await setStep(wf, 'produce', state, { status: 'producing' })
+      await setStep(wf, 'publish', state, { status: 'publishing' })
       return advance(wf.id)
     }
-    case 'produce': {
-      const list = await stepTasks(wf, 'produce')
+    case 'publish': {
+      const list = await stepTasks(wf, 'publish')
       if (list.length === 0)
         return void (await ensure(
           wf,
-          'produce',
-          'production-manager',
-          `Create the episode in production: ${wf.title}`,
+          'publish',
+          'content-director',
+          `Publish: ${wf.title}`,
           { approvalId: state['approvalId'] },
-          [String(state['brief']), String(state['winningScript'])],
+          [String(state['draft']), String(state['review'])],
         ))
-      const f = failedOrBlocked(list)
-      if (f) return finish(wf, 'failed', `production dispatch failed: ${f.blockedReason ?? ''}`)
-      if (!(await done(list, 1))) return
-      const out = (list[0]?.output ?? {}) as Record<string, unknown>
-      state['episode'] = out['episode']
-      state['packageArtifactIds'] = out['artifactIds']
-      state['workerEstimate'] = out['estimate']
-      state['bunniJobs'] = out['jobs']
-      state['canonVersion'] = out['canonVersion']
-      await setStep(wf, 'estimate', state)
-      return advance(wf.id)
-    }
-    case 'estimate': {
-      const list = await stepTasks(wf, 'estimate')
-      const pkg = (state['packageArtifactIds'] as string[] | undefined) ?? []
-      if (list.length === 0)
-        return void (await ensure(
-          wf,
-          'estimate',
-          'production-manager',
-          `Production estimate: ${wf.title}`,
-          {
-            episode: state['episode'],
-            estimate: state['workerEstimate'],
-            shots: (state['workerEstimate'] as { keyframes?: number } | undefined)?.keyframes,
-            jobs: state['bunniJobs'],
-            canonVersion: state['canonVersion'],
-          },
-          [String(state['winningScript']), ...pkg.slice(0, 3)],
-        ))
-      const f = failedOrBlocked(list)
-      if (f) return finish(wf, 'failed', `estimate failed: ${f.blockedReason ?? ''}`)
-      if (!(await done(list, 1))) return
-      state['estimate'] = artifactIdOf(list[0])
-      await d.update(workflows).set({ state, updatedAt: new Date() }).where(eq(workflows.id, wf.id))
+      const f = failed(list)
+      if (f) return finish(wf, 'failed', `publish failed: ${f.blockedReason ?? ''}`)
+      if (!done(list, 1)) return
+      state['publication'] = artifactIdOf(list[0])
+      await setStep(wf, 'publish', state)
       return finish(wf, 'done')
     }
   }
 }
 
 /**
- * The runtime's heartbeat. Advances every live workflow (which is how a founder's approval takes
- * effect) and enqueues a turn for every queued task that does not already have one. Idempotent.
+ * The heartbeat. Advances every open workflow and enqueues a turn for every queued task that
+ * is not already in the queue (singleton key per task), so a crashed runtime resumes cleanly.
  */
 export const tick = async (): Promise<{ advanced: number; enqueued: number }> => {
   const d = db()
-  const [company] = await d.select().from(companies).limit(1)
+  const company = await activeCompany(d)
   if (!company || company.paused) return { advanced: 0, enqueued: 0 }
   const live = await d
     .select({ id: workflows.id })
     .from(workflows)
-    .where(inArray(workflows.status, ['running', 'awaiting_approval', 'producing']))
+    .where(
+      and(
+        eq(workflows.companyId, company.id),
+        inArray(workflows.status, ['running', 'awaiting_approval', 'publishing']),
+      ),
+    )
   for (const w of live) await advance(w.id)
   const queued = await d
     .select({ id: tasks.id, turns: tasks.turns })
     .from(tasks)
-    .where(eq(tasks.status, 'queued'))
+    .where(and(eq(tasks.companyId, company.id), eq(tasks.status, 'queued')))
   const b = await boss()
   let enqueued = 0
   for (const t of queued) {

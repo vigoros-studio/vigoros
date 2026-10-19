@@ -1,5 +1,5 @@
-# Vigoros Studio
+# OneGoodArea's distribution team
 
-Private AI-run 3D entertainment headquarters. See `CLAUDE.md` for rules and layout, and the proposal linked there for the architecture.
+A private, AI-run company with two agents (a Managing Director and a Content Director) whose job is distribution for OneGoodArea, the intelligence layer for place. See `CLAUDE.md` for the rules and layout, `docs/foundation.md` for the build history, and `docs/oga/` for the reference documents about OneGoodArea.
 
-The `forecast-archive` branch and the `forecast-archive-2026-10-09` tag hold the unrelated project that lived here before 9 October 2026.
+History: the `forecast-archive` branch and tag hold the unrelated project that lived here before 9 October 2026; the `bunni-archive-2026-10-19` tag holds the Bunni character studio that lived here between 9 and 19 October 2026.

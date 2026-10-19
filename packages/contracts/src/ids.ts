@@ -5,6 +5,7 @@ import { z } from 'zod'
 export const ID_PREFIXES = {
   company: 'cmp',
   character: 'chr',
+  subject: 'sub',
   department: 'dep',
   agent: 'agt',
   task: 'tsk',

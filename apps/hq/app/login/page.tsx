@@ -29,7 +29,7 @@ export default async function Login({
   const { sent } = await searchParams
   return (
     <main>
-      <h1>Vigoros Studio</h1>
+      <h1>OneGoodArea</h1>
       <p className="quiet">Private headquarters. Sign in with a magic link.</p>
       {sent ? (
         <p>If that address is on the list, a link is on its way.</p>

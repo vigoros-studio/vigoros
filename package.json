@@ -15,7 +15,7 @@
     "db:migrate": "pnpm --filter @vigoros/db migrate",
     "seed": "pnpm --filter @vigoros/runtime seed",
     "runtime": "pnpm --filter @vigoros/runtime start",
-    "worker": "pnpm --filter @vigoros/bunni-worker start"
+    "worker": "pnpm --filter @vigoros/oga-worker start"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

@@ -1,57 +1,58 @@
 import { newId } from '@vigoros/contracts'
-import { agents, budgets, characterState, characters, companies, departments } from '@vigoros/db'
+import { agents, budgets, companies, departments, subjects } from '@vigoros/db'
 import { DEPARTMENTS, PHASE_ONE_ROLES, ROOMS } from '@vigoros/org'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { emit } from '@vigoros/ops'
 import { db } from './db'
 
+export const COMPANY_NAME = process.env['COMPANY_NAME'] ?? 'OneGoodArea'
+
 const AVATAR_NAMES: Record<string, string> = {
-  'studio-director': 'Director',
-  'trend-researcher': 'Scout',
-  'comedy-writer-a': 'Writer A',
-  'comedy-writer-b': 'Writer B',
-  'creative-reviewer': 'Reviewer',
-  'production-manager': 'Producer',
-  'performance-analyst': 'Analyst',
+  'managing-director': 'Managing Director',
+  'content-director': 'Content Director',
 }
 
-/** Idempotent. Creates the company, Bunni, the six departments and the seven phase-1 agents. */
-export const seed = async (opts: { bunniRoot: string; dailyCapUsd: number }) => {
+/** Idempotent. Creates the company, its subject (OneGoodArea), the two departments and the two phase-1 agents. */
+export const seed = async (opts: { docsRoot: string; dailyCapUsd: number }) => {
   const d = db()
-  let [company] = await d.select().from(companies).where(eq(companies.name, 'Vigoros Studio'))
+  let [company] = await d.select().from(companies).where(eq(companies.name, COMPANY_NAME))
   if (!company) {
     ;[company] = await d
       .insert(companies)
-      .values({ id: newId('company'), name: 'Vigoros Studio', dailyCapUsd: opts.dailyCapUsd })
+      .values({ id: newId('company'), name: COMPANY_NAME, dailyCapUsd: opts.dailyCapUsd })
       .returning()
   }
   if (!company) throw new Error('company insert failed')
 
-  let [bunni] = await d.select().from(characters).where(eq(characters.key, 'bunni'))
-  if (!bunni) {
-    ;[bunni] = await d
-      .insert(characters)
+  let [subject] = await d
+    .select()
+    .from(subjects)
+    .where(and(eq(subjects.companyId, company.id), eq(subjects.key, 'onegoodarea')))
+  if (!subject) {
+    ;[subject] = await d
+      .insert(subjects)
       .values({
-        id: newId('character'),
+        id: newId('subject'),
         companyId: company.id,
-        key: 'bunni',
-        name: 'Bunni',
-        handle: '@bunniisreal',
-        productionRoot: opts.bunniRoot,
+        key: 'onegoodarea',
+        name: 'OneGoodArea',
+        kind: 'company',
+        handle: '@onegoodarea',
+        website: 'https://onegoodarea.com',
+        docsRoot: opts.docsRoot || null,
       })
       .returning()
-    if (bunni)
-      await d
-        .insert(characterState)
-        .values({ characterId: bunni.id, storyline: 'Bunni is trying to become famous.' })
   }
-  if (!bunni) throw new Error('character insert failed')
+  if (!subject) throw new Error('subject insert failed')
 
   const deptIds = new Map<string, string>()
   for (const dep of DEPARTMENTS) {
     const room = ROOMS.find((r) => r.key === dep.key)
     if (!room) throw new Error(`no room for ${dep.key}`)
-    let [row] = await d.select().from(departments).where(eq(departments.key, dep.key))
+    let [row] = await d
+      .select()
+      .from(departments)
+      .where(and(eq(departments.companyId, company.id), eq(departments.key, dep.key)))
     if (!row) {
       ;[row] = await d
         .insert(departments)
@@ -73,16 +74,19 @@ export const seed = async (opts: { bunniRoot: string; dailyCapUsd: number }) => 
   for (const role of PHASE_ONE_ROLES) {
     const departmentId = deptIds.get(role.department)
     if (!departmentId) throw new Error(`no department ${role.department}`)
-    const characterId = role.scope === 'character' ? bunni.id : null
-    const existing = await d.select().from(agents).where(eq(agents.roleKey, role.key))
-    if (existing.some((a) => a.characterId === characterId)) continue
+    const subjectId = role.scope === 'subject' ? subject.id : null
+    const existing = await d
+      .select()
+      .from(agents)
+      .where(and(eq(agents.companyId, company.id), eq(agents.roleKey, role.key)))
+    if (existing.some((a) => a.subjectId === subjectId)) continue
     const desk = (deskCounter.get(departmentId) ?? 0) + 1
     deskCounter.set(departmentId, desk)
     const id = newId('agent')
     await d.insert(agents).values({
       id,
       companyId: company.id,
-      characterId,
+      subjectId,
       departmentId,
       roleKey: role.key,
       roleVersion: role.version,
@@ -96,7 +100,7 @@ export const seed = async (opts: { bunniRoot: string; dailyCapUsd: number }) => 
     await emit(d, {
       kind: 'agent.state',
       companyId: company.id,
-      characterId,
+      subjectId,
       agentId: id,
       departmentId,
       taskId: null,
@@ -117,8 +121,8 @@ export const seed = async (opts: { bunniRoot: string; dailyCapUsd: number }) => 
     .onConflictDoNothing()
   return {
     companyId: company.id,
-    characterId: bunni.id,
-    departments: deptIds.size,
+    subjectId: subject.id,
+    departments: [...deptIds.entries()],
     agentsCreated: created,
   }
 }

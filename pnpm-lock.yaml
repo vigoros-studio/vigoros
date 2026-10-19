@@ -27,34 +27,6 @@ importers:
         specifier: ^3.1.0
         version: 3.2.7(@types/node@24.19.1)(tsx@4.23.13)
 
-  apps/bunni-worker:
-    dependencies:
-      '@vigoros/contracts':
-        specifier: workspace:*
-        version: link:../../packages/contracts
-      '@vigoros/db':
-        specifier: workspace:*
-        version: link:../../packages/db
-      drizzle-orm:
-        specifier: ^0.45.0
-        version: 0.45.4(@opentelemetry/api@1.9.1)(pg@8.23.1)(postgres@3.4.9)
-      pg-boss:
-        specifier: ^12.37.0
-        version: 12.37.0(@opentelemetry/api@1.9.1)
-      zod:
-        specifier: ^4.1.0
-        version: 4.6.5
-    devDependencies:
-      tsx:
-        specifier: ^4.23.0
-        version: 4.23.13
-      typescript:
-        specifier: ^5.8.3
-        version: 5.9.3
-      vitest:
-        specifier: ^3.1.0
-        version: 3.2.7(@types/node@24.19.1)(tsx@4.23.13)
-
   apps/hq:
     dependencies:
       '@react-three/drei':
@@ -127,6 +99,37 @@ importers:
       '@types/three':
         specifier: ^0.186.0
         version: 0.186.0
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+      vitest:
+        specifier: ^3.1.0
+        version: 3.2.7(@types/node@24.19.1)(tsx@4.23.13)
+
+  apps/oga-worker:
+    dependencies:
+      '@vigoros/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@vigoros/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@vigoros/ops':
+        specifier: workspace:*
+        version: link:../../packages/ops
+      drizzle-orm:
+        specifier: ^0.45.0
+        version: 0.45.4(@opentelemetry/api@1.9.1)(pg@8.23.1)(postgres@3.4.9)
+      pg-boss:
+        specifier: ^12.37.0
+        version: 12.37.0(@opentelemetry/api@1.9.1)
+      zod:
+        specifier: ^4.1.0
+        version: 4.6.5
+    devDependencies:
+      tsx:
+        specifier: ^4.23.0
+        version: 4.23.13
       typescript:
         specifier: ^5.8.3
         version: 5.9.3

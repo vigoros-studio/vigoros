@@ -1,12 +1,12 @@
 /**
- * Phase 1 verification against the live database. Prints one line per check with PASS or FAIL
- * and exits non-zero on any failure. Run with the runtime and worker up: `pnpm --filter @vigoros/runtime cli verify`.
+ * Verification against the live database. Prints one line per check with PASS or FAIL and exits
+ * non-zero on any failure. Run with the runtime and worker up: `pnpm --filter @vigoros/runtime cli verify`.
  */
+import { ContentDraft, FactCheck } from '@vigoros/contracts'
 import {
   agents,
   approvals,
   artifacts,
-  companies,
   costLedger,
   decisions,
   events,
@@ -14,8 +14,8 @@ import {
   tasks,
   workflows,
 } from '@vigoros/db'
-import { insertTask, setPaused } from '@vigoros/ops'
-import { and, asc, desc, eq, inArray } from 'drizzle-orm'
+import { activeCompany, insertTask, setPaused } from '@vigoros/ops'
+import { and, asc, desc, eq } from 'drizzle-orm'
 import { db } from './db'
 import { runTurn } from './turn'
 
@@ -25,14 +25,19 @@ export const verify = async (): Promise<Check[]> => {
   const d = db()
   const out: Check[] = []
   const check = (name: string, ok: boolean, detail: string) => out.push({ name, ok, detail })
+  const company = await activeCompany(d)
+  if (!company) {
+    check('company exists', false, 'seed first')
+    return out
+  }
 
   const flows = await d
     .select()
     .from(workflows)
-    .where(eq(workflows.status, 'done'))
+    .where(and(eq(workflows.companyId, company.id), eq(workflows.status, 'done')))
     .orderBy(desc(workflows.finishedAt))
-  const wf = flows[0]
-  check('a completed episode workflow exists', Boolean(wf), wf ? `${wf.id} "${wf.title}"` : 'none')
+  const wf = flows.find((w) => w.error === null) ?? flows[0]
+  check('a completed content workflow exists', Boolean(wf), wf ? `${wf.id} "${wf.title}"` : 'none')
   if (!wf) return out
 
   const steps = await d
@@ -40,70 +45,67 @@ export const verify = async (): Promise<Check[]> => {
     .from(tasks)
     .where(eq(tasks.workflowId, wf.id))
     .orderBy(asc(tasks.createdAt))
-  const staff = await d.select().from(agents)
+  const staff = await d.select().from(agents).where(eq(agents.companyId, company.id))
   const roleOf = (id: string) => staff.find((a) => a.id === id)?.roleKey ?? id
   const participants = new Set(steps.map((t) => roleOf(t.ownerAgentId)))
-  const seven = [
-    'studio-director',
-    'trend-researcher',
-    'comedy-writer-a',
-    'comedy-writer-b',
-    'creative-reviewer',
-    'performance-analyst',
-    'production-manager',
-  ]
   check(
-    'all seven roles participated',
-    seven.every((r) => participants.has(r)),
+    'both roles participated',
+    ['managing-director', 'content-director'].every((r) => participants.has(r)),
     [...participants].sort().join(', '),
   )
 
-  const writeTasks = steps.filter((t) => t.step === 'write')
-  const writeRuns = writeTasks.length
-    ? await d
-        .select()
-        .from(runs)
-        .where(
-          inArray(
-            runs.taskId,
-            writeTasks.map((t) => t.id),
-          ),
-        )
-    : []
-  const scripts = await d
-    .select()
-    .from(artifacts)
-    .where(and(eq(artifacts.workflowId, wf.id), eq(artifacts.kind, 'script')))
-  const overlap = writeRuns.some((r) => {
-    const req = JSON.stringify(r.request ?? '')
-    return scripts.some((s) => s.producedBy !== r.agentId && req.includes(s.id))
-  })
-  const sameInputs =
-    writeTasks.length === 2 &&
-    JSON.stringify(writeTasks[0]?.inputArtifactIds) ===
-      JSON.stringify(writeTasks[1]?.inputArtifactIds)
+  const order = steps.map((t) => t.step)
+  const expected = ['plan', 'research', 'draft', 'check', 'review', 'publish']
   check(
-    'both writers worked independently from the same brief',
-    writeTasks.length === 2 && sameInputs && !overlap,
-    `${writeTasks.length} write tasks, ${scripts.length} scripts, cross-reference in requests: ${overlap}`,
+    'the steps ran in order: plan, research, draft, check, review, publish',
+    expected.every(
+      (s, i) =>
+        order.indexOf(s) >= 0 && (i === 0 || order.indexOf(s) > order.indexOf(expected[i - 1]!)),
+    ),
+    order.join(' → '),
   )
 
-  const ranking = await d
+  const drafts = await d
     .select()
     .from(artifacts)
-    .where(and(eq(artifacts.workflowId, wf.id), eq(artifacts.kind, 'ranking')))
-  const rk = ranking[0]?.content as
-    { winner?: string; ranked?: unknown[]; reasoning?: string } | undefined
+    .where(and(eq(artifacts.workflowId, wf.id), eq(artifacts.kind, 'content_draft')))
+  const packs = await d
+    .select()
+    .from(artifacts)
+    .where(and(eq(artifacts.workflowId, wf.id), eq(artifacts.kind, 'research_pack')))
+  const draft = drafts[0] ? ContentDraft.safeParse(drafts[0].content) : null
+  const pack = packs[0]?.content as
+    { places?: { placeId: string; signals: { key: string }[] }[] } | undefined
+  const rowsInPack = new Set(
+    (pack?.places ?? []).flatMap((p) => p.signals.map((s) => `${p.placeId}:${s.key}`)),
+  )
+  const citations = draft?.success ? draft.data.citations : []
+  const citedRows = citations.filter((c) => rowsInPack.has(`${c.placeId}:${c.signalKey}`))
   check(
-    'reviewer produced a traceable ranking',
-    Boolean(rk?.winner && Array.isArray(rk.ranked) && rk.ranked.length >= 2 && ranking[0]?.taskId),
-    rk ? `winner ${rk.winner}, ${rk.ranked?.length} ranked, task ${ranking[0]?.taskId}` : 'none',
+    'every citation in the draft points at a row in the research pack',
+    Boolean(draft?.success) && citations.length > 0 && citedRows.length === citations.length,
+    `${citations.length} citations, ${citedRows.length} matched, pack rows ${rowsInPack.size}`,
+  )
+
+  const checks = await d
+    .select()
+    .from(artifacts)
+    .where(and(eq(artifacts.workflowId, wf.id), eq(artifacts.kind, 'fact_check')))
+  const fc = checks[0] ? FactCheck.safeParse(checks[0].content) : null
+  const checkTask = steps.find((t) => t.step === 'check' || t.step === 'recheck')
+  const draftTask = steps.find((t) => t.step === 'draft' || t.step === 'revise')
+  check(
+    'the fact-check ran as its own task after the draft and passed',
+    Boolean(fc?.success && fc.data.verdict === 'pass' && checkTask && draftTask) &&
+      (checkTask?.createdAt.getTime() ?? 0) > (draftTask?.createdAt.getTime() ?? 0) &&
+      (checkTask?.inputArtifactIds.includes(drafts[0]?.id ?? '') ?? false),
+    fc?.success ? `${fc.data.verdict}, ${fc.data.claimsChecked} claims` : 'none',
   )
 
   const gate = await d.select().from(approvals).where(eq(approvals.workflowId, wf.id))
   const g = gate[0]
   check(
-    'Director created an actionable approval item',
+    'the Managing Director created an actionable approval item',
     Boolean(g && g.headline && g.summary && g.recommendation && g.status === 'approved'),
     g ? `${g.id} ${g.status} rec=${g.recommendation}` : 'none',
   )
@@ -114,17 +116,20 @@ export const verify = async (): Promise<Check[]> => {
     .where(eq(events.workflowId, wf.id))
     .orderBy(asc(events.seq))
   const approvedSeq = evs.find((e) => e.kind === 'approval.resolved')?.seq ?? Infinity
-  const firstWorkerJob = evs.find((e) => e.kind === 'worker.job')?.seq ?? Infinity
-  const prodArtifacts = await d
+  const publishJob = evs.find(
+    (e) => e.kind === 'worker.job' && (e.payload as { job?: string }).job === 'content.publish',
+  )
+  const publications = await d
     .select()
     .from(artifacts)
-    .where(and(eq(artifacts.workflowId, wf.id), eq(artifacts.producedBy, 'bunni-worker')))
-  const earliestProd = prodArtifacts.map((a) => a.createdAt.getTime()).sort()[0]
+    .where(and(eq(artifacts.workflowId, wf.id), eq(artifacts.kind, 'publication')))
   const approvedAt = g?.decidedAt?.getTime() ?? 0
   check(
-    'no production job ran before approval',
-    firstWorkerJob > approvedSeq && (earliestProd === undefined || earliestProd >= approvedAt),
-    `approval seq ${approvedSeq}, first worker job seq ${firstWorkerJob}, ${prodArtifacts.length} production files`,
+    'nothing was published before approval',
+    (publishJob?.seq ?? Infinity) > approvedSeq &&
+      publications.length > 0 &&
+      publications.every((p) => p.createdAt.getTime() >= approvedAt),
+    `approval seq ${approvedSeq}, publish job seq ${publishJob?.seq ?? 'none'}, ${publications.length} publication rows`,
   )
 
   const allRuns = await d
@@ -141,17 +146,14 @@ export const verify = async (): Promise<Check[]> => {
   )
 
   const spend = allRuns.reduce((a, r) => a + r.cost, 0)
-  const ledger = await d.select().from(costLedger)
+  const ledger = await d.select().from(costLedger).where(eq(costLedger.companyId, company.id))
   const paidLines = ledger.filter((l) => l.source !== 'model' || l.usd > 0)
   check(
-    'no paid generation and no model spend occurred',
+    'no model spend occurred',
     spend === 0 && paidLines.length === 0 && allRuns.every((r) => r.adapter !== 'anthropic'),
     `spend $${spend}, adapters ${[...new Set(allRuns.map((r) => r.adapter))].join('/')}`,
   )
 
-  const refused = evs.filter(
-    (e) => e.kind === 'worker.job' && (e.payload as { status?: string }).status === 'refused',
-  )
   check(
     'simulated outputs are labelled',
     (
@@ -159,17 +161,18 @@ export const verify = async (): Promise<Check[]> => {
         .select()
         .from(artifacts)
         .where(and(eq(artifacts.workflowId, wf.id), eq(artifacts.simulated, true)))
-    ).every((a) => a.title.startsWith('[SIMULATED]')) && wf.simulated,
-    `workflow.simulated=${wf.simulated}, refused worker jobs ${refused.length}`,
+    ).every((a) => a.title.startsWith('[SIMULATED]') || a.title.startsWith('[SAMPLE]')) &&
+      wf.simulated,
+    `workflow.simulated=${wf.simulated}; model outputs say SIMULATED, worker packs say SAMPLE`,
   )
 
   // Budget cap: a task whose cap is below the pre-call estimate must block before any model call.
-  const director = staff.find((a) => a.roleKey === 'studio-director')
-  if (director) {
+  const md = staff.find((a) => a.roleKey === 'managing-director')
+  if (md) {
     const { id } = await insertTask(d, {
       kind: 'direct.briefing',
       title: 'verify: cap check',
-      ownerAgentId: director.id,
+      ownerAgentId: md.id,
       requestedBy: 'verify',
       input: {},
       capUsd: 0.0001,
@@ -193,14 +196,13 @@ export const verify = async (): Promise<Check[]> => {
   }
 
   // Kill switch: with the company paused, a queued task is not executed; after resume it is.
-  const [company] = await d.select().from(companies).limit(1)
-  const analyst = staff.find((a) => a.roleKey === 'performance-analyst')
-  if (company && analyst) {
+  const cd = staff.find((a) => a.roleKey === 'content-director')
+  if (cd) {
     await setPaused(d, company.id, true, 'verify')
     const { id } = await insertTask(d, {
       kind: 'agent.instruction',
       title: 'verify: kill switch',
-      ownerAgentId: analyst.id,
+      ownerAgentId: cd.id,
       requestedBy: 'verify',
       input: { instruction: 'verification' },
       capUsd: 1,
@@ -222,11 +224,32 @@ export const verify = async (): Promise<Check[]> => {
     )
   }
 
-  const decs = await d.select().from(decisions)
+  // Publishing without an approval row must be refused in code.
+  if (cd && drafts[0]) {
+    const { id } = await insertTask(d, {
+      kind: 'content.publish',
+      title: 'verify: publish without approval',
+      ownerAgentId: cd.id,
+      requestedBy: 'verify',
+      input: { approvalId: 'apr_none' },
+      inputArtifactIds: [drafts[0].id],
+      capUsd: 1,
+    })
+    await runTurn(id)
+    const [t] = await d.select().from(tasks).where(eq(tasks.id, id))
+    check(
+      'a publish task without an approval row is refused in code',
+      t?.status === 'blocked' && t.blockedReason === 'no_approval',
+      `${t?.status} ${t?.blockedReason}`,
+    )
+    await d.update(tasks).set({ status: 'cancelled' }).where(eq(tasks.id, id))
+  }
+
+  const decs = await d.select().from(decisions).where(eq(decisions.companyId, company.id))
   check(
-    'decision rows recorded (phase 1: ranking and picks live in artifacts; decisions table ready)',
+    'decision rows recorded (table ready; picks live in artifacts)',
     true,
-    `${decs.length} decision rows`,
+    `${decs.length} rows`,
   )
   return out
 }

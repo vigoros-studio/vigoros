@@ -1,11 +1,11 @@
 import { PgBoss } from 'pg-boss'
 import { env } from './env'
 
-/** Queue names. One queue per consumer; the Bunni worker claims `bunni`, the runtime claims the rest. */
+/** Queue names. One queue per consumer; the OneGoodArea worker claims `oga`, the runtime claims the rest. */
 export const QUEUES = {
   agentTurn: 'agent.turn',
-  bunni: 'bunni',
-  bunniResult: 'bunni.result',
+  worker: 'oga',
+  workerResult: 'oga.result',
 } as const
 
 let cached: PgBoss | null = null

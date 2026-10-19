@@ -6,59 +6,33 @@ export interface Department {
   purpose: string
 }
 
+/** Two departments to start. A third is a new key in the contract, a row here, and a room below. */
 export const DEPARTMENTS: readonly Department[] = [
   {
     key: 'executive',
-    name: 'Executive and Strategy',
+    name: 'Executive',
     purpose:
-      'Priorities, schedules, growth goals, resource allocation, cross-department coordination.',
+      "The founder's interface to the company: the weekly plan, the morning briefing, the approval queue in order of value, the scoreboard, and every decision as a row.",
   },
   {
-    key: 'creative',
-    name: 'Creative Development',
+    key: 'content',
+    name: 'Content Studio',
     purpose:
-      "Create, debate and refine content while protecting each character's personality and storyline.",
-  },
-  {
-    key: 'production',
-    name: 'Production',
-    purpose:
-      "Turn approved scripts into packages, renders and QC through each character's production pipeline.",
-  },
-  {
-    key: 'growth',
-    name: 'Growth and Distribution',
-    purpose:
-      'Study performance, recommend experiments, refine content strategy, prepare publishing.',
-  },
-  {
-    key: 'commercial',
-    name: 'Commercial and Finance',
-    purpose:
-      'Opportunities, costs, forecasts and readiness. No deals until the founder opens that door.',
-  },
-  {
-    key: 'operations',
-    name: 'Operations and Quality',
-    purpose: 'Prevent errors, runaway spend, contradictory instructions and unreliable automation.',
+      'Everything OneGoodArea publishes in words: district pages, change digests, LinkedIn and X posts, MCP listings and case studies. Every figure cites a signal row; nothing leaves without the fact-check and the founder.',
   },
 ]
 
 /**
  * The building, in isometric tiles. Rooms are data so the HQ scene and the seed read one source.
- * Two meeting rooms and the boardroom are attached to the executive floor.
+ * The executive office holds the boardroom; the content studio is the finished slice.
  */
 export const ROOMS: readonly RoomLayout[] = [
   {
     key: 'executive',
-    name: 'Executive floor and boardroom',
+    name: 'Executive office and boardroom',
     origin: [0, 0],
-    size: [10, 6],
-    desks: 6,
+    size: [9, 6],
+    desks: 4,
   },
-  { key: 'creative', name: "Writers' room", origin: [11, 0], size: [10, 6], desks: 10 },
-  { key: 'production', name: 'Production floor', origin: [22, 0], size: [12, 8], desks: 12 },
-  { key: 'growth', name: 'Social command centre', origin: [0, 7], size: [10, 6], desks: 10 },
-  { key: 'commercial', name: 'Finance and commercial', origin: [11, 7], size: [8, 6], desks: 6 },
-  { key: 'operations', name: 'Operations', origin: [20, 9], size: [8, 5], desks: 6 },
+  { key: 'content', name: 'Content studio', origin: [10, 0], size: [11, 7], desks: 6 },
 ]

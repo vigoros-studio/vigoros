@@ -344,7 +344,7 @@ export function WhiteboardSurface({
   )
 }
 
-/** Pinned photographs of Bunni from her reference set, served from the app's own copies. */
+/** Pinned images on a wall board: the brand's product worlds and photography, served from the app's own copies. */
 export function MoodBoardPhotos({
   images,
   w = 2.4,

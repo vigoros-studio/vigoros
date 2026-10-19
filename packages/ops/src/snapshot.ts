@@ -13,6 +13,7 @@ import {
   type Db,
 } from '@vigoros/db'
 import { deriveAgentState } from '@vigoros/engine'
+import { activeCompany } from './company'
 import { and, desc, eq, gt, inArray, isNull, sql } from 'drizzle-orm'
 
 export interface Snapshot {
@@ -37,7 +38,7 @@ export interface Snapshot {
     title: string
     roleKey: string
     departmentId: string
-    characterId: string | null
+    subjectId: string | null
     desk: number
     model: string
     tier: number
@@ -86,7 +87,7 @@ export interface Snapshot {
  * no per-agent round trips, so it stays cheap at hundreds of agents.
  */
 export const snapshot = async (db: Db): Promise<Snapshot | null> => {
-  const [company] = await db.select().from(companies).limit(1)
+  const company = await activeCompany(db)
   if (!company) return null
   const deps = await db.select().from(departments).where(eq(departments.companyId, company.id))
   const staff = await db
@@ -148,7 +149,7 @@ export const snapshot = async (db: Db): Promise<Snapshot | null> => {
     spent.filter((r) => r.agentId).map((r) => [r.agentId as string, Number(r.usd)]),
   )
   const inMeeting = new Set(openMeetings.flatMap((m) => m.participantIds))
-  const reviewingKinds = new Set(['direct.pick', 'review.rank', 'direct.approval-item'])
+  const reviewingKinds = new Set(['check.facts', 'direct.review', 'direct.approval-item'])
 
   const agentRows = staff.map((a) => {
     const mine = open.filter((t) => t.ownerAgentId === a.id)
@@ -168,7 +169,7 @@ export const snapshot = async (db: Db): Promise<Snapshot | null> => {
       title: a.title,
       roleKey: a.roleKey,
       departmentId: a.departmentId,
-      characterId: a.characterId,
+      subjectId: a.subjectId,
       desk: a.desk,
       model: a.model,
       tier: a.tier,

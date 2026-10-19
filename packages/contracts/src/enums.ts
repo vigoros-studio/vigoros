@@ -44,6 +44,7 @@ export type RunStatus = z.infer<typeof RunStatus>
 
 export const ApprovalKind = z.enum([
   'publish',
+  'content_publish',
   'paid_render',
   'episode_to_production',
   'commercial',
@@ -59,6 +60,17 @@ export const ApprovalStatus = z.enum(['pending', 'approved', 'rejected', 'withdr
 export type ApprovalStatus = z.infer<typeof ApprovalStatus>
 
 export const ArtifactKind = z.enum([
+  'content_plan',
+  'research_pack',
+  'content_draft',
+  'fact_check',
+  'editorial_review',
+  'publication',
+  'scoreboard',
+  'analysis',
+  'briefing',
+  'source',
+  // kept for rows written before 19 October 2026
   'opportunity',
   'brief',
   'script',
@@ -71,16 +83,13 @@ export const ArtifactKind = z.enum([
   'render',
   'qc_report',
   'publish_package',
-  'analysis',
-  'briefing',
-  'source',
 ])
 export type ArtifactKind = z.infer<typeof ArtifactKind>
 
 export const MeetingStatus = z.enum(['open', 'decided', 'actioned', 'blocked', 'closed_by_runtime'])
 export type MeetingStatus = z.infer<typeof MeetingStatus>
 
-export const NoteScope = z.enum(['studio', 'character', 'department', 'agent'])
+export const NoteScope = z.enum(['company', 'subject', 'department', 'agent'])
 export type NoteScope = z.infer<typeof NoteScope>
 
 export const EventKind = z.enum([
@@ -110,6 +119,7 @@ export type EventKind = z.infer<typeof EventKind>
 export const WorkflowStatus = z.enum([
   'running',
   'awaiting_approval',
+  'publishing',
   'producing',
   'done',
   'rejected',
@@ -118,16 +128,40 @@ export const WorkflowStatus = z.enum([
 ])
 export type WorkflowStatus = z.infer<typeof WorkflowStatus>
 
-/** Steps of the episode workflow, in order. The runtime advances; agents never choose the next step. */
-export const EpisodeStep = z.enum([
-  'research',
-  'pick',
-  'write',
-  'review',
+/** The content workflow: one piece from plan to publication. */
+export const ContentStep = z.enum([
   'plan',
-  'approval_item',
+  'research',
+  'draft',
+  'check',
+  'revise',
+  'recheck',
+  'review',
   'approval',
-  'produce',
-  'estimate',
+  'publish',
 ])
-export type EpisodeStep = z.infer<typeof EpisodeStep>
+export type ContentStep = z.infer<typeof ContentStep>
+
+/** Where a piece is published. Each surface has its own length, voice and outbox format. */
+export const Surface = z.enum([
+  'district_page',
+  'change_digest',
+  'linkedin',
+  'x',
+  'mcp_listing',
+  'case_study',
+])
+export type Surface = z.infer<typeof Surface>
+
+/** Who a piece is written for. Builder types first, as the go-to-market orders them. */
+export const Audience = z.enum([
+  'location_data',
+  'property_data',
+  'platforms',
+  'ai_products',
+  'developers',
+  'lenders',
+  'insurers',
+  'public_sector',
+])
+export type Audience = z.infer<typeof Audience>

@@ -13,8 +13,8 @@ import {
 } from 'drizzle-orm/pg-core'
 
 /**
- * Vigoros Studio lives in its own Postgres schema. Every table is character-scoped where it can be,
- * so a second character is a new row set, not a new schema. Ids are typed ULIDs from @vigoros/contracts.
+ * The company lives in its own Postgres schema. Every table is subject-scoped where it can be,
+ * so a second subject (another company, character or product) is a new row set, not a new schema. Ids are typed ULIDs from @vigoros/contracts.
  */
 export const studio = pgSchema('studio')
 
@@ -31,8 +31,8 @@ export const companies = studio.table('companies', {
   createdAt: createdAt(),
 })
 
-export const characters = studio.table(
-  'characters',
+export const subjects = studio.table(
+  'subjects',
   {
     id: text().primaryKey(),
     companyId: text()
@@ -40,30 +40,17 @@ export const characters = studio.table(
       .references(() => companies.id),
     key: text().notNull(),
     name: text().notNull(),
-    handle: text().notNull(),
-    /** Root of the character's production environment on the worker machine. Never read by the runtime. */
-    productionRoot: text().notNull(),
+    /** What the company works on: a company (OneGoodArea), a character, a product. */
+    kind: text().notNull().default('company'),
+    handle: text(),
+    website: text(),
+    /** Root of the subject's reference documents on the worker machine. Never read by the runtime. */
+    docsRoot: text(),
     active: boolean().notNull().default(true),
     createdAt: createdAt(),
   },
-  (t) => [uniqueIndex('characters_company_key').on(t.companyId, t.key)],
+  (t) => [uniqueIndex('subjects_company_key').on(t.companyId, t.key)],
 )
-
-export const characterState = studio.table('character_state', {
-  characterId: text()
-    .primaryKey()
-    .references(() => characters.id),
-  /** Running storyline, gag register, episode summaries. Updated by the Showrunner after approval. */
-  storyline: text().notNull().default(''),
-  gags: json<string[]>().notNull().default([]),
-  episodes: json<
-    { episode: string; title: string; summary: string; publishedAt: string | null }[]
-  >()
-    .notNull()
-    .default([]),
-  canonVersion: text().notNull().default('bunni-bible-2026-10'),
-  updatedAt: ts('updated_at').notNull().defaultNow(),
-})
 
 export const departments = studio.table(
   'departments',
@@ -89,7 +76,7 @@ export const agents = studio.table(
     companyId: text()
       .notNull()
       .references(() => companies.id),
-    characterId: text().references(() => characters.id),
+    subjectId: text().references(() => subjects.id),
     departmentId: text()
       .notNull()
       .references(() => departments.id),
@@ -106,8 +93,8 @@ export const agents = studio.table(
   },
   (t) => [
     index('agents_department').on(t.departmentId),
-    index('agents_character').on(t.characterId),
-    uniqueIndex('agents_role_character').on(t.roleKey, t.characterId),
+    index('agents_character').on(t.subjectId),
+    uniqueIndex('agents_role_character').on(t.roleKey, t.subjectId),
   ],
 )
 
@@ -118,7 +105,7 @@ export const workflows = studio.table(
     companyId: text()
       .notNull()
       .references(() => companies.id),
-    characterId: text().references(() => characters.id),
+    subjectId: text().references(() => subjects.id),
     kind: text().notNull(),
     title: text().notNull(),
     status: text().notNull().default('running'),
@@ -139,7 +126,7 @@ export const workflows = studio.table(
   },
   (t) => [
     index('workflows_status').on(t.status, t.updatedAt),
-    index('workflows_character').on(t.characterId, t.createdAt),
+    index('workflows_character').on(t.subjectId, t.createdAt),
   ],
 )
 
@@ -150,7 +137,7 @@ export const tasks = studio.table(
     companyId: text()
       .notNull()
       .references(() => companies.id),
-    characterId: text().references(() => characters.id),
+    subjectId: text().references(() => subjects.id),
     parentId: text(),
     workflowId: text().references(() => workflows.id),
     /** Step name inside the workflow; with workflowId and ownerAgentId this is unique, which is what prevents duplicates. */
@@ -179,7 +166,7 @@ export const tasks = studio.table(
   (t) => [
     index('tasks_owner_status').on(t.ownerAgentId, t.status),
     index('tasks_parent').on(t.parentId),
-    index('tasks_character_status').on(t.characterId, t.status),
+    index('tasks_character_status').on(t.subjectId, t.status),
     index('tasks_status_updated').on(t.status, t.updatedAt),
     index('tasks_workflow').on(t.workflowId),
     uniqueIndex('tasks_workflow_step_owner').on(t.workflowId, t.step, t.ownerAgentId),
@@ -269,7 +256,7 @@ export const decisions = studio.table(
     companyId: text()
       .notNull()
       .references(() => companies.id),
-    characterId: text().references(() => characters.id),
+    subjectId: text().references(() => subjects.id),
     taskId: text().references(() => tasks.id),
     workflowId: text(),
     runId: text(),
@@ -286,7 +273,7 @@ export const decisions = studio.table(
   },
   (t) => [
     index('decisions_task').on(t.taskId),
-    index('decisions_character_created').on(t.characterId, t.createdAt),
+    index('decisions_character_created').on(t.subjectId, t.createdAt),
   ],
 )
 
@@ -297,7 +284,7 @@ export const approvals = studio.table(
     companyId: text()
       .notNull()
       .references(() => companies.id),
-    characterId: text().references(() => characters.id),
+    subjectId: text().references(() => subjects.id),
     taskId: text().references(() => tasks.id),
     workflowId: text(),
     requestedBy: text().notNull(),
@@ -322,7 +309,7 @@ export const artifacts = studio.table(
     companyId: text()
       .notNull()
       .references(() => companies.id),
-    characterId: text().references(() => characters.id),
+    subjectId: text().references(() => subjects.id),
     taskId: text().references(() => tasks.id),
     runId: text(),
     workflowId: text(),
@@ -342,7 +329,7 @@ export const artifacts = studio.table(
   },
   (t) => [
     index('artifacts_task').on(t.taskId),
-    index('artifacts_character_kind').on(t.characterId, t.kind, t.createdAt),
+    index('artifacts_character_kind').on(t.subjectId, t.kind, t.createdAt),
   ],
 )
 
@@ -369,7 +356,7 @@ export const costLedger = studio.table(
     companyId: text()
       .notNull()
       .references(() => companies.id),
-    characterId: text().references(() => characters.id),
+    subjectId: text().references(() => subjects.id),
     departmentId: text().references(() => departments.id),
     agentId: text().references(() => agents.id),
     taskId: text().references(() => tasks.id),
@@ -396,7 +383,7 @@ export const events = studio.table(
     seq: bigserial({ mode: 'number' }).primaryKey(),
     id: text().notNull(),
     companyId: text().notNull(),
-    characterId: text(),
+    subjectId: text(),
     agentId: text(),
     departmentId: text(),
     taskId: text(),

@@ -8,7 +8,7 @@ import { EventKind } from './enums'
 export const Event = z.object({
   kind: EventKind,
   companyId: z.string(),
-  characterId: z.string().nullable(),
+  subjectId: z.string().nullable(),
   agentId: z.string().nullable(),
   departmentId: z.string().nullable(),
   taskId: z.string().nullable(),

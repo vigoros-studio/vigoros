@@ -1,10 +1,11 @@
 :root {
-  --bg: #0b0b0c;
-  --ink: #ececec;
-  --quiet: #8a8a90;
-  --line: #222226;
-  --accent: #f28bb5;
-  --lit: #ffd9a8;
+  --bg: #0e0f11;
+  --ink: #faf8f4;
+  --quiet: #9a9ca1;
+  --line: rgba(250, 248, 244, 0.14);
+  --accent: #da8657;
+  --lit: #7fa6cf;
+  --mono: 'Geist Mono', ui-monospace, Menlo, monospace;
   color-scheme: dark;
 }
 * {
@@ -16,9 +17,10 @@ body {
   background: var(--bg);
   color: var(--ink);
   font:
-    15px/1.5 -apple-system,
-    'Inter',
-    system-ui,
+    15px/1.5 'Hanken Grotesk',
+    'Helvetica Neue',
+    Helvetica,
+    Arial,
     sans-serif;
   letter-spacing: -0.005em;
 }
@@ -32,16 +34,18 @@ main {
   padding: 48px 24px 96px;
 }
 h1 {
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
   margin: 0 0 4px;
 }
 h2 {
-  font-size: 13px;
+  font-family: var(--mono);
+  font-size: 12px;
   font-weight: 500;
   color: var(--quiet);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   margin: 40px 0 12px;
 }
 .quiet {
@@ -90,15 +94,15 @@ input {
   border: 1px solid var(--line);
   color: var(--ink);
   padding: 10px 12px;
-  border-radius: 6px;
+  border-radius: 2px;
   width: 320px;
 }
 button {
   background: var(--ink);
   color: var(--bg);
-  border: 0;
-  padding: 10px 16px;
-  border-radius: 6px;
+  border: 1px solid var(--ink);
+  padding: 9px 16px;
+  border-radius: 2px;
   cursor: pointer;
 }
 
@@ -135,39 +139,48 @@ button {
   pointer-events: auto;
 }
 .hq-header strong {
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.hq-header strong img {
+  width: 22px;
+  height: 22px;
+  display: block;
 }
 .hq-actions {
   gap: 8px;
 }
 .pill {
+  font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 3px 8px;
-  border-radius: 999px;
+  border-radius: 2px;
   border: 1px solid var(--line);
   color: var(--quiet);
 }
 .pill.sim {
-  color: #f2c48b;
-  border-color: #5a4324;
+  color: #f1d3b4;
+  border-color: #7e3426;
 }
 .pill.real {
-  color: #9ff0c4;
-  border-color: #2a5a3f;
+  color: #bce0d2;
+  border-color: #143a36;
 }
 .pill.paused {
   color: var(--accent);
-  border-color: #6a3a4e;
+  border-color: #7e3426;
 }
 .pill.conn.live {
-  color: #9ff0c4;
+  color: #bce0d2;
 }
 .pill.conn.polling,
 .pill.conn.connecting {
-  color: #f2c48b;
+  color: #f1d3b4;
 }
 .pill.conn.offline {
   color: var(--accent);
@@ -183,20 +196,22 @@ a.ghost {
   color: var(--ink);
   border: 1px solid var(--line);
   padding: 8px 12px;
-  border-radius: 6px;
+  border-radius: 2px;
 }
 button.ghost.small {
   padding: 2px 8px;
   font-size: 12px;
 }
 button.danger {
-  background: #3a1b27;
-  color: #ffb3cf;
+  background: #7e3426;
+  border-color: #7e3426;
+  color: #f1d3b4;
 }
 button.resume,
 button.approve {
-  background: #1d3a2b;
-  color: #9ff0c4;
+  background: #143a36;
+  border-color: #143a36;
+  color: #bce0d2;
 }
 .hq-rail {
   position: absolute;
@@ -468,7 +483,11 @@ button.approve {
   padding: 10px 12px;
   background: rgba(8, 9, 12, 0.82);
   color: #e8e4dc;
-  font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font:
+    12px/1.5 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
   border: 1px solid #262730;
   border-radius: 6px;
   pointer-events: none;
